@@ -5,6 +5,7 @@
     "jaktestowac-pl.vsc-playwright-snippets-ui",
     "esbenp.prettier-vscode",
     "ms-playwright.playwright",
-    "numso.prettier-standard-vscode"
+    "streetsidesoftware.code-spell-checker",
+    "pkief.material-icon-theme"
   ]
 }
