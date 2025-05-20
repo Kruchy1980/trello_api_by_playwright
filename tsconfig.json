@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "strict": true,
+    "noImplicitAny": false,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": false,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@_src/*": ["src/*"],
+      "@_pw-config": ["playwright.config"],
+      "@_config/*": ["config/*"]
+    }
+  }
+}

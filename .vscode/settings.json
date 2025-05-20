@@ -1,0 +1,13 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always"
+  },
+  "cSpell.words": ["Opcjonalne", "Opcjonalny", "Optionalna", "rocketship"],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
+  "files.trimTrailingWhitespace": true
+}

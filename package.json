@@ -1,0 +1,44 @@
+{
+  "name": "api-trello-posts",
+  "version": "1.0.0",
+  "description": "Testy do artykułów z serii \"Playwright – zabawa z API Trello\"",
+  "main": "index.js",
+  "scripts": {
+    "prepare": "husky",
+    "test": "npx playwright test",
+    "test:repeat": "npm run test -- --repeat-each",
+    "format": "npx prettier -c *.ts --write .",
+    "format:check": "npx prettier . --check \"!**.ts\"",
+    "lint": "npx eslint . --max-warnings=0",
+    "report": "npx playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kruchy1980/api-trello-posts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Kruchy1980/api-trello-posts/issues"
+  },
+  "homepage": "https://github.com/Kruchy1980/api-trello-posts#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "@faker-js/faker": "^9.5.0",
+    "@playwright/test": "^1.50.1",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^22.13.5",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "dotenv": "^16.4.7",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-playwright": "^2.2.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "globals": "^16.0.0",
+    "husky": "^9.1.7",
+    "prettier": "^3.5.2",
+    "typescript-eslint": "^8.25.0"
+  }
+}

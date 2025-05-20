@@ -1,0 +1,6 @@
+package-lock.json
+playwright-report
+test-results
+# do not format .env file
+.env
+
