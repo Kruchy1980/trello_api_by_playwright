@@ -37,9 +37,7 @@ Project with tests for articles from series **_"Playwright – zabawa z API Trel
 
 ## VSCode Functions
 
-### Functions
-
-- Preview: for README.md
+- Preview for .md files: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd>
 - Autosave: in File -> Auto Save
 - Timeline: file context menu -> Open Timeline
 - Searching: editor -> <kbd>CTRL</kbd> + <kbd>F</kbd>
