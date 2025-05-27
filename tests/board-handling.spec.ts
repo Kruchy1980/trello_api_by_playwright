@@ -90,4 +90,59 @@ test.describe('Boards handling - dependent tests', () => {
     const actualBoardName = responseJSON._value;
     expect(actualBoardName).toContain(updatedBoardName);
   });
+  test('5. Should Delete a Board', async ({ request }) => {
+    // Arrange:
+    const expectedStatusCode = 200;
+    const expectedBoardId = createdBoardId;
+    const expectedResponseValue = null;
+    // Opcjonalny header
+    const headers = { 'Content-Type': 'application/json' };
+    // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
+    const response = await request.delete(
+      `/1/boards/${expectedBoardId}?key=${API_KEY}&token=${TOKEN}`,
+      { headers },
+    );
+    const responseJSON = await response.json();
+    // console.log(responseJSON);
+    // Assert:
+    expect(response.status()).toEqual(expectedStatusCode);
+    const actualResponseValue = responseJSON._value;
+    expect(actualResponseValue).toEqual(expectedResponseValue);
+  });
+  test('6. NP Should Get deleted board', async ({ request }) => {
+    // Arrange:
+    const expectedBoardId = createdBoardId;
+    const expectedStatusCode = 404;
+    const expectedStatusText = 'Not Found';
+    // Opcjonalny header
+    const headers = { Accept: 'application/json' };
+    // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
+    const response = await request.get(
+      `/1/boards/${expectedBoardId}?key=${API_KEY}&token=${TOKEN}`,
+      { headers },
+    );
+
+    // Assert:
+    expect(response.status()).toEqual(expectedStatusCode);
+    expect(response.statusText()).toEqual(expectedStatusText);
+  });
+  test('7. NP Should not get Board when unauthorized user', async ({
+    request,
+  }) => {
+    // Arrange:
+    const expectedBoardId = createdBoardId;
+    const expectedStatusCode = 401;
+    const expectedStatusText = 'Unauthorized';
+    // Opcjonalny header
+    const headers = { Accept: 'application/json' };
+    // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
+    const response = await request.get(
+      `/1/boards/${expectedBoardId}?key=${API_KEY}&token=098q2rqt98gqa`,
+      { headers },
+    );
+
+    // Assert:
+    expect(response.status()).toEqual(expectedStatusCode);
+    expect(response.statusText()).toEqual(expectedStatusText);
+  });
 });
