@@ -1,6 +1,8 @@
 import { API_KEY, TOKEN } from '@_config/env.config';
 import { expect, test } from '@playwright/test';
 
+// test.describe.configure({ mode: 'serial' });
+
 test.describe.serial('Boards handling - dependent tests', () => {
   let createdBoardId: string;
   test('1. Should Create a board', async ({ request }) => {
