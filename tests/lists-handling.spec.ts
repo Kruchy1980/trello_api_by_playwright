@@ -139,4 +139,30 @@ test.describe('Lists handling - dependent tests', () => {
     const actualListStatus = responseJSON.closed;
     expect(actualListStatus).toEqual(expectedListStatus);
   });
+  test('6. Should get archived list', async ({ request }) => {
+    // Arrange:
+    const listForArchiveId = createdListsIds[2];
+    const expectedStatusCode = 200;
+    const expectedListStatus = true;
+    const expectedListName = 'Doing';
+
+    // Opcjonalny header
+    const headers = { 'Content-Type': 'application/json' };
+    // Act: ('https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
+    const response = await request.get(
+      `/1/lists/${listForArchiveId}?key=${API_KEY}&token=${TOKEN}`,
+      { headers },
+    );
+    const responseJSON = await response.json();
+    // console.log(responseJSON);
+
+    // Assert:
+    expect(response.status()).toEqual(expectedStatusCode);
+    const actualListId = responseJSON.id;
+    expect(actualListId).toEqual(listForArchiveId);
+    const actualListStatus = responseJSON.closed;
+    expect(actualListStatus).toEqual(expectedListStatus);
+    const actualListName = responseJSON.name;
+    expect(actualListName).toEqual(expectedListName);
+  });
 });
