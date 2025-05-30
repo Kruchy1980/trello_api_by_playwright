@@ -1,16 +1,21 @@
 import { API_KEY, TOKEN } from '@_config/env.config';
 import { expect, test } from '@playwright/test';
 
-test.describe('Boards handling - dependent tests', () => {
+// test.describe.configure({ mode: 'serial' });
+
+test.describe.serial('Boards handling - dependent tests', () => {
   let createdBoardId: string;
   test('1. Should Create a board', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
     const expectedBoardName = 'My first board name';
     const expectedBoardDescription = 'My first board description';
+    // Opcjonalny header
+    const headers = { 'Content-Type': 'application/json' };
     // Act:
     const response = await request.post(
       `/1/boards/?name=${expectedBoardName}&desc=${expectedBoardDescription}&key=${API_KEY}&token=${TOKEN}`,
+      { headers },
     );
     const responseJSON = await response.json();
     // console.log(responseJSON);

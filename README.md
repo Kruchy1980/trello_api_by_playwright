@@ -23,7 +23,7 @@ Project with tests for articles from series **_"Playwright – zabawa z API Trel
 
 1. (Recommended not required) Playwright Test for VSCode (**_Microsoft_**)
 2. (Optional) Playwright Helpers (**_jaktestowac-pl_**)
-3. (Optional) Playwright Snippets for (**_jaktestowac-pl_**)
+3. (Optional) Playwright Snippets for VSCode (**_jaktestowac-pl_**)
 4. (Recommended not required) Prettier (**_Prettier_**)
 5. (Recommended not required) Material Icon Theme (**_Philip Kief_**)
 6. (Recommended not required) Code Spell Checker (**_Street Side Software_**)
