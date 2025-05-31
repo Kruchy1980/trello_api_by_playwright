@@ -168,11 +168,11 @@ test.describe('Lists handling - dependent tests', () => {
     // Arrange:
     const listForUpdateId = createdListsIds[createdListsIds.length - 1];
     const expectedStatusCode = 200;
-    const updatedListName = 'Task with the highest priority';
+    const updatedListName = 'Tasks with the highest priority';
     const position = 'top';
 
     // Opcjonalny header
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = { 'Content-type': 'application/json' };
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
     const response = await request.put(
       `/1/lists/${listForUpdateId}?name=${updatedListName}&pos=${position}&key=${API_KEY}&token=${TOKEN}`,
