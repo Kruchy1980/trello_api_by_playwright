@@ -1,7 +1,7 @@
 import { API_KEY, TOKEN } from '@_config/env.config';
 import { expect, test } from '@playwright/test';
 
-test.describe('Lists handling - dependent tests', () => {
+test.describe.serial('Lists handling - dependent tests', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   test('0. Should Create a board', async ({ request }) => {
@@ -188,5 +188,24 @@ test.describe('Lists handling - dependent tests', () => {
 
     const actualListName = responseJSON.name;
     expect(actualListName).toEqual(updatedListName);
+  });
+  test('Delete Board', async ({ request }) => {
+    // Arrange:
+    const expectedBoardId = createdBoardId;
+    const expectedStatusCode = 200;
+    // const expectedResponseValue = null;
+    // Opcjonalny header
+    const headers = { 'Content-Type': 'application/json' };
+    // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
+    const response = await request.delete(
+      `/1/boards/${expectedBoardId}?key=${API_KEY}&token=${TOKEN}`,
+      { headers },
+    );
+    // const responseJSON = await response.json();
+    // console.log(responseJSON);
+    // Assert:
+    expect(response.status()).toEqual(expectedStatusCode);
+    // const actualResponseValue = responseJSON._value;
+    // expect(actualResponseValue).toEqual(expectedResponseValue);
   });
 });
