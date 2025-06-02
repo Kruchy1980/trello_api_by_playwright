@@ -201,11 +201,8 @@ test.describe.serial('Lists handling - dependent tests', () => {
       `/1/boards/${expectedBoardId}?key=${API_KEY}&token=${TOKEN}`,
       { headers },
     );
-    // const responseJSON = await response.json();
-    // console.log(responseJSON);
+
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
-    // const actualResponseValue = responseJSON._value;
-    // expect(actualResponseValue).toEqual(expectedResponseValue);
   });
 });
