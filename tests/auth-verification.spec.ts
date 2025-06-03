@@ -9,6 +9,7 @@ test('Authorization verification', async ({ request }) => {
   const response = await request.get(
     `/1/members/me/boards?key=${API_KEY}&token=${TOKEN}`,
   );
+
   // Assert:
   expect(response.status()).toEqual(expectedStatusCode);
 });
