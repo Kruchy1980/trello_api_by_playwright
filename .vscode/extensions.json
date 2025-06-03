@@ -1,11 +1,10 @@
 {
   "recommendations": [
     "jaktestowac-pl.playwright-helpers",
-    "jaktestowac-pl.vsc-playwright-snippets",
-    "jaktestowac-pl.vsc-playwright-snippets-ui",
     "esbenp.prettier-vscode",
     "ms-playwright.playwright",
     "streetsidesoftware.code-spell-checker",
-    "pkief.material-icon-theme"
+    "pkief.material-icon-theme",
+    "jaktestowac-pl.vsc-playwright-snippets"
   ]
 }
