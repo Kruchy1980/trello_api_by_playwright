@@ -17,9 +17,9 @@
     "url": "git+https://github.com/Kruchy1980/api-trello-posts.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jakub Kruszyński",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/Kruchy1980/api-trello-posts/issues"
   },
@@ -38,7 +38,7 @@
     "eslint-plugin-prettier": "^5.2.3",
     "globals": "^16.0.0",
     "husky": "^9.1.7",
-    "prettier": "^3.5.2",
+    "prettier": "^3.5.3",
     "typescript-eslint": "^8.25.0"
   }
 }

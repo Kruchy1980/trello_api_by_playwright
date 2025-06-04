@@ -33,12 +33,13 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 5. (Optional) Material Icon Theme (**_Philip Kief_**)
 6. (Optional) Code Spell Checker (**_Street Side Software_**)
 
-## Additional external Plugins
+## Additional Dependencies
 
-1. (Optional) Husky plugin installation: `npm install husky --save-dev`
-2. (Optional) Husky initialization: `npx husky init`
-3. (Recommended) For environment preparation - dotenv: `npm i --save-dev dotenv`
-4. (Needed from 3rd refactor) Faker installation: `npm i @faker-js/faker --save-dev`
+1. (Recommended) For environment variables usage - dotenv: `npm i --save-dev dotenv`
+2. (Optional) Husky plugin installation: `npm install husky --save-dev`
+3. (Optional) Husky initialization: `npx husky init`
+4. (Optional) Prettier and trivago dependency installation : `npm i prettier @trivago/prettier-plugin-sort-imports --save-dev`
+5. (Needed later) Faker installation: `npm i @faker-js/faker --save-dev`
 
 ## VSCode Functions
 
