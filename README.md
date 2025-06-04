@@ -2,7 +2,7 @@
 
 ## Main Description
 
-That file contains information's for set Playwright project for testing Trello API situated in genelaly available documentation [TRELLO API DOCUMENTATION](https://developer.atlassian.com/cloud/trello/rest)
+That file contains information's for set Playwright project for testing Trello API located in available and ope documentation [TRELLO API DOCUMENTATION](https://developer.atlassian.com/cloud/trello/rest)
 Project with tests for articles from series **_"Playwright – zabawa z API Trello"_**
 
 ## Preconditions
@@ -10,7 +10,7 @@ Project with tests for articles from series **_"Playwright – zabawa z API Trel
 1. (Required) TRELLO Account (for the test free account is sufficient)
    - For the Account API_KEY and TOKEN is required - preparation detailed instruction [TRELLO ACCOUNT KEYS PREPARATION](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/)
 2. (Recommended) Windows v-10+
-3. (Required) Node v-22+ (version recommended)
+3. (Required) Node v_22+
 4. (Recommended) IDE: VSCODE
 
 ## Basic Playwright Project Initialization
@@ -21,19 +21,19 @@ Project with tests for articles from series **_"Playwright – zabawa z API Trel
 
 ## VSCODE EMBEDDED PLUGINS
 
-1. (Recommended not required) Playwright Test for VSCode (**_Microsoft_**)
-2. (Optional) Playwright Helpers (**_jaktestowac-pl_**)
-3. (Optional) Playwright Snippets for VSCode (**_jaktestowac-pl_**)
-4. (Recommended not required) Prettier (**_Prettier_**)
-5. (Recommended not required) Material Icon Theme (**_Philip Kief_**)
-6. (Recommended not required) Code Spell Checker (**_Street Side Software_**)
+1. (Recommended) Playwright Test for VSCode (**_Microsoft_**)
+2. (Recommended) Playwright Helpers (**_jaktestowac-pl_**)
+3. (Recommended) Playwright Snippets for VSCode (**_jaktestowac-pl_**)
+4. (Recommended) Prettier (**_Prettier_**)
+5. (Optional) Material Icon Theme (**_Philip Kief_**)
+6. (Optional) Code Spell Checker (**_Street Side Software_**)
 
 ## External Plugins
 
 1. (Optional) Husky plugin installation: `npm install husky --save-dev`
 2. (Optional) Husky initialization: `npx husky init`
 3. (Recommended) For environment preparation - dotenv: `npm i --save-dev dotenv`
-4. (Needed from 2nd refactor) Faker installation: `npm i @faker-js/faker --save-dev`
+4. (Needed from 3rd refactor) Faker installation: `npm i @faker-js/faker --save-dev`
 
 ## VSCode Functions
 
