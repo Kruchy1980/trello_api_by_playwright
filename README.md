@@ -1,16 +1,21 @@
 # "Playwright – zabawa z API Trello" Project
 
-## Main Description
+## Project Description
 
-That file contains information's for set Playwright project for testing Trello API located in available and ope documentation [TRELLO API DOCUMENTATION](https://developer.atlassian.com/cloud/trello/rest)
 Project with tests for articles from series **_"Playwright – zabawa z API Trello"_**
+This project focuses on basic testing of API the application _**TRELLO**_ using the Playwright framework and Typescript programming language.
+
+## Main Links
+
+TRELLO API DOCUMENTATION: [TRELLO API DOCUMENTATION](https://developer.atlassian.com/cloud/trello/rest)
+
+Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATION](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/)
 
 ## Preconditions
 
-1. (Required) TRELLO Account (for the test free account is sufficient)
-   - For the Account API_KEY and TOKEN is required - preparation detailed instruction [TRELLO ACCOUNT KEYS PREPARATION](https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/)
-2. (Recommended) Windows v-10+
-3. (Required) Node v_22+
+1. (Necessary for) TRELLO Account (for the project free account is sufficient)
+2. (Recommended) Windows v_10+
+3. (Recommended) Node v_22+
 4. (Recommended) IDE: VSCODE
 
 ## Basic Playwright Project Initialization
@@ -28,7 +33,7 @@ Project with tests for articles from series **_"Playwright – zabawa z API Trel
 5. (Optional) Material Icon Theme (**_Philip Kief_**)
 6. (Optional) Code Spell Checker (**_Street Side Software_**)
 
-## External Plugins
+## Additional external Plugins
 
 1. (Optional) Husky plugin installation: `npm install husky --save-dev`
 2. (Optional) Husky initialization: `npx husky init`

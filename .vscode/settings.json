@@ -4,7 +4,13 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "always"
   },
-  "cSpell.words": ["Opcjonalne", "Opcjonalny", "Optionalna", "rocketship"],
+  "cSpell.words": [
+    "Opcjonalne",
+    "Opcjonalny",
+    "Optionalna",
+    "rocketship",
+    "zabawa"
+  ],
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "[markdown]": {
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
