@@ -13,16 +13,21 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 
 ## Preconditions
 
-1. (Necessary for) TRELLO Account (for the project free account is sufficient)
+1. (Required) TRELLO Account (for the project free account is sufficient)
 2. (Recommended) Windows v_10+
 3. (Recommended) Node v_22+
 4. (Recommended) IDE: VSCODE
 
-## Basic Playwright Project Initialization
+## Basic Playwright Project Initialization from scratch
 
 1. Playwright initialization: `npm init playwright@latest`
+2. Playwright browsers installation (Not needed Optional): `npx playwright install`
+
+## Cloned project installation
+
+1. Clone project into own device:
+   `git clone https://github.com/Kruchy1980/trello_api_by_playwright.git`
 2. Dependencies installation: `npm i` or `npm install`
-3. Playwright browsers installation (Not needed Optional): `npx playwright install`
 
 ## VSCODE EMBEDDED PLUGINS
 
@@ -38,8 +43,9 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 1. (Recommended) For environment variables usage - dotenv: `npm i --save-dev dotenv`
 2. (Optional) Husky plugin installation: `npm install husky --save-dev`
 3. (Optional) Husky initialization: `npx husky init`
-4. (Optional) Prettier and trivago dependency installation : `npm i prettier @trivago/prettier-plugin-sort-imports --save-dev`
-5. (Needed later) Faker installation: `npm i @faker-js/faker --save-dev`
+4. (Optional/Recommended) Prettier and trivago dependency installation:
+   `npm i prettier @trivago/prettier-plugin-sort-imports --save-dev`
+5. (Optional) Faker installation: `npm i @faker-js/faker --save-dev`
 
 ## VSCode Functions
 
