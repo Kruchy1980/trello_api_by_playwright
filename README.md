@@ -56,7 +56,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 - Accept hint in editor: <kbd>Enter</kbd>
 - Comment/Uncomment: <kbd>Ctrl</kbd> + <kbd>/</kbd>
 - Duplicate line: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>↑</kbd>
-- Extract to variable: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> -> Extract to constant in enclosing scope
+- Extract to variable: <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd>
 - Move line i.e. up: <kbd>Alt</kbd> + <kbd>↑</kbd>
 - Show autocomplete suggestion: <kbd>Ctrl</kbd> + <kbd>Space-bar</kbd>
 - Formatting: editor -> context menu -> Format Document
