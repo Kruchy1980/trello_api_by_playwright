@@ -89,15 +89,15 @@ test.describe.serial('Lists handling - dependent tests', () => {
   });
   test('4. Should get a list field', async ({ request }) => {
     // Arrange:
-    const listId = createdListsIds[1];
+    const updatedListId = createdListsIds[1];
     const expectedStatusCode = 200;
-    const expectedListName = 'Updated by user';
+    const updatedListName = 'Updated by user';
 
     //Optional headers
     const headers = { Accept: 'application/json' };
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
     const response = await request.get(
-      `/1/lists/${listId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
+      `/1/lists/${updatedListId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
       { headers },
     );
     const responseJSON = await response.json();
@@ -105,9 +105,10 @@ test.describe.serial('Lists handling - dependent tests', () => {
 
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
-
+    const actualListId = responseJSON.id;
+    expect(actualListId).toContain(updatedListId);
     const actualListName = responseJSON.name;
-    expect(actualListName).toContain(expectedListName);
+    expect(actualListName).toContain(updatedListName);
   });
   test('5. Should Archive a list', async ({ request }) => {
     // Arrange:
@@ -184,7 +185,7 @@ test.describe.serial('Lists handling - dependent tests', () => {
   test('Delete a board', async ({ request }) => {
     // Arrange:
     //Optional headers
-    const headers = { Content_Type: 'application/json' };
+    const headers = { 'Content-Type': 'application/json' };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     await request.delete(
