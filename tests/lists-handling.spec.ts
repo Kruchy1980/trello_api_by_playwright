@@ -97,7 +97,7 @@ test.describe.serial('Lists handling - dependent tests', () => {
     const headers = { Accept: 'application/json' };
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
     const response = await request.get(
-      `/1/lists/${listId}/name?key=${API_KEY}&token=${TOKEN}`,
+      `/1/lists/${listId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
       { headers },
     );
     const responseJSON = await response.json();
@@ -106,7 +106,7 @@ test.describe.serial('Lists handling - dependent tests', () => {
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
 
-    const actualListName = responseJSON._value;
+    const actualListName = responseJSON.name;
     expect(actualListName).toContain(expectedListName);
   });
   test('5. Should Archive a list', async ({ request }) => {
