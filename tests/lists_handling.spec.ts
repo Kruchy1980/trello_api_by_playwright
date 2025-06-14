@@ -96,7 +96,8 @@ test.describe.serial('Lists handling - dependent tests', () => {
     //Optional headers
     const headers = { Accept: 'application/json' };
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
-    const response = await request.get(`/1/lists/${updatedListId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
+    const response = await request.get(
+      `/1/lists/${updatedListId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
       { headers },
     );
     const responseJSON = await response.json();
