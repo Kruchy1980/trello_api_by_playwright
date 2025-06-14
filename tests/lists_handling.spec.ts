@@ -87,7 +87,7 @@ test.describe.serial('Lists handling - dependent tests', () => {
     const actualListName = responseJSON.name;
     expect(actualListName).toContain(updatedListName);
   });
-  test('3. Should get a list field', async ({ request }) => {
+  test('4. Should get a list field', async ({ request }) => {
     // Arrange:
     const updatedListId = createdListsIds[1];
     const expectedStatusCode = 200;
