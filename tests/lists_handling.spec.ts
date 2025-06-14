@@ -87,17 +87,17 @@ test.describe.serial('Lists handling - dependent tests', () => {
     const actualListName = responseJSON.name;
     expect(actualListName).toContain(updatedListName);
   });
-  test('4. Should get a list field', async ({ request }) => {
+  test('3. Should get a list field', async ({ request }) => {
     // Arrange:
-    const listId = createdListsIds[1];
+    const updatedListId = createdListsIds[1];
     const expectedStatusCode = 200;
-    const expectedListName = 'Updated by user';
+    const updatedListName = 'Updated by user';
 
     //Optional headers
     const headers = { Accept: 'application/json' };
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
     const response = await request.get(
-      `/1/lists/${listId}/name?key=${API_KEY}&token=${TOKEN}`,
+      `/1/lists/${updatedListId}?fields=name&key=${API_KEY}&token=${TOKEN}`,
       { headers },
     );
     const responseJSON = await response.json();
@@ -105,9 +105,10 @@ test.describe.serial('Lists handling - dependent tests', () => {
 
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
-
-    const actualListName = responseJSON._value;
-    expect(actualListName).toContain(expectedListName);
+    const actualListId = responseJSON.id;
+    expect(actualListId).toContain(updatedListId);
+    const actualListName = responseJSON.name;
+    expect(actualListName).toContain(updatedListName);
   });
   test('5. Should Archive a list', async ({ request }) => {
     // Arrange:
