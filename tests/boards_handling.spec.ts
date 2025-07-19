@@ -108,7 +108,7 @@ test.describe.serial('Boards handling - dependent tests', () => {
     const expectedResponseValue = null;
 
     //Optional headers
-    const headers = { Content_Type: 'application/json' };
+    const headers = { 'Content-Type': 'application/json' };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.delete(
