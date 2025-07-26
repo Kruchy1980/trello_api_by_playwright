@@ -9,5 +9,5 @@ node_modules/
 # excluded for commit .env file
 .env
 /future/
-/src/*
+/src/* <-- remove from the next article
 
