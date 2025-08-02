@@ -1,0 +1,16 @@
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+# excluded for commit .env file
+.env
+/future/
+
+# remove for next  article
+#/src/
+
+
