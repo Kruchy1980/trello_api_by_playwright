@@ -2,12 +2,13 @@ import { BASE_URL } from '@_config/env.config'; // <-- jeśli nie używamy zmien
 import { defineConfig } from '@playwright/test'; // <-- moduł konfiguracyjny frame'a
 
 export default defineConfig({
-  testDir: './tests', // <-- Ścieżka do testów pobieranych do egzekucji
-  fullyParallel: true, // <-- globalnie testy mają być wykonywane równolegle
-  workers: undefined, // <-- tyle osobnych workerów ile wytrzyma komp
-  reporter: 'html', // <-- podstawowy wygląd raportu z playwrighta
+  testDir: './tests', // <-- Global settings for Path to tests taken to execution
+  fullyParallel: true, // <-- Global settings for tests performed in parallel
+  workers: undefined, // <-- Global settings for parallel tests to use as many workers as device can handle
+  reporter: 'html', // <-- Global settings for basic report display only
   use: {
-    baseURL: BASE_URL, // <-- jeśli "NIE" używamy zmiennych środowiskowych zakomentować
-    // baseURL: 'https://api.trello.com/', //<-- jeśli "NIE" używamy zmiennych środowiskowych odkomentować
+    baseURL: BASE_URL, // <-- If we use env variables comment this line
+    // baseURL: 'https://api.trello.com/', //<-- if we DO NOT use env variables - uncomment this line
+    // instead of the above one
   },
 });
