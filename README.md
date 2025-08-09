@@ -88,7 +88,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 
 ### The main structure of project folders with basic description
 
-```typescript
+```markdown
 ├───**config** <-- folder contains file with environment variables preparation
 ├───**src** <-- folder which contains additional elements/helpers (objects, functions, etc.)
 │ └───**API** <-- sub folder which contains all additional helpers for API Tests
