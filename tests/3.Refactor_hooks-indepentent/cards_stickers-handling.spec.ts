@@ -9,11 +9,11 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards stickers handling - dependent tests', () => {
+test.describe('Cards stickers handling - independent tests', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
-  const createdStickersIds: string[] = [];
+  let createdStickersIds: string[] = [];
 
   test.beforeAll(
     'Board, card preparation and collect lists ids',
@@ -63,40 +63,42 @@ test.describe('Cards stickers handling - dependent tests', () => {
         // console.log(responseJSON);
         createdCardsIds.push(responseJSON.id);
       }
-      // console.log(createdCardsIds);
-      // Add stickers to the cards
-      const stickersNames = ['check', 'thumbsdown', 'rocketship'];
-      for (let i = 0; i < stickersNames.length; i++) {
-        // Arrange:
-        const expectedStatusCode = 200;
-        const expectedStickerName = stickersNames[i];
-        const expectedStickerFromTop = 20.22;
-        const expectedStickerFromLeft = 50.22;
-        const expectedStickerZIndex = 5;
-
-        // Act: 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken'
-        const response = await request.post(
-          `/1/cards/${createdCardsIds[i]}/stickers?image=${expectedStickerName}&top=${expectedStickerFromTop}&left=${expectedStickerFromLeft}&zIndex=${expectedStickerZIndex}`,
-          { headers, params },
-        );
-        const responseJSON = await response.json();
-        //   console.log(responseJSON);
-        createdStickersIds.push(responseJSON.id);
-
-        // Assert:
-        expect(response.status()).toEqual(expectedStatusCode);
-        const actualStickerName = responseJSON.image;
-        expect(actualStickerName).toContain(expectedStickerName);
-        const actualStickerFromTop = responseJSON.top;
-        expect(actualStickerFromTop).toEqual(expectedStickerFromTop);
-        const actualStickerFromLeft = responseJSON.left;
-        expect(actualStickerFromLeft).toEqual(expectedStickerFromLeft);
-        const actualStickerZIndex = responseJSON.zIndex;
-        expect(actualStickerZIndex).toEqual(expectedStickerZIndex);
-      }
     },
   );
-  test('1. Update sticker rotation and verify success', async ({ request }) => {
+
+  test.beforeEach('Add a sticker to a card', async ({ request }) => {
+    const stickersNames = ['check', 'thumbsdown', 'rocketship'];
+    for (let i = 0; i < stickersNames.length; i++) {
+      // Arrange:
+      const expectedStatusCode = 200;
+      const expectedStickerName = stickersNames[i];
+      const expectedStickerFromTop = 20.22;
+      const expectedStickerFromLeft = 50.22;
+      const expectedStickerZIndex = 5;
+
+      // Act: 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken'
+      const response = await request.post(
+        `/1/cards/${createdCardsIds[i]}/stickers?image=${expectedStickerName}&top=${expectedStickerFromTop}&left=${expectedStickerFromLeft}&zIndex=${expectedStickerZIndex}`,
+        { headers, params },
+      );
+      const responseJSON = await response.json();
+      //   console.log(responseJSON);
+      createdStickersIds.push(responseJSON.id);
+
+      // Assert:
+      expect(response.status()).toEqual(expectedStatusCode);
+      const actualStickerName = responseJSON.image;
+      expect(actualStickerName).toContain(expectedStickerName);
+      const actualStickerFromTop = responseJSON.top;
+      expect(actualStickerFromTop).toEqual(expectedStickerFromTop);
+      const actualStickerFromLeft = responseJSON.left;
+      expect(actualStickerFromLeft).toEqual(expectedStickerFromLeft);
+      const actualStickerZIndex = responseJSON.zIndex;
+      expect(actualStickerZIndex).toEqual(expectedStickerZIndex);
+    }
+    // console.log('Before each stickers ids: ', createdStickersIds);
+  });
+  test('1. Update sticker field and verify success', async ({ request }) => {
     await test.step('1.1 Should update sticker on card', async () => {
       // Arrange:
       const cardId = createdCardsIds[1];
@@ -137,6 +139,7 @@ test.describe('Cards stickers handling - dependent tests', () => {
       const fields = 'id,image,rotate';
       const expectedStickerName = 'thumbsdown';
       const expectedStickerRotateValue = 180;
+
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
       const response = await request.get(
         `/1/cards/${cardId}/stickers/${stickerId}?fields=${fields}`,
@@ -157,10 +160,11 @@ test.describe('Cards stickers handling - dependent tests', () => {
   });
 
   test('2. Delete sticker and verify success', async ({ request }) => {
-    await test.step('2.1  Should delete a sticker', async () => {
+    await test.step('2.1 Should delete a sticker', async () => {
       // Arrange:
       const cardId = createdCardsIds[2];
       const stickerId = createdStickersIds[2];
+      // console.log('Sticker id for deletion:', stickerId);
       const expectedStatusCode = 200;
       const expectedResponseObject = [];
 
@@ -171,14 +175,13 @@ test.describe('Cards stickers handling - dependent tests', () => {
       );
       const responseJSON = await response.json();
       // console.log(responseJSON);
-      // console.log(responseJSON.stickers);
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
       const actualObjectArray = responseJSON.stickers;
       expect(actualObjectArray).toEqual(expectedResponseObject);
     });
-    await test.step('2.2 Should NOT get deleted sticker', async () => {
+    await test.step('5. Should NOT get deleted sticker', async () => {
       // Arrange:
       const cardId = createdCardsIds[2];
       const expectedStatusCode = 200;
@@ -189,7 +192,6 @@ test.describe('Cards stickers handling - dependent tests', () => {
         headers,
         params,
       });
-
       const responseJSON = await response.json();
       // console.log(responseJSON);
 
@@ -198,6 +200,18 @@ test.describe('Cards stickers handling - dependent tests', () => {
       expect(responseJSON).toEqual(expectedResponseObject);
     });
   });
+
+  test.afterEach('Delete added stickers', async ({ request }) => {
+    // Act:
+    for (let i = 0; i < createdStickersIds.length; i++) {
+      await request.delete(
+        `/1/cards/${createdCardsIds[i]}/stickers/${createdStickersIds[i]}`,
+        { headers, params },
+      );
+    }
+    createdStickersIds = [];
+  });
+
   test.afterAll('Delete a board', async ({ request }) => {
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
