@@ -164,6 +164,6 @@ test.describe('Cards handling - independent tests', () => {
   });
   test.afterAll('Delete a board', async ({ request }) => {
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    await request.delete(`/1/boards/${createdBoardId}}`, { headers, params });
+    await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
   });
 });
