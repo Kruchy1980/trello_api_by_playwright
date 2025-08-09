@@ -85,3 +85,14 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
   - right mouse button
 - Use more than one terminal: <kbd>+</kbd> sign in TERMINAL
 - Use another terminal (Git Bash, JavaScript Debug): <kbd>˅</kbd> sign in TERMINAL
+
+### The main structure of project folders with basic description
+
+├───**config** <-- folder contains file with environment variables preparation
+├───**src** <-- folder which contains additional elements/helpers (objects, functions, etc.)
+│ └───**API** <-- sub folder which contains all additional helpers for API Tests
+│ └───**utils** <-- sub-sub folder which contains utils for API tests
+└───**tests** <-- folder with tests
+├───**1.Atomic-tests-dependent** <-- pure atomic tests without any updates
+├───**2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
+└───**3.Refactoring-hooks_usage-independent** <-- folder with independent tests
