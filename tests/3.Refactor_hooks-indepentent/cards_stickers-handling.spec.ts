@@ -181,7 +181,7 @@ test.describe('Cards stickers handling - independent tests', () => {
       const actualObjectArray = responseJSON.stickers;
       expect(actualObjectArray).toEqual(expectedResponseObject);
     });
-    await test.step('5. Should NOT get deleted sticker', async () => {
+    await test.step('2. Should NOT get deleted sticker', async () => {
       // Arrange:
       const cardId = createdCardsIds[2];
       const expectedStatusCode = 200;
