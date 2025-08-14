@@ -133,10 +133,10 @@ test.describe('Cards handling - independent tests', () => {
       };
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
-      const response = await request.get(
-        `/1/cards/${createdCardId}?fields=name,desc,due`,
-        { headers, params: updatedCardParams },
-      );
+      const response = await request.get(`/1/cards/${createdCardId}`, {
+        headers,
+        params: updatedCardParams,
+      });
       const responseJSON = await response.json();
       // console.log(responseJSON);
 
