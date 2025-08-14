@@ -97,4 +97,5 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
 └─── **3.Refactoring-hooks_usage-independent** <-- folder with independent tests
+└─── **4.Refactor_removing_query_params** <-- folder with query parameters objects
 ```
