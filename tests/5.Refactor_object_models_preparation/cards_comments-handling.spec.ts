@@ -54,7 +54,7 @@ test.describe('Cards comments handling - independent tests', () => {
 
       // Card Preparation
       // Arrange:
-      const cardData: CardDataModel = {
+      const cardCreationData: CardDataModel = {
         idList: createdListsIds[0],
         name: 'My first card for comments name',
         due: new Date(
@@ -66,7 +66,7 @@ test.describe('Cards comments handling - independent tests', () => {
       const responseCardCreation = await request.post(`/1/cards`, {
         headers,
         params,
-        data: cardData,
+        data: cardCreationData,
       });
       const responseCardCreationJSON = await responseCardCreation.json();
       // console.log(responseJSON);
