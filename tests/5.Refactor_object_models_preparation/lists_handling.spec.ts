@@ -33,7 +33,7 @@ test.describe('Lists handling - independent tests', () => {
     async ({ request }) => {
       // Arrange:
       const expectedStatusCode = 200;
-      data = {
+      const data: ListDataModel = {
         name: 'My first list name',
         pos: 'top',
         idBoard: createdBoardId,
@@ -134,7 +134,7 @@ test.describe('Lists handling - independent tests', () => {
       // Arrange:
       const listForArchiveId = createdListsIds[2];
       const expectedStatusCode = 200;
-      data = {
+      const data: ListDataModel = {
         closed: true,
       };
 
@@ -184,7 +184,7 @@ test.describe('Lists handling - independent tests', () => {
     // Arrange:
     const listForUpdateId = createdListsIds[createdListsIds.length - 1];
     const expectedStatusCode = 200;
-    data = {
+    const data: ListDataModel = {
       name: 'Tasks with the highest priority',
       pos: 'top',
     };
