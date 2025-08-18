@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "CommonJS",
     "strict": true,
-    "noImplicitAny": false,
+    "noImplicitAny": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
