@@ -156,6 +156,7 @@ test.describe('Boards handling - independent tests', () => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
+
     const incorrectParams: ParamsDataModel = {
       key: 'poisfbnzpoib',
       token: params.token,

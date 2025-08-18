@@ -85,6 +85,7 @@ test.describe('Cards labels handling - independent tests', () => {
     // TODO: To Be updated later on
     const expectedLabelColor = 'red';
     const expectedLabelName = `Do it ASAP - ${expectedLabelColor}`;
+
     const data: LabelDataModel = {
       color: expectedLabelColor,
       name: expectedLabelName,
