@@ -107,10 +107,6 @@ test.describe('Cards comments handling - independent tests', () => {
     const expectedStatusCode = 200;
     const expectedCardCommentText = 'My first comment on a card';
 
-    // data = {
-    //   text: 'My first comment on a card',
-    // };
-
     const commentCardParams: ParamsDataModel = {
       key: params.key,
       token: params.token,
