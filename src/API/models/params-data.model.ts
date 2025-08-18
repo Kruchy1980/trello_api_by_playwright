@@ -1,8 +1,8 @@
 import { params } from '@_src/API/utils/api_utils';
 
 export interface ParamsDataModel {
-  key: typeof params.key;
-  token: typeof params.token;
+  key: typeof params.key; //<-- It equals as we will use "string" type
+  token: typeof params.token; //<-- It equals as we will use "string" type
   idChecklist?: string;
   name?: string;
   state?: boolean;
