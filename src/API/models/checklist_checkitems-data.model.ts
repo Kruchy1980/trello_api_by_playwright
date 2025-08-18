@@ -3,5 +3,4 @@ export interface ChecklistCheckItemDataModel {
   pos?: string | number;
   checked?: boolean;
   due?: string;
-  state?: string;
 }
