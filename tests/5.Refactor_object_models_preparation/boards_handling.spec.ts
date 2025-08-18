@@ -1,6 +1,7 @@
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
+import { ParamsDataModel } from 'future/0.0_Helpers/params-data.model';
 
 // TODO: For Refactoring
 // TODO: Prepare models for data generation
@@ -155,7 +156,10 @@ test.describe('Boards handling - independent tests', () => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-    const incorrectParams = { key: 'poisfbnzpoib', token: params.token };
+    const incorrectParams: ParamsDataModel = {
+      key: 'poisfbnzpoib',
+      token: params.token,
+    };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
