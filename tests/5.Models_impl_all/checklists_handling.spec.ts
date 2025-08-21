@@ -1,4 +1,3 @@
-// TODO: HANDLING OF MODELS USAGE WILL BE DONE IN SEPARATE PART - RETURNING OBJECTS FROM TESTS STEPS
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
