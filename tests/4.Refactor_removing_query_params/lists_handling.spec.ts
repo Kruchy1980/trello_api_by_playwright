@@ -8,7 +8,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Lists handling - independent tests', () => {
+test.describe('Lists handling - query params in objects', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let data: { [key: string]: string | boolean } = {};
