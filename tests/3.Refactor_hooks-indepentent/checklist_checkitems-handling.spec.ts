@@ -16,7 +16,7 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
   const createdCheckItemsIds: string[] = [];
 
   test.beforeAll(
-    'Board, card preparation and collect lists ids',
+    'Board, card, checkLists preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
       const expectedBoardName = `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`;
@@ -50,23 +50,22 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
       const listId = createdListsIds[0];
       const expectedCardName = `Card for labels - ${new Date().getTime()}`;
       const expectedCardDueDate = new Date(
-        new Date().setDate(new Date().getDate() + 1),
+        new Date().setDate(new Date().getDate() + 2),
       ).toISOString();
 
       // Act: 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
-      const responseCreatedCard = await request.post(
+      const responseCardCreation = await request.post(
         `/1/cards?idList=${listId}&name=${expectedCardName}&due=${expectedCardDueDate}`,
         { headers, params },
       );
-      const responseCreatedCardJSON = await responseCreatedCard.json();
+      const responseCardCreationJSON = await responseCardCreation.json();
       // console.log(responseJSON);
-      createdCardId = responseCreatedCardJSON.id;
+      createdCardId = responseCardCreationJSON.id;
 
       // Checklists preparation
       for (let i = 0; i < 2; i++) {
         // Arrange:
         const expectedChecklistName = `Checklist no_-${new Date().getMilliseconds()}`;
-        //   console.log(expectedChecklistName);
 
         // Act: 'https://api.trello.com/1/checklists?idCard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
         const response = await request.post(
@@ -81,7 +80,7 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
   );
 
   test.beforeEach(
-    'Create checkItems on checklist and move one up',
+    'Create checkItems  and move one top on checklist',
     async ({ request }) => {
       // Arrange:
       const checklistId = createdChecklistsIds[0];
@@ -101,7 +100,7 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
       const actualCheckItemName = responseJSON.name;
       expect(actualCheckItemName).toContain(expectedCheckItemName);
 
-      // Create checkItem and move up
+      // Other CheckItem Preparation
       // Arrange:
       // const checklistId = createdChecklistsIds[0];
       const expectedCheckItemStatus = 'incomplete';
@@ -114,23 +113,25 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
       ).toISOString();
 
       // Act: https://api.trello.com/1/checklists/{id}/checkItems?name={name}&key=APIKey&token=APIToken'
-      const responseTopCheckItem = await request.post(
+      const responseCheckItemTopCreation = await request.post(
         `/1/checklists/${checklistId}/checkItems?name=${expectedCheckItemNameTop}&pos=${position}&due=${dueDate}&checked=${status}`,
         { headers, params },
       );
-      const responseTopCheckItemJSON = await responseTopCheckItem.json();
+      const responseCheckItemTopCreationJSON =
+        await responseCheckItemTopCreation.json();
       // console.log(responseJSON);
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
-      expect(responseTopCheckItemJSON).toHaveProperty('pos');
-      const actualItemStatus = responseTopCheckItemJSON.state;
+      expect(responseCheckItemTopCreationJSON).toHaveProperty('pos');
+      const actualItemStatus = responseCheckItemTopCreationJSON.state;
       expect(actualItemStatus).toContain(expectedCheckItemStatus);
-      const actualCheckItemNameTop = responseTopCheckItemJSON.name;
+      const actualCheckItemNameTop = responseCheckItemTopCreationJSON.name;
       expect(actualCheckItemNameTop).toContain(expectedCheckItemNameTop);
-      // Add checkitems ids to ids array
+
+      // Add CheckItems ids to Array
       createdCheckItemsIds.push(responseJSON.id);
-      createdCheckItemsIds.push(responseTopCheckItemJSON.id);
+      createdCheckItemsIds.push(responseCheckItemTopCreationJSON.id);
     },
   );
   test('1. Should get checkItems from checklist', async ({ request }) => {
@@ -146,10 +147,9 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
     );
     const responseJSON = await response.json();
     // console.log(responseJSON);
-    // responseJSON.forEach((el: { id: string }) => {
-    //   createdCheckItemsIds.push(el.id);
-    // });
-    // console.log(createdCheckItemsIds);
+    responseJSON.forEach((el: { id: string }) => {
+      createdCheckItemsIds.push(el.id);
+    });
 
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
@@ -158,7 +158,7 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
     );
   });
 
-  test('2. Update and move checkItem to other checklist, delete the checkItem and verify success', async ({
+  test('2. Update checkItem, move to other checkList, delete and verify success', async ({
     request,
   }) => {
     await test.step('2.1 Should update and move checkItem to other checklist', async () => {
@@ -206,7 +206,7 @@ test.describe('CheckItems on checklists handling - independent tests', () => {
       const actualResponseObject = responseJSON.limits;
       expect(actualResponseObject).toEqual(expectedResponseObject);
     });
-    await test.step('2.3 (NP) Should get Deleted checkItem from checklist', async () => {
+    await test.step('6.(NP) Should get Deleted checkItem from checklist', async () => {
       // Arrange:
       const checklistId = createdChecklistsIds[1];
       const checkItemDeleted = createdCheckItemsIds[1];
