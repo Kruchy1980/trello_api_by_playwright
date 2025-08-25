@@ -47,6 +47,12 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
    `npm i prettier @trivago/prettier-plugin-sort-imports --save-dev`
 5. (Optional) Faker installation: `npm i @faker-js/faker --save-dev`
 
+## Usefull links for faker-js
+
+1. NPM faker-js documentation: _<https://www.npmjs.com/package/@faker-js/faker>_
+2. Faker documentation: _<https://fakerjs.dev/guide/>_
+3. Faker API documentation: _<https://fakerjs.dev/api/>_
+
 ## VSCode Functions
 
 - Preview for .md files: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd>
