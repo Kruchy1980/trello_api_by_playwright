@@ -161,11 +161,12 @@ test.describe('Boards handling - independent tests', () => {
       key: 'poisfbnzpoib',
       token: params.token,
     };
+    // feature/Models_for_data_object_preparation
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
       headers,
-      params: incorrectParams,
+      params: { ...params, ...incorrectParams },
     });
     // console.log(response);
 
