@@ -1,7 +1,7 @@
 import { BoardDataModel } from '@_src/API/models/board-data.model';
+import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { ParamsDataModel } from 'future/0.0_Helpers/params-data.model';
 
 // TODO: For Refactoring
 // TODO: Prepare models for data generation
@@ -164,7 +164,7 @@ test.describe('Boards handling - independent tests', () => {
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
       headers,
-      params: incorrectParams,
+      params: { ...params, ...incorrectParams },
     });
     // console.log(response);
 
