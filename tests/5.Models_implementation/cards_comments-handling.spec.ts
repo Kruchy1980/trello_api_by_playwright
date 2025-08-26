@@ -76,8 +76,8 @@ test.describe('Cards comments handling - independent tests', () => {
   test.beforeEach('Create a new comment on a card', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
+    const expectedCommentType = 'comment';
     const data: CardCommentDataModel = {
-      type: 'comment',
       text: 'My first comment on a card',
     };
 
@@ -96,7 +96,7 @@ test.describe('Cards comments handling - independent tests', () => {
     expect(responseJSON.entities[0]).toHaveProperty('id');
     const actualCardCommentType =
       responseJSON.entities[responseJSON.entities.length - 1].type;
-    expect(actualCardCommentType).toContain(data.type);
+    expect(actualCardCommentType).toContain(expectedCommentType);
     const actualCardCommentText =
       responseJSON.entities[responseJSON.entities.length - 1].text;
     expect(actualCardCommentText).toContain(data.text);
