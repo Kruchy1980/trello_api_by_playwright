@@ -99,9 +99,11 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 ├─── **src** <-- folder which contains additional elements/helpers (objects, functions, etc.)
 │ └─── **API** <-- sub folder which contains all additional helpers for API Tests
 │ └─── **utils** <-- sub-sub folder which contains utils for API tests
+| ├─── **models** <-- sub-sub-folder which contains models for used data in tests
 └─── **tests** <-- folder with tests
-├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
-├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
-└─── **3.Refactoring-hooks_usage-independent** <-- folder with independent tests
-└─── **4.Refactor_removing_query_params** <-- folder with query parameters objects
+| ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
+| ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
+| └─── **3.Refactoring-hooks_usage-independent** <-- folder with independent tests
+| ├─── **4.Refactor_removing_query_params** <-- Tests with removed query params from endpoints
+| └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models - part_1
 ```
