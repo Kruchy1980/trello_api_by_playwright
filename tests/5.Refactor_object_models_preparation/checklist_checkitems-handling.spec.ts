@@ -1,3 +1,8 @@
+import { BoardDataModel } from '@_src/API/models/board-data.model';
+import { CardDataModel } from '@_src/API/models/card-data.model';
+import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
+import { ChecklistCheckItemDataModel } from '@_src/API/models/checklist_checkitems-data.model';
+import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
@@ -7,21 +12,19 @@ import { expect, test } from '@playwright/test';
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
-
-test.describe('CheckItems on checklists handling - query params in objects', () => {
+test.describe('CheckItems on checklists handling - models prep and implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
   const createdChecklistsIds: string[] = [];
   const createdCheckItemsIds: string[] = [];
-  let data: { [key: string]: string | boolean };
+  // let data: { [key: string]: string | boolean };
 
   test.beforeAll(
     'Board, card, checkLists preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const expectedBoardName = `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`;
-      data = {
+      const data: BoardDataModel = {
         name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
       };
 
@@ -52,12 +55,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
 
       // Card Preparation
       // Arrange:
-      // const listId = createdListsIds[0];
-      // const expectedCardName = `Card for labels - ${new Date().getTime()}`;
-      // const expectedCardDueDate = new Date(
-      //   new Date().setDate(new Date().getDate() + 2),
-      // ).toISOString();
-      data = {
+      const cardCreationData: CardDataModel = {
         idList: createdListsIds[0],
         name: 'My first card for comments name',
         due: new Date(
@@ -69,7 +67,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       const responseCardCreation = await request.post(`/1/cards`, {
         headers,
         params,
-        data,
+        data: cardCreationData,
       });
       const responseCardCreationJSON = await responseCardCreation.json();
       // console.log(responseJSON);
@@ -78,8 +76,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       // Checklists preparation
       for (let i = 0; i < 2; i++) {
         // Arrange:
-        // const expectedChecklistName = `Checklist no_-${new Date().getMilliseconds()}`;
-        data = {
+        const checklistCreationData: ChecklistDataModel = {
           idCard: createdCardId,
           name: `Checklist no_-${new Date().getMilliseconds()}`,
         };
@@ -88,7 +85,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
         const response = await request.post(`/1/checklists`, {
           headers,
           params,
-          data,
+          data: checklistCreationData,
         });
         const responseJSON = await response.json();
         // console.log(responseJSON);
@@ -103,8 +100,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       // Arrange:
       const checklistId = createdChecklistsIds[0];
       const expectedStatusCode = 200;
-      // const expectedCheckItemName = `CheckItem for Checklist - ${checklistId}`;
-      data = {
+      const data: ChecklistCheckItemDataModel = {
         name: `CheckItem for Checklist - ${checklistId}`,
       };
 
@@ -123,16 +119,8 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
 
       // Other CheckItem Preparation
       // Arrange:
-      // const checklistId = createdChecklistsIds[0];
       const expectedCheckItemStatus = 'incomplete';
-      // const expectedStatusCode = 200;
-      // const position = 'top';
-      // const expectedCheckItemNameTop = `CheckItem - move when done to other checklist`;
-      // const status = false;
-      // const dueDate = new Date(
-      //   new Date().setDate(new Date().getDate() + 2),
-      // ).toISOString();
-      data = {
+      const checkItemCreationTopData: ChecklistCheckItemDataModel = {
         name: `CheckItem - move when done to other checklist`,
         pos: 'top',
         due: new Date(
@@ -144,7 +132,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       // Act: https://api.trello.com/1/checklists/{id}/checkItems?name={name}&key=APIKey&token=APIToken'
       const responseCheckItemTopCreation = await request.post(
         `/1/checklists/${checklistId}/checkItems`,
-        { headers, params, data },
+        { headers, params, data: checkItemCreationTopData },
       );
       const responseCheckItemTopCreationJSON =
         await responseCheckItemTopCreation.json();
@@ -156,7 +144,7 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       const actualItemStatus = responseCheckItemTopCreationJSON.state;
       expect(actualItemStatus).toContain(expectedCheckItemStatus);
       const actualCheckItemNameTop = responseCheckItemTopCreationJSON.name;
-      expect(actualCheckItemNameTop).toContain(data.name);
+      expect(actualCheckItemNameTop).toContain(checkItemCreationTopData.name);
 
       // Add CheckItems ids to Array
       createdCheckItemsIds.push(responseJSON.id);
@@ -196,11 +184,8 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       const cardId = createdCardId;
       const checkItemToMoveId = createdCheckItemsIds[1];
       const expectedCheckItemStatus = 'complete';
-      // const checklistIdTo = createdChecklistsIds[1];
-      // const updatedCheckItemName = 'Task completed';
-      // const status = true;
 
-      const updateCheckItemParams = {
+      const updateCheckItemParams: ParamsDataModel = {
         key: params.key,
         token: params.token,
         idChecklist: createdChecklistsIds[1],
@@ -211,7 +196,10 @@ test.describe('CheckItems on checklists handling - query params in objects', () 
       // Act: https://api.trello.com/1/checklists/${checklistIdFrom}/checkItems/${checkItemId}?idChecklist=${checklistIdTo}&key=APIKey&token=APIToken
       const response = await request.put(
         `/1/cards/${cardId}/checkItem/${checkItemToMoveId}`,
-        { headers, params: updateCheckItemParams },
+        {
+          headers,
+          params: { ...params, ...updateCheckItemParams },
+        },
       );
       const responseJSON = await response.json();
       // console.log(responseJSON);
