@@ -7,7 +7,8 @@ import { expect, test } from '@playwright/test';
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
-test.describe('CheckItems on checklists handling - independent tests', () => {
+
+test.describe('CheckItems on checklists handling - query params in objects', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
