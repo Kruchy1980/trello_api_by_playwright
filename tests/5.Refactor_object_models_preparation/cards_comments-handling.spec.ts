@@ -12,7 +12,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards comments handling - independent tests', () => {
+test.describe('Cards comments handling - models prep and implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;

@@ -15,7 +15,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards labels handling - independent tests', () => {
+test.describe('Cards labels handling - models prep and implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
