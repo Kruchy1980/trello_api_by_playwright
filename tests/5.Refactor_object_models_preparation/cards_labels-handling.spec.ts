@@ -1,3 +1,10 @@
+import { BoardDataModel } from '@_src/API/models/board-data.model';
+import { CardDataModel } from '@_src/API/models/card-data.model';
+import {
+  CardLabelDataModel,
+  LabelDataModel,
+  LabelOperationsDataModel,
+} from '@_src/API/models/card_labels-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
@@ -8,20 +15,18 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-
-test.describe('Cards labels handling - query params in objects', () => {
+test.describe('Cards labels handling - independent tests', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
   let createdBoardLabelId: string;
-  let data: { [key: string]: string };
+  // let data: { [key: string]: string };
 
   test.beforeAll(
     'Board, card preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const expectedBoardName = `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`;
-      data = {
+      const data: BoardDataModel = {
         name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
       };
 
@@ -53,12 +58,7 @@ test.describe('Cards labels handling - query params in objects', () => {
       // Card Preparation
       for (let i = 0; i < 2; i++) {
         // Arrange:
-        // const listId = createdListsIds[i];
-        // const expectedCardName = `Card for labels - ${new Date().getTime()}`;
-        // const expectedCardDueDate = new Date(
-        //   new Date().setDate(new Date().getDate() + (i + 1)),
-        // ).toISOString();
-        data = {
+        const dataCardCreation: CardDataModel = {
           idList: createdListsIds[i],
           name: `Card for labels - ${new Date().getTime()}`,
           due: new Date(
@@ -70,7 +70,7 @@ test.describe('Cards labels handling - query params in objects', () => {
         const response = await request.post(`/1/cards`, {
           headers,
           params,
-          data,
+          data: dataCardCreation,
         });
         const responseJSON = await response.json();
         // console.log(responseJSON);
@@ -85,14 +85,19 @@ test.describe('Cards labels handling - query params in objects', () => {
     // TODO: To Be updated later on
     const expectedLabelColor = 'red';
     const expectedLabelName = `Do it ASAP - ${expectedLabelColor}`;
-    data = {
+
+    const data: LabelDataModel = {
       color: expectedLabelColor,
       name: expectedLabelName,
       idBoard: createdBoardId,
     };
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
-    const response = await request.post(`/1/labels`, { headers, params, data });
+    const response = await request.post(`/1/labels`, {
+      headers,
+      params,
+      data,
+    });
     const responseJSON = await response.json();
     // console.log(responseJSON);
     createdBoardLabelId = responseJSON.id;
@@ -109,7 +114,7 @@ test.describe('Cards labels handling - query params in objects', () => {
     // Arrange:
     const expectedStatusCode = 200;
     const cardId = createdCardsIds[0];
-    data = {
+    const data: LabelOperationsDataModel = {
       value: createdBoardLabelId,
     };
 
@@ -134,7 +139,7 @@ test.describe('Cards labels handling - query params in objects', () => {
     // TODO: To be updated later on
     const updatedLabelColor = 'black';
     const updatedLabelName = `Custom label for a card - updated for deadly - ${updatedLabelColor}`;
-    data = {
+    const data: CardLabelDataModel = {
       name: updatedLabelName,
       color: updatedLabelColor,
     };
@@ -168,7 +173,7 @@ test.describe('Cards labels handling - query params in objects', () => {
       // TODO: To be updated later on
       const expectedLabelColor = 'yellow';
       const expectedLabelName = `Custom label for a card - ${expectedLabelColor}`;
-      data = {
+      const data: CardLabelDataModel = {
         name: expectedLabelName,
         color: expectedLabelColor,
       };
@@ -194,8 +199,7 @@ test.describe('Cards labels handling - query params in objects', () => {
     test('1. Should update field on label', async ({ request }) => {
       // Arrange:
       const expectedStatusCode = 200;
-      // const updatedLabelColor = 'sky';
-      data = {
+      const data: CardLabelDataModel = {
         color: 'sky',
       };
 

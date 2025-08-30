@@ -1,3 +1,5 @@
+import { ParamsDataModel } from '@_src/API/models//params-data.model';
+import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
@@ -8,21 +10,15 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-
-test.describe('Boards handling - query params in objects', () => {
+test.describe('Boards handling - independent tests', () => {
   let createdBoardId: string;
   let boarName: string;
 
   test.beforeAll('Board preparation', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
-    // const expectedBoardName = 'My first Board name';
-    // const expectedBoardDescription = 'My first Board description';
-    // const data: ([key: string]: sting) = {
-    //   name: expectedBoardName,
-    //   desc: expectedBoardDescription,
-    // }
-    const data: { [key: string]: string } = {
+
+    const data: BoardDataModel = {
       name: 'My first Board name',
       desc: 'My first Board description',
     };
@@ -70,9 +66,8 @@ test.describe('Boards handling - query params in objects', () => {
     // Arrange:
     const expectedBoardId = createdBoardId;
     const expectedStatusCode = 200;
-    // const updatedBoardName = 'Updated Board name';
-    // const updatedBoardDescription = 'Updated Board description';
-    const data: { [key: string]: string } = {
+
+    const data: BoardDataModel = {
       name: 'Updated Board name',
       desc: 'Updated Board description',
     };
@@ -161,12 +156,15 @@ test.describe('Boards handling - query params in objects', () => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-    const incorrectParams = { key: 'poisfbnzpoib', token: params.token };
+    const incorrectParams: ParamsDataModel = {
+      key: 'poisfbnzpoib',
+      token: params.token,
+    };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
       headers,
-      params: incorrectParams,
+      params: { ...params, ...incorrectParams },
     });
     // console.log(response);
 

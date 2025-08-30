@@ -8,6 +8,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
+
 test.describe('Cards stickers handling - query params in objects', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];

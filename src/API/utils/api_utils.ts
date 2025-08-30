@@ -4,4 +4,7 @@ export const headers: { [key: string]: string } = {
   'Content-Type': 'application/json',
   Accept: 'application/json',
 };
-export const params: { [key: string]: string } = { key: API_KEY, token: TOKEN };
+export const params: { [key: string]: string } = {
+  key: API_KEY,
+  token: TOKEN,
+};
