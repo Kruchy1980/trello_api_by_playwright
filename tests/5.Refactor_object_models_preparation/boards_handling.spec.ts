@@ -10,7 +10,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Boards handling - models prep and implemeted', () => {
+test.describe('Boards handling - models prep and implemented', () => {
   let createdBoardId: string;
   let boarName: string;
 
