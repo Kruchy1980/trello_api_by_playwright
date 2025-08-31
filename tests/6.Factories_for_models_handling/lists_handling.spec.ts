@@ -12,7 +12,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Lists handling - factories_implementation', () => {
+test.describe('Lists handling - factories implementation', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let data: ListDataModel;
