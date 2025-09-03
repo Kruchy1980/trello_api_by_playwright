@@ -99,5 +99,5 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
 | └─── **3.Refactoring-hooks_usage-independent** <-- folder with independent tests
 | ├─── **4.Refactor_removing_query_params** <-- Tests with removed query params from endpoints
-| └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models - part_1
+| └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models - part_3
 ```
