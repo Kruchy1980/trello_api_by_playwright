@@ -65,7 +65,7 @@ test.describe('Cards handling - factories implementation', () => {
       createdListsIds[0],
       'Name',
       '',
-      2,
+      undefined,
       '',
       true,
       -1,
