@@ -16,6 +16,7 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
+// TODO: Prepare models for data generation
 // TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
@@ -26,6 +27,7 @@ test.describe('Cards labels handling - factories implementation', () => {
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
   let createdBoardLabelId: string;
+  // let data: { [key: string]: string };
 
   test.beforeAll(
     'Board, card preparation and collect lists ids',
@@ -35,7 +37,6 @@ test.describe('Cards labels handling - factories implementation', () => {
       //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
       // };
       const data: BoardDataModel = prepareRandomBoardData();
-      // console.log('Board prep:', data);
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/boards`, {
@@ -74,14 +75,13 @@ test.describe('Cards labels handling - factories implementation', () => {
         // };
         const dataCardCreation: CardDataModel = prepareRandomCardData(
           createdListsIds[i],
-          'My Card',
+          'My Card Name',
           undefined,
           undefined,
           undefined,
           true,
           i + 1,
         );
-        // console.log('Cards creation:', dataCardCreation);
 
         // Act: 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
         const response = await request.post(`/1/cards`, {
@@ -100,7 +100,6 @@ test.describe('Cards labels handling - factories implementation', () => {
     // Arrange:
     const expectedStatusCode = 200;
     // TODO: To Be updated later on
-    // Those variables do not need to be used anymore - see also comment in Assert section
     // const expectedLabelColor = 'red';
     // const expectedLabelName = `Do it ASAP - ${expectedLabelColor}`;
 
@@ -110,12 +109,10 @@ test.describe('Cards labels handling - factories implementation', () => {
     //   idBoard: createdBoardId,
     // };
     const data: LabelDataModel = prepareRandomBoardLabelData(
-      'red',
-      '',
       createdBoardId,
-      2,
+      'red',
+      'Do it ASAP',
     );
-    // console.log('Label for board:', data);
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
     const response = await request.post(`/1/labels`, {
@@ -130,8 +127,6 @@ test.describe('Cards labels handling - factories implementation', () => {
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON).toHaveProperty('id');
-    // These assertions are not needed to be changed because here we are comparing actual data
-    //  with prepared object data
     const actualLabelName = responseJSON.name;
     expect(actualLabelName).toContain(data.name);
     const actualLabelColor = responseJSON.color;
@@ -172,15 +167,11 @@ test.describe('Cards labels handling - factories implementation', () => {
     //   name: updatedLabelName,
     //   color: updatedLabelColor,
     // };
-    const data: CardLabelDataModel = prepareRandomCardLabelData('black', '');
-    // console.log(data);
-
-    // Added just for fast verification :)
-    // console.log('1', prepareRandomCardLabelData('orange', 'Name of label:', 2));
-    // console.log('2', prepareRandomCardLabelData('', 'Name of label:', 2));
-    // console.log('3', prepareRandomCardLabelData('', ''));
-    // console.log('4', prepareRandomCardLabelData(''));
-    // console.log('5', prepareRandomCardLabelData());
+    const data: CardLabelDataModel = prepareRandomCardLabelData(
+      'black',
+      'Custom label for a card - updated for deadly',
+      3,
+    );
 
     // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
     const response = await request.put(`/1/labels/${createdBoardLabelId}`, {
@@ -196,13 +187,13 @@ test.describe('Cards labels handling - factories implementation', () => {
     expect(responseJSON).toHaveProperty('id');
     const actualLabelId = responseJSON.id;
     expect(actualLabelId).toContain(createdBoardLabelId);
-    // const actualLabelName = responseJSON.name;
-    // expect(actualLabelName).toContain(data.name);
+    const actualLabelName = responseJSON.name;
+    expect(actualLabelName).toContain(data.name);
     const actualLabelColor = responseJSON.color;
     expect(actualLabelColor).toContain(data.color);
   });
 
-  test.describe('Cards Labels handling - directly on Card - factories', () => {
+  test.describe('Cards Labels handling - directly on Card - independent', () => {
     let createdLabelOnCardId: string;
     test.beforeEach('Create label directly on card', async ({ request }) => {
       // Arrange:
@@ -215,8 +206,11 @@ test.describe('Cards labels handling - factories implementation', () => {
       //   name: expectedLabelName,
       //   color: expectedLabelColor,
       // };
-      const data: CardLabelDataModel = prepareRandomCardLabelData('', '', 2);
-      // console.log('Label created on card:', data);
+      const data: CardLabelDataModel = prepareRandomCardLabelData(
+        'yellow',
+        '',
+        2,
+      );
 
       // Act: 'https://api.trello.com/1/cards/{id}/labels?color={color}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/cards/${cardId}/labels`, {
@@ -243,7 +237,6 @@ test.describe('Cards labels handling - factories implementation', () => {
       //   color: 'sky',
       // };
       const data: CardLabelDataModel = prepareRandomCardLabelData();
-      // console.log('Update field object', data);
 
       // Act: 'https://api.trello.com/1/labels/{id}/{field}?value=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
       const response = await request.put(`/1/labels/${createdLabelOnCardId}`, {
