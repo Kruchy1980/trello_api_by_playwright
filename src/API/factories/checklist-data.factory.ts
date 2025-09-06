@@ -6,7 +6,7 @@ export function prepareRandomChecklistData(
   checklistName?: string,
   titleLength?: number,
   position?: string | number,
-  valueText?: string,
+  dynamicValue?: string,
   sentencesLength?: number,
 ): ChecklistDataModel {
   const idCard: string = cardId ? cardId : '';
@@ -20,9 +20,9 @@ export function prepareRandomChecklistData(
   const pos: string | number = position ? position : '';
 
   const value: string =
-    valueText && valueText !== ''
-      ? `${valueText} - ${faker.lorem.sentences(sentencesLength ?? 1)}`
-      : valueText
+    dynamicValue && dynamicValue !== ''
+      ? `${dynamicValue} - ${faker.lorem.sentences(sentencesLength ?? 1)}`
+      : dynamicValue
         ? faker.lorem.sentences(sentencesLength ?? 1)
         : '';
 
