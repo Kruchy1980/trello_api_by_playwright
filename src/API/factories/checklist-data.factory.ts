@@ -33,7 +33,7 @@ export function prepareRandomChecklistData(
   //     pos,
   //   };
 
-  // Solution II Full object returning
+  // Solution II Partial object returning
   const newChecklistData: ChecklistDataModel = {
     ...(idCard !== '' && { idCard }),
     ...(name !== '' && { name }),
