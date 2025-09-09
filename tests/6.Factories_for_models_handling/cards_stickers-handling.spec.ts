@@ -106,7 +106,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
         50.22,
         3,
       );
-      // console.log('Add Sticker:', data.image);
+      // console.log('Add Sticker:', data);
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken'
       const response = await request.post(
