@@ -9,7 +9,7 @@ export function prepareRandomCommentData(
   // const text: string = commentText
   //   ? `${commentText} - ${faker.lorem.sentences({ min: 1, max: sentences ?? 1 })}`
   //   : `${faker.lorem.paragraphs({ min: 1, max: sentences ?? 1 })}`;
-  // Solution II
+  // Solution II - shortened
   const text: string = commentText
     ? `${commentText} - ${faker.lorem.sentences(sentences ?? 1)}`
     : `${faker.lorem.paragraphs(sentences ?? 1)}`;
