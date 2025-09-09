@@ -31,6 +31,7 @@ export function prepareRandomChecklistData(
   //     idCard,
   //     name,
   //     pos,
+  //     value,
   //   };
 
   // Solution II Partial object returning
