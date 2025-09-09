@@ -195,7 +195,7 @@ test.describe('Checklists_handling - factories implementation', () => {
       expect(actualChecklistId).toContain(createdChecklistId);
       const actualChecklistName = responseJSON.name;
       expect(actualChecklistName).toContain(data.value);
-      // Passing data - direct value to the inside test variable
+      // Passing data - full object to the inside test variable
       checklistDataForVerification = data;
     });
     await test.step('3.2 Should Get a checklist name only', async () => {
