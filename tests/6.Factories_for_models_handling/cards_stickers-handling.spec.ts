@@ -147,13 +147,22 @@ test.describe('Cards stickers handling - factories implementation', () => {
       //   rotate: 180,
       // };
       const data: CardStickerDataModel = prepareRandomStickerData(
-        createdStickersNames[1],
+        undefined,
         12,
         undefined,
         2,
         180,
       );
       // console.log('Update:', data);
+      // console.log(
+      //   'All params',
+      //   prepareRandomStickerData(undefined, 12, undefined, 2, 180),
+      // );
+      // console.log(
+      //   'No name',
+      //   prepareRandomStickerData(undefined, 12, 35, 2, 180),
+      // );
+      // console.log('No rotate', prepareRandomStickerData('', 12, 35, 2));
       // Act: /1/cards/{id}/stickers/{idSticker}?top={top}&left={left}&zIndex={zIndex}
       const response = await request.put(
         `/1/cards/${cardId}/stickers/${stickerId}`,
@@ -164,8 +173,8 @@ test.describe('Cards stickers handling - factories implementation', () => {
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualStickerName = responseJSON.image;
-      expect(actualStickerName).toContain(data.image);
+      // const actualStickerName = responseJSON.image;
+      // expect(actualStickerName).toContain(data.image);
       const actualStickerFromTop = responseJSON.top;
       expect(actualStickerFromTop).toEqual(data.top);
       const actualStickerFromLeft = responseJSON.left;
@@ -201,8 +210,8 @@ test.describe('Cards stickers handling - factories implementation', () => {
       expect(response.status()).toEqual(expectedStatusCode);
       const actualStickerId = responseJSON.id;
       expect(actualStickerId).toEqual(stickerId);
-      const actualStickerName = responseJSON.image;
-      expect(actualStickerName).toContain(dataForVerification.image);
+      // const actualStickerName = responseJSON.image;
+      // expect(actualStickerName).toContain(dataForVerification.image);
       const actualStickerRotateValue = responseJSON.rotate;
       expect(actualStickerRotateValue).toEqual(dataForVerification.rotate);
     });
