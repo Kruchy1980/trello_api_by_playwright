@@ -113,6 +113,7 @@ test.describe('Cards labels handling - factories implementation', () => {
       'red',
       'Do it ASAP',
     );
+    // console.log('Label data color:', data);
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
     const response = await request.post(`/1/labels`, {
