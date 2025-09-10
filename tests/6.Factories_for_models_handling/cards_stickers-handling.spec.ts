@@ -1,7 +1,6 @@
 import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomStickerData } from '@_src/API/factories/card_stickers-data.factory';
 import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
@@ -185,21 +184,11 @@ test.describe('Cards stickers handling - factories implementation', () => {
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
 
-      // const stickerParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'id,image,rotate',
-      // };
-      const stickerParams: ParamsDataModel = prepareParamsData(
-        '',
-        '',
-        '',
-        '',
-        false,
-        '',
-        'id,image,rotate',
-      );
-      // console.log(stickerParams);
+      const stickerParams: ParamsDataModel = {
+        key: params.key,
+        token: params.token,
+        fields: 'id,image,rotate',
+      };
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
       const response = await request.get(

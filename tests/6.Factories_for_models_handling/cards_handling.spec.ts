@@ -1,6 +1,5 @@
 import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
@@ -171,21 +170,11 @@ test.describe('Cards handling - factories implementation', () => {
       // Arrange:
       const expectedStatusCode = 200;
 
-      // const updatedCardParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'name,desc,due',
-      // };
-      const updatedCardParams: ParamsDataModel = prepareParamsData(
-        '',
-        '',
-        '',
-        '',
-        false,
-        '',
-        'name,desc,due',
-      );
-      // console.log(updatedCardParams);
+      const updatedCardParams: ParamsDataModel = {
+        key: params.key,
+        token: params.token,
+        fields: 'name,desc,due',
+      };
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
@@ -228,20 +217,12 @@ test.describe('Cards handling - factories implementation', () => {
       // Arrange:
       const expectedStatusCode = 404;
       const expectedStatusText = 'Not Found';
-      // const deletedCardParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'name,desc,due',
-      // };
-      const deletedCardParams: ParamsDataModel = prepareParamsData(
-        '',
-        '',
-        '',
-        '',
-        false,
-        '',
-        'name,desc,due',
-      );
+      const deletedCardParams: ParamsDataModel = {
+        key: params.key,
+        token: params.token,
+        fields: 'name,desc,due',
+      };
+
       // console.log(deletedCardParams);
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {

@@ -181,10 +181,7 @@ test.describe('Boards handling - factories implementation', () => {
     //   key: 'poisfbnzpoib',
     //   token: params.token,
     // };
-    const incorrectParams: ParamsDataModel = prepareParamsData(
-      '',
-      'poisfbnzpoib',
-    );
+    const incorrectParams: ParamsDataModel = prepareParamsData('', 'asefawfwf');
     // console.log(incorrectParams);
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
