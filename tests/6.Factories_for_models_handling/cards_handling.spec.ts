@@ -254,8 +254,8 @@ test.describe('Cards handling - factories implementation', () => {
       expect(response.statusText()).toContain(expectedStatusText);
     });
   });
-  // test.afterAll('Delete a board', async ({ request }) => {
-  //   // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-  //   await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
-  // });
+  test.afterAll('Delete a board', async ({ request }) => {
+    // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
+    await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
+  });
 });
