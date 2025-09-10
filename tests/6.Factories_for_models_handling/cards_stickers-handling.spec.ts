@@ -19,6 +19,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
   let createdStickersIds: string[] = [];
+  // Added for current solution
   let createdStickersNames: string[] = [];
 
   test.beforeAll(
@@ -147,13 +148,14 @@ test.describe('Cards stickers handling - factories implementation', () => {
       //   rotate: 180,
       // };
       const data: CardStickerDataModel = prepareRandomStickerData(
-        undefined,
+        createdStickersNames[1],
         12,
         undefined,
         2,
         180,
       );
       // console.log('Update:', data);
+      // For other parameters verification
       // console.log(
       //   'All params',
       //   prepareRandomStickerData(undefined, 12, undefined, 2, 180),
@@ -173,8 +175,9 @@ test.describe('Cards stickers handling - factories implementation', () => {
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
-      // const actualStickerName = responseJSON.image;
-      // expect(actualStickerName).toContain(data.image);
+      const actualStickerName = responseJSON.image;
+      // console.log(actualStickerName);
+      expect(actualStickerName).toContain(data.image);
       const actualStickerFromTop = responseJSON.top;
       expect(actualStickerFromTop).toEqual(data.top);
       const actualStickerFromLeft = responseJSON.left;
@@ -187,7 +190,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
       dataForVerification = data;
     });
     await test.step('1.2 Should get a sticker field', async () => {
-      // console.log(dataForVerificationStickers);
+      // console.log('Data for verification:', dataForVerification);
       // Arrange:
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
@@ -210,8 +213,8 @@ test.describe('Cards stickers handling - factories implementation', () => {
       expect(response.status()).toEqual(expectedStatusCode);
       const actualStickerId = responseJSON.id;
       expect(actualStickerId).toEqual(stickerId);
-      // const actualStickerName = responseJSON.image;
-      // expect(actualStickerName).toContain(dataForVerification.image);
+      const actualStickerName = responseJSON.image;
+      expect(actualStickerName).toContain(dataForVerification.image);
       const actualStickerRotateValue = responseJSON.rotate;
       expect(actualStickerRotateValue).toEqual(dataForVerification.rotate);
     });
@@ -267,6 +270,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
       );
     }
     createdStickersIds = [];
+    // Array cleared after each test for present solution
     createdStickersNames = [];
   });
 
