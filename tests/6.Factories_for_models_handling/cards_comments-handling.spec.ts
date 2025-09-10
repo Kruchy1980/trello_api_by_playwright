@@ -1,6 +1,7 @@
 import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomCommentData } from '@_src/API/factories/card_comments-data.factory';
 import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardCommentDataModel } from '@_src/API/models/card_comments-data.model';
@@ -126,11 +127,20 @@ test.describe('Cards comments handling - factories implementation', () => {
     //   text: 'My first comment on a card',
     // };
 
-    const commentCardParams: ParamsDataModel = {
-      key: params.key,
-      token: params.token,
-      filter: 'commentCard',
-    };
+    // const commentCardParams: ParamsDataModel = {
+    //   key: params.key,
+    //   token: params.token,
+    //   filter: 'commentCard',
+    // };
+    const commentCardParams: ParamsDataModel = prepareParamsData(
+      '',
+      '',
+      '',
+      '',
+      false,
+      'commentCard',
+    );
+    // console.log(commentCardParams);
 
     // Act: 'https://api.trello.com/1/cards/{id}/actions?key=APIKey&token=APIToken'
     const response = await request.get(`/1/cards/${createdCardId}/actions`, {
