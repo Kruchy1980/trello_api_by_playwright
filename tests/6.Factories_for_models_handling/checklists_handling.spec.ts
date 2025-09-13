@@ -1,11 +1,11 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareRandomChecklistData } from '@_src/API/factories/checklist-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
+import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
+import { prepareRandomCardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/cards-data.factory';
+import { prepareRandomChecklistData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/checklist-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare models for data generation
