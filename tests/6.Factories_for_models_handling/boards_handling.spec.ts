@@ -1,9 +1,8 @@
+import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For Refactoring
 // TODO: Prepare factories for models handling
@@ -170,19 +169,16 @@ test.describe('Boards handling - factories implementation', () => {
       expect(response.statusText()).toContain(expectedStatusText);
     });
   });
-  test('4. (NP) Should Not get board when unauthorized user', async ({
+  test('5. (NP) Should Not get board when unauthorized user', async ({
     request,
   }) => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-
-    // const incorrectParams: ParamsDataModel = {
-    //   key: 'poisfbnzpoib',
-    //   token: params.token,
-    // };
-    const incorrectParams: ParamsDataModel = prepareParamsData('', 'asefawfwf');
-    // console.log(incorrectParams);
+    const incorrectParams: ParamsDataModel = {
+      key: 'poisfbnzpoib',
+      token: params.token,
+    };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
