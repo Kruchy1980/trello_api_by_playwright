@@ -169,7 +169,7 @@ test.describe('Boards handling - factories implementation', () => {
       expect(response.statusText()).toContain(expectedStatusText);
     });
   });
-  test('4. (NP) Should Not get board when unauthorized user', async ({
+  test('5. (NP) Should Not get board when unauthorized user', async ({
     request,
   }) => {
     // Arrange:
