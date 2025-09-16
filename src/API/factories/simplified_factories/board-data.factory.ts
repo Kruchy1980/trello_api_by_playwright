@@ -1,6 +1,6 @@
-import { generateRandomBoardName } from '@_src/API/helpers/factories/data_generators/names_data_generator';
+import { generateRandomLargeDescription } from '@_src/API/helpers/factories/data_generators/descriptions_data_generator';
+import { generateRandomLargeName } from '@_src/API/helpers/factories/data_generators/names_data_generator';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
-import { generateRandomBoardDescription } from 'future/7.Refactor_simplifying_factories/helpers/factories/data_generators/descriptions_generators_helpers';
 
 export function prepareRandomBoardDataSimplified(
   boardName?: string,
@@ -14,7 +14,7 @@ export function prepareRandomBoardDataSimplified(
   // let boardDescription: string = '';
   // let randomBoardData: BoardDataModel = {};
 
-  const name: string = generateRandomBoardName(
+  const name: string = generateRandomLargeName(
     boardName,
     fake,
     numberCharacters,
@@ -29,7 +29,7 @@ export function prepareRandomBoardDataSimplified(
   //   boardName = `${faker.word.sample(numberCharacters)}`;
 
   // }
-  const desc: string = generateRandomBoardDescription(
+  const desc: string = generateRandomLargeDescription(
     description,
     fakeDesc,
     numberParagraphs,
