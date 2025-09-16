@@ -1,5 +1,5 @@
 import { returnBooleanValue } from '@_src/API/helpers/factories/data_generators/boolean_value_generator';
-import { generateRandomListName } from '@_src/API/helpers/factories/data_generators/names_data_generator';
+import { generateRandomSimpleName } from '@_src/API/helpers/factories/data_generators/names_data_generator';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 
 export function prepareRandomListDataSimplified(
@@ -16,7 +16,7 @@ export function prepareRandomListDataSimplified(
   //   ? `${name} - ${faker.word.sample()}`
   //   : faker.word.sample();
 
-  const name: string = generateRandomListName(listName);
+  const name: string = generateRandomSimpleName(listName);
 
   // Nullish operator usage "??"
 
