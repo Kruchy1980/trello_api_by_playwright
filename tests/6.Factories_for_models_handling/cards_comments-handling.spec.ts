@@ -136,7 +136,7 @@ test.describe('Cards comments handling - factories implementation', () => {
       '',
       '',
       '',
-      '',
+      undefined,
       false,
       'commentCard',
     );

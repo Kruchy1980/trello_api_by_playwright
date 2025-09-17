@@ -34,7 +34,7 @@ export function prepareParamsData(
     key,
     token,
     ...(idChecklist && { idChecklist }),
-    ...(name && customName !== undefined && { name }),
+    ...(name !== undefined && { name }),
     ...(state && { state }),
     ...(filter !== '' && { filter }),
     ...(fields !== '' && { fields }),

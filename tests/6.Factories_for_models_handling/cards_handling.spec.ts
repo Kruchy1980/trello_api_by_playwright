@@ -1,11 +1,11 @@
+import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
+import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
-import { prepareRandomCardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/cards-data.factory';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare factories for models handling
@@ -181,11 +181,12 @@ test.describe('Cards handling - factories implementation', () => {
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
+      // console.log(updatedCardParams);
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
@@ -237,13 +238,13 @@ test.describe('Cards handling - factories implementation', () => {
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
-
       // console.log(deletedCardParams);
+
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
         headers,
