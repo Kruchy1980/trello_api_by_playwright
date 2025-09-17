@@ -1,3 +1,4 @@
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
@@ -7,7 +8,6 @@ import { expect, test } from '@playwright/test';
 import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
 import { prepareRandomStickerData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/card_stickers-data.factory';
 import { prepareRandomCardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/cards-data.factory';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare factories for models handling
