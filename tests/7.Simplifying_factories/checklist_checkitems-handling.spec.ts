@@ -2,6 +2,7 @@ import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified
 import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
 import { prepareRandomChecklistDataSimplified } from '@_src/API/factories/simplified_factories/checklist-data.factory';
 import { prepareRandomCheckItemDataSimplified } from '@_src/API/factories/simplified_factories/checklist_checkitems-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
@@ -9,7 +10,6 @@ import { ChecklistCheckItemDataModel } from '@_src/API/models/checklist_checkite
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Make the models and factories simpler to use
@@ -191,13 +191,15 @@ test.describe('CheckItems on checklists handling - simplified factories', () => 
       const cardId = createdCardId;
       const checkItemToMoveId = createdCheckItemsIds[1];
       const expectedCheckItemStatus = 'complete';
-      const updateCheckItemParams: ParamsDataModel = prepareParamsData(
-        '',
-        '',
-        createdChecklistsIds[1],
-        'Task Completed',
-        true,
-      );
+      const updateCheckItemParams: ParamsDataModel =
+        prepareParamsDataSimplified(
+          '',
+          '',
+          createdChecklistsIds[1],
+          'Task Completed',
+          true,
+        );
+      // console.log(updateCheckItemParams);
 
       // Act: https://api.trello.com/1/checklists/${checklistIdFrom}/checkItems/${checkItemId}?idChecklist=${checklistIdTo}&key=APIKey&token=APIToken
       const response = await request.put(
