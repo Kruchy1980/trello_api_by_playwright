@@ -1,11 +1,11 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareRandomListDataSimplified } from '@_src/API/factories/simplified_factories/list-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare factories for models handling
@@ -114,20 +114,16 @@ test.describe('Lists handling - simplified factories', () => {
       const updatedListId = createdListsIds[1];
       const expectedStatusCode = 200;
 
-      // const getFieldParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'name',
-      // };
-      const getFieldParams: ParamsDataModel = prepareParamsData(
+      const getFieldParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name',
       );
+      // console.log(getFieldParams);
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/lists/${updatedListId}`, {
