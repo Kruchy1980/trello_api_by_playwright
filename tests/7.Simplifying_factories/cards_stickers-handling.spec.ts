@@ -1,13 +1,13 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareRandomStickerDataSimplified } from '@_src/API/factories/simplified_factories/card_stickers-data.factory';
 import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Make the models and factories simpler to use
@@ -157,15 +157,16 @@ test.describe('Cards stickers handling - simplified factories', () => {
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-      const stickerParams: ParamsDataModel = prepareParamsData(
+      const stickerParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'id,image,rotate',
       );
+      // console.log(stickerParams);
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
       const response = await request.get(
