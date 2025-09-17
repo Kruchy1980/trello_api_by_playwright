@@ -1,11 +1,11 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Make the models and factories simpler to use
@@ -122,15 +122,16 @@ test.describe('Cards handling - simplified factories', () => {
       // Arrange:
       const expectedStatusCode = 200;
 
-      const updatedCardParams: ParamsDataModel = prepareParamsData(
+      const updatedCardParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
+      // console.log(updatedCardParams);
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
@@ -173,15 +174,16 @@ test.describe('Cards handling - simplified factories', () => {
       // Arrange:
       const expectedStatusCode = 404;
       const expectedStatusText = 'Not Found';
-      const deletedCardParams: ParamsDataModel = prepareParamsData(
+      const deletedCardParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
+      // console.log(deletedCardParams);
 
       // console.log(deletedCardParams);
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
