@@ -123,10 +123,6 @@ test.describe('Cards comments handling - factories implementation', () => {
     const expectedStatusCode = 200;
     const expectedCardCommentText = createdCommentText;
 
-    // data = {
-    //   text: 'My first comment on a card',
-    // };
-
     // const commentCardParams: ParamsDataModel = {
     //   key: params.key,
     //   token: params.token,
@@ -136,10 +132,11 @@ test.describe('Cards comments handling - factories implementation', () => {
       '',
       '',
       '',
-      '',
+      undefined,
       false,
       'commentCard',
     );
+
     // console.log(commentCardParams);
 
     // Act: 'https://api.trello.com/1/cards/{id}/actions?key=APIKey&token=APIToken'
