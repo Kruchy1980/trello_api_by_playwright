@@ -1,5 +1,5 @@
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
@@ -165,10 +165,11 @@ test.describe('Boards handling - simplified factories', () => {
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
 
-    const incorrectParams: ParamsDataModel = prepareParamsData(
+    const incorrectParams: ParamsDataModel = prepareParamsDataSimplified(
       '',
       'sifnagehehwe',
     );
+    // console.log(incorrectParams);
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
