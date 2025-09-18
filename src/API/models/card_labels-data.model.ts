@@ -1,4 +1,4 @@
-// For Labels Created For Board
+//For Labels Created For Board
 export interface LabelDataModel {
   color: string;
   name: string;
@@ -13,12 +13,11 @@ export interface CardLabelDataModel {
 
 // For Adding Label To Card Only
 export interface LabelOperationsDataModel {
-  value?: string;
+  value: string;
 }
 
 // export interface LabelDataModelSimplified {
 //   color?: string;
 //   name?: string;
 //   idBoard?: string;
-//   value?: string;
 // }
