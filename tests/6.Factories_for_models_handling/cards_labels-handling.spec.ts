@@ -1,3 +1,10 @@
+import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
+import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
+import {
+  prepareOperationData,
+  prepareRandomBoardLabelData,
+  prepareRandomCardLabelData,
+} from '@_src/API/factories/cards_labels-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import {
@@ -7,13 +14,6 @@ import {
 } from '@_src/API/models/card_labels-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
-import { prepareRandomCardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/cards-data.factory';
-import {
-  prepareOperationData,
-  prepareRandomBoardLabelData,
-  prepareRandomCardLabelData,
-} from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/cards_labels-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare models for data generation

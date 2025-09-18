@@ -1,11 +1,11 @@
+import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
+import { prepareRandomListData } from '@_src/API/factories/list-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
-import { prepareRandomBoardData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/board-data.factory';
-import { prepareRandomListData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/list-data.factory';
-import { prepareParamsData } from 'future/7.Refactor_simplifying_factories/part_1_finished/factories/params-data.factory';
 
 // TODO: For refactoring
 // TODO: Prepare factories for models handling
