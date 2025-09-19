@@ -36,8 +36,8 @@ export function prepareRandomCheckItemDataSimplified(
   const checked: boolean = returnBooleanValue(status);
 
   const randomChecklistCheckItemData: ChecklistCheckItemDataModel = {
-    ...(name !== '' && { name }),
-    ...(pos !== undefined && { pos }),
+    ...(checkItemName !== undefined && { name }),
+    ...(pos !== '' && { pos }),
     ...(checked && { checked }),
     ...(due && { due }),
   };
