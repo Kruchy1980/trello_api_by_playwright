@@ -89,6 +89,7 @@ test.describe('Cards labels handling - simplified factories', () => {
       undefined,
       createdBoardId,
     );
+    // console.log(data);
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
     const response = await request.post(`/1/labels`, {
