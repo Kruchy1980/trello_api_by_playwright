@@ -46,8 +46,8 @@ export function prepareRandomCardDataSimplified(
   // Solution IV Spread operators and create returned object
   const randomCardData: CardDataModel = {
     ...(idList !== undefined && idList !== '' && { idList }),
-    ...(name !== undefined && { name: cardName }),
-    ...(desc !== undefined && { desc: cardDescription }),
+    ...(cardName !== undefined && { name }),
+    ...(cardDescription !== undefined && { desc }),
     ...(pos !== undefined && pos !== '' && { pos }),
     ...(due && { due }),
   };
