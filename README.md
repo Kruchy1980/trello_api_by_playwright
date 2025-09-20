@@ -47,6 +47,12 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
    `npm i prettier @trivago/prettier-plugin-sort-imports --save-dev`
 5. (Optional) Faker installation: `npm i @faker-js/faker --save-dev`
 
+## Useful links for faker-js
+
+1. NPM faker-js documentation: _<https://www.npmjs.com/package/@faker-js/faker>_
+2. Faker documentation: _<https://fakerjs.dev/guide/>_
+3. Faker API documentation: _<https://fakerjs.dev/api/>_
+
 ## VSCode Functions
 
 - Preview for .md files: <kbd>Shift</kbd> + <kbd>Ctrl</kbd> + <kbd>V</kbd>
@@ -94,10 +100,12 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 │ └─── **API** <-- sub folder which contains all additional helpers for API Tests
 │ └─── **utils** <-- sub-sub folder which contains utils for API tests
 | ├─── **models** <-- sub-sub-folder which contains models for used data in tests
+| ├─── **factories** <-- sub-sub-folder which contains factories for models handling
 └─── **tests** <-- folder with tests
 | ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
 | └─── **3.Refactoring-hooks_usage-independent** <-- folder with independent tests
 | ├─── **4.Refactor_removing_query_params** <-- Tests with removed query params from endpoints
 | └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models
+| └─── **6.Factories_for_models_handling** <-- factories for data preparation and implementation - part 2
 ```
