@@ -4,7 +4,7 @@ import { returnStringValue } from '@_src/API/helpers/factories/data_generators/v
 import {
   LabelDataModelSimplified,
   LabelOperationsDataModelSimplified,
-} from '@_src/API/models/card_label_new_version_model.ts/card_label_model_simplified';
+} from '@_src/API/models/card_label_new_version_model/card_label_model_simplified';
 
 // // For Labels Created For Board
 // export interface LabelDataModel {
