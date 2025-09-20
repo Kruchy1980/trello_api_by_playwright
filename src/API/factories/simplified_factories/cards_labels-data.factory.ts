@@ -51,7 +51,7 @@ export function prepareRandomLabelDataSimplified(
 
   const randomBoardLabelData: LabelDataModelSimplified = {
     ...(color && { color }),
-    ...(name && { name }),
+    ...(labelName !== undefined && { name }),
     ...(idBoard !== '' && { idBoard }),
   };
 

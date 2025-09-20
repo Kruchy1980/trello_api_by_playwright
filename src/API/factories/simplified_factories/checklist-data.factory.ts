@@ -40,9 +40,9 @@ export function prepareRandomChecklistDataSimplified(
 
   const newChecklistData: ChecklistDataModel = {
     ...(idCard !== '' && { idCard }),
-    ...(name !== '' && { name }),
+    ...(checklistName !== undefined && { name }),
     ...(pos !== '' && { pos }),
-    ...(value !== '' && { value }),
+    ...(dynamicValue !== undefined && { value }),
   };
 
   return newChecklistData;
