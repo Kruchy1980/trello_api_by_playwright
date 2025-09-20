@@ -12,25 +12,13 @@ export function prepareRandomCheckItemDataSimplified(
   position?: string | number,
   status?: boolean,
 ): ChecklistCheckItemDataModel {
-  // const name: string =
-  //   checkItemName !== ''
-  //     ? `${checkItemName} - ${faker.lorem.words(checkItemNameLength ?? 1)}`
-  //     : checkItemName === ''
-  //       ? faker.lorem.words(checkItemNameLength ?? 1)
-  //       : '';
   const name: string = generateExtendableName(
     checkItemName,
     checkItemNameLength,
   );
 
-  // const pos: string | number | undefined = position ? position : undefined;
   const pos: string | number = returnProperValue(position);
 
-  // const due: string = dueDate
-  //   ? new Date(
-  //       new Date().setDate(new Date().getDate() + (days ?? 0)),
-  //     ).toISOString()
-  //   : '';
   const due: string = generateRandomStringDate(dueDate, days);
 
   const checked: boolean = returnBooleanValue(status);

@@ -14,25 +14,12 @@ export function prepareRandomChecklistDataSimplified(
   dynamicValue?: string,
   sentencesLength?: number,
 ): ChecklistDataModel {
-  // const idCard: string = cardId ? cardId : '';
   const idCard: string = returnStringValue(cardId);
 
-  // const name: string =
-  //   checklistName && checklistName !== ''
-  //     ? `${checklistName} - ${faker.lorem.words(titleLength ?? 1)}`
-  //     : checklistName === ''
-  //       ? faker.lorem.words(titleLength ?? 1)
-  //       : '';
   const name: string = generateExtendableName(checklistName, titleLength);
 
   const pos: string | number = returnProperValue(position);
 
-  // const value: string =
-  //   dynamicValue && dynamicValue !== ''
-  //     ? `${dynamicValue} - ${faker.lorem.sentences(sentencesLength ?? 1)}`
-  //     : dynamicValue
-  //       ? faker.lorem.sentences(sentencesLength ?? 1)
-  //       : '';
   const value: string = generateExtendableDescription(
     dynamicValue,
     sentencesLength,
