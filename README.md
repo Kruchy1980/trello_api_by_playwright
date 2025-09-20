@@ -100,6 +100,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 │ └─── **API** <-- sub folder which contains all additional helpers for API Tests
 │ └─── **utils** <-- sub-sub folder which contains utils for API tests
 | ├─── **models** <-- sub-sub-folder which contains models for used data in tests
+  ├─── **factories** <-- sub-sub-folder which contains factories for models handling
 └─── **tests** <-- folder with tests
 | ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
