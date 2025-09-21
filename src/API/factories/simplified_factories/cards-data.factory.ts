@@ -48,7 +48,7 @@ export function prepareRandomCardDataSimplified(
     ...(idList !== undefined && idList !== '' && { idList }),
     ...(cardName !== undefined && { name }),
     ...(cardDescription !== undefined && { desc }),
-    ...(pos !== undefined && pos !== '' && { pos }),
+    ...(pos !== '' && { pos }),
     ...(due && { due }),
   };
 
