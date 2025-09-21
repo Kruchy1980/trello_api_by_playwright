@@ -25,6 +25,7 @@ export function prepareRandomChecklistDataSimplified(
   //       : '';
   const name: string = generateExtendableName(checklistName, titleLength);
 
+  // const pos: string | number | undefined = position ? position : '';
   const pos: string | number = returnProperValue(position);
 
   // const value: string =
