@@ -14,7 +14,7 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards comments handling - simplified factories', () => {
+test.describe('Cards comments handling - destructured', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
