@@ -33,7 +33,7 @@ test.describe('Lists handling - destructured', () => {
     // Destructuring responseJSON object
     const { id: actualBoardId } = responseJSON;
     // Before destructuring
-    createdBoardId = responseJSON.id;
+    // createdBoardId = responseJSON.id;
     // After destructuring
     createdBoardId = actualBoardId;
   });
@@ -50,7 +50,7 @@ test.describe('Lists handling - destructured', () => {
         'top',
       );
       // console.log('Create:', data);
-      // Destructuring data objecgt
+      // Destructuring data object
       const { name: expectedListName } = data;
 
       // Act: 'https://api.trello.com/1/lists?name={name}&idBoard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
