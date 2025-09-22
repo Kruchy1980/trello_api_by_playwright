@@ -104,7 +104,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 │ ├─── **helpers** <-- methods/functions for simplifying factories
 │ │ └─── **factories** <-- sub folder which collects data-generAtors and helper functions | | for factories simplifying
 │ │ ├─── **data_generators** <-- sub folder with data generators used in factories
-│ │ └─── **helper_functions** <-- sub folder which contains any helper functions
+│ │ └─── **helper_functions** <-- sub folder which contains used helper functions
 └─── **tests** <-- folder with tests
 | ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
