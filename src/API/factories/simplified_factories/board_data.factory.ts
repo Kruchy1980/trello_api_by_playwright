@@ -1,5 +1,5 @@
-import { generateRandomLargeDescription } from '@_src/API/factories/helpers/factories/data_generators/descriptions_data_generator';
-import { generateRandomLargeName } from '@_src/API/factories/helpers/factories/data_generators/names_data_generator';
+import { generateRandomLargeDescription } from '@_src/API/helpers/factories/data_generators/descriptions_data_generator';
+import { generateRandomLargeName } from '@_src/API/helpers/factories/data_generators/names_data_generator';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 
 export function prepareRandomBoardDataSimplified(

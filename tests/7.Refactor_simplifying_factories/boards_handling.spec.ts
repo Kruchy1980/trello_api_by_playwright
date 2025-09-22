@@ -1,4 +1,4 @@
-import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board_data.factory';
 import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
