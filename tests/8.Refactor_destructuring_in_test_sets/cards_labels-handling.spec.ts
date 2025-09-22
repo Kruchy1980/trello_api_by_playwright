@@ -85,7 +85,12 @@ test.describe('Cards labels handling - destructured', () => {
         });
         const responseJSON = await response.json();
         // console.log(responseJSON);
-        createdCardsIds.push(responseJSON.id);
+        // Destructuring response JSON object
+        const { id: actualCardId } = responseJSON;
+        // Before Destructuring
+        // createdCardsIds.push(responseJSON.id);
+        // After Destructuring
+        createdCardsIds.push(actualCardId);
       }
     },
   );

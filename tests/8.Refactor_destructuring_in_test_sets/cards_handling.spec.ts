@@ -52,7 +52,7 @@ test.describe('Cards handling - destructured', () => {
       // Before destructuring
       // responseListsIdsJSON.forEach((listId: { id: string }) => {
       //   createdListsIds.push(listId.id);
-      // After destructuring - destructurization inside loop
+      // After destructuring - destructuring inside loop
       responseGetListsJSON.forEach(({ id }: { id: string }) => {
         createdListsIds.push(id);
       });

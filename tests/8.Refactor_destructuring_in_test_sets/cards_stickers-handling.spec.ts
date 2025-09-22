@@ -84,11 +84,11 @@ test.describe('Cards stickers handling - destructured', () => {
         const responseJSON = await response.json();
         // console.log(responseJSON);
         // Destructuring JSON
-        const { id: expectedCardId } = responseJSON;
+        const { id: actualCardId } = responseJSON;
         //Before destructuring
         // createdCardsIds.push(responseJSON.id);
         //Before destructuring
-        createdCardsIds.push(expectedCardId);
+        createdCardsIds.push(actualCardId);
       }
     },
   );

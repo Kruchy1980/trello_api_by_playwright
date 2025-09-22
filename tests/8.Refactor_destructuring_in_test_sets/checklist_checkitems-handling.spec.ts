@@ -107,11 +107,11 @@ test.describe('CheckItems on checklists handling - destructured', () => {
         const responseJSON = await response.json();
         // console.log(responseJSON);
         // Destructuring JSON response object
-        const { id: expectedChecklistId } = responseJSON;
+        const { id: actualChecklistId } = responseJSON;
         // Before destructuring
         // createdChecklistsIds.push(responseJSON.id);
         // After destructuring
-        createdChecklistsIds.push(expectedChecklistId);
+        createdChecklistsIds.push(actualChecklistId);
       }
     },
   );
