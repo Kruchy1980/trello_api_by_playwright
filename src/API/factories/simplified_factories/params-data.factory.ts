@@ -6,7 +6,6 @@ import {
   returnStringValue,
 } from '@_src/API/helpers/factories/data_generators/values_generator';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
-// import { faker } from '@faker-js/faker';
 
 export function prepareParamsDataSimplified(
   customKey: string,
@@ -17,30 +16,18 @@ export function prepareParamsDataSimplified(
   filtersValues?: string,
   fieldsValues?: string,
 ): ParamsDataModel {
-  // const key: string = customKey ? customKey : params.key;
   const key: string = returnAuthKeyValue(customKey);
 
-  // const token: string = customToken ? customToken : params.token;
   const token: string = returnAuthTokenValue(customToken);
 
-  // const idChecklist: string = idValue ? idValue : '';
   const idChecklist: string = returnStringValue(idValue);
 
-  // const name: string =
-  //   customName !== ''
-  //     ? `${customName} - ${faker.lorem.words()}`
-  //     : customName === ''
-  //       ? faker.lorem.words()
-  //       : '';
   const name: string = generateExtendableName(customName);
 
-  // const state: boolean = status ? status : false;
   const state: boolean = returnBooleanValue(status);
 
-  // const filter: string = filtersValues ? filtersValues : '';
   const filter: string = returnStringValue(filtersValues);
 
-  // const fields: string = fieldsValues ? fieldsValues : '';
   const fields: string = returnStringValue(fieldsValues);
 
   const paramsData: ParamsDataModel = {
