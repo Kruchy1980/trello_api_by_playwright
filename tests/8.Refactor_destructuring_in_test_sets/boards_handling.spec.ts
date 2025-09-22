@@ -39,7 +39,6 @@ test.describe('Boards handling - destructured', () => {
     // Before Destructuring
     // createdBoardId = responseJSON.id;
     // After destructuring
-    createdBoardId = actualBoardId;
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON).toHaveProperty('id');
@@ -47,7 +46,8 @@ test.describe('Boards handling - destructured', () => {
     expect(actualBoardName).toContain(expectedBoardName);
     // const actualBoardDescription = responseJSON.desc;
     expect(actualBoardDescription).toContain(expectedBoardDescription);
-    // Add name of board to variable
+    // === Pass proper values to proper variables
+    createdBoardId = actualBoardId;
     boardName = expectedBoardName;
     boardDescription = expectedBoardDescription;
   });

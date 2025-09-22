@@ -31,11 +31,11 @@ test.describe('Cards handling - destructured', () => {
       const responseJSON = await response.json();
       // console.log(responseJSON);
       // Destructuring responseJSON object
-      const { id: expectedBoardId } = responseJSON;
+      const { id: actualBoardId } = responseJSON;
       // Before Destructuring
       // createdBoardId = responseJSON.id;
       // Before Destructuring
-      createdBoardId = expectedBoardId;
+      createdBoardId = actualBoardId;
 
       // Collecting lists
       // Arrange:
@@ -52,7 +52,7 @@ test.describe('Cards handling - destructured', () => {
       // Before destructuring
       // responseListsIdsJSON.forEach((listId: { id: string }) => {
       //   createdListsIds.push(listId.id);
-      // After destructuring - destructuring inside loop
+      // After destructuring - destructurization inside loop
       responseGetListsJSON.forEach(({ id }: { id: string }) => {
         createdListsIds.push(id);
       });
