@@ -36,11 +36,11 @@ test.describe('Cards stickers handling - destructured', () => {
       const responseJSON = await response.json();
       // console.log(responseJSON);
       // Destructuring responseJSON object
-      const { id: expectedBoardId } = responseJSON;
+      const { id: actualBoardId } = responseJSON;
       // Before Destructuring
       // createdBoardId = responseJSON.id;
       // Before Destructuring
-      createdBoardId = expectedBoardId;
+      createdBoardId = actualBoardId;
 
       // Collect lists Id's
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -84,11 +84,11 @@ test.describe('Cards stickers handling - destructured', () => {
         const responseJSON = await response.json();
         // console.log(responseJSON);
         // Destructuring JSON
-        const { id: expectedCardId } = responseJSON;
+        const { id: actualCardId } = responseJSON;
         //Before destructuring
         // createdCardsIds.push(responseJSON.id);
         //Before destructuring
-        createdCardsIds.push(expectedCardId);
+        createdCardsIds.push(actualCardId);
       }
     },
   );

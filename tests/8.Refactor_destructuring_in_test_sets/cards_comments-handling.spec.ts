@@ -82,12 +82,12 @@ test.describe('Cards comments handling - destructured', () => {
       const responseCardCreationJSON = await responseCardCreation.json();
       // console.log(responseJSON);
       // Destructuring responseJSON
-      const { id: expectedCardId } = responseCardCreationJSON;
+      const { id: actualCardId } = responseCardCreationJSON;
       // === Value to variable Assigning ===
       // Before Destructuring
       // createdCardId = responseCardCreationJSON.id;
       // After Destructuring
-      createdCardId = expectedCardId;
+      createdCardId = actualCardId;
     },
   );
   test.beforeEach('Create a new comment on a card', async ({ request }) => {

@@ -37,11 +37,11 @@ test.describe('CheckItems on checklists handling - destructured', () => {
       const responseJSON = await response.json();
       // console.log(responseJSON);
       // Destructuring responseJSON object
-      const { id: expectedBoardId } = responseJSON;
+      const { id: actualBoardId } = responseJSON;
       // Before Destructuring
       // createdBoardId = responseJSON.id;
       // Before Destructuring
-      createdBoardId = expectedBoardId;
+      createdBoardId = actualBoardId;
 
       // Collect lists Id's
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -107,11 +107,11 @@ test.describe('CheckItems on checklists handling - destructured', () => {
         const responseJSON = await response.json();
         // console.log(responseJSON);
         // Destructuring JSON response object
-        const { id: expectedChecklistId } = responseJSON;
+        const { id: actualChecklistId } = responseJSON;
         // Before destructuring
         // createdChecklistsIds.push(responseJSON.id);
         // After destructuring
-        createdChecklistsIds.push(expectedChecklistId);
+        createdChecklistsIds.push(actualChecklistId);
       }
     },
   );
