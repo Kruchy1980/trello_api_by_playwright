@@ -1,5 +1,5 @@
 export interface ChecklistCheckItemDataModel {
-  name: string;
+  name?: string;
   pos?: string | number;
   checked?: boolean;
   due?: string;
