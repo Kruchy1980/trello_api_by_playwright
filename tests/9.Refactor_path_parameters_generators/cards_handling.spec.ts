@@ -49,6 +49,7 @@ test.describe('Cards handling - path_generators', () => {
         createdBoardId,
         'lists',
       );
+      // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
       // const responseListsIds = await request.get(
       //   `/1/boards/${createdBoardId}/lists`,
       //   {
