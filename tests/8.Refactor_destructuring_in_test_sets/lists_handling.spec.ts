@@ -1,6 +1,6 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomListData } from '@_src/API/factories/list-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomListDataSimplified } from '@_src/API/factories/simplified_factories/list-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
@@ -8,21 +8,17 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare factories for models handling
+// TODO: Improve tests by destructuring objects
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Lists handling - factories implementation', () => {
+test.describe('Lists handling - destructured', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let data: ListDataModel;
   test.beforeAll('Board preparation', async ({ request }) => {
-    // Arrange:
-    // const data: BoardDataModel = {
-    //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-    // };
-    const data: BoardDataModel = prepareRandomBoardData(
+    const data: BoardDataModel = prepareRandomBoardDataSimplified(
       'New Board',
       true,
       undefined,
@@ -34,7 +30,12 @@ test.describe('Lists handling - factories implementation', () => {
     const response = await request.post(`/1/boards`, { headers, params, data });
     const responseJSON = await response.json();
     // console.log(responseJSON);
+    // Destructuring responseJSON object
+    const { id: actualBoardId } = responseJSON;
+    // Before destructuring
     createdBoardId = responseJSON.id;
+    // After destructuring
+    createdBoardId = actualBoardId;
   });
 
   test.beforeEach(
@@ -42,17 +43,15 @@ test.describe('Lists handling - factories implementation', () => {
     async ({ request }) => {
       // Arrange:
       const expectedStatusCode = 200;
-      // const data: ListDataModel = {
-      //   name: 'My first list name',
-      //   pos: 'top',
-      //   idBoard: createdBoardId,
-      // };
-      const data: ListDataModel = prepareRandomListData(
+
+      const data: ListDataModel = prepareRandomListDataSimplified(
         createdBoardId,
         'List Name',
         'top',
       );
       // console.log('Create:', data);
+      // Destructuring data objecgt
+      const { name: expectedListName } = data;
 
       // Act: 'https://api.trello.com/1/lists?name={name}&idBoard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
       const response = await request.post(`/1/lists`, {
@@ -62,11 +61,18 @@ test.describe('Lists handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const { name: actualListName } = responseJSON;
 
       // Assert:
+      // Before destructing
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualListName = responseJSON.name;
+      // expect(actualListName).toContain(data.name);
+      // After destructing
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualListName = responseJSON.name;
-      expect(actualListName).toContain(data.name);
+      // const actualListName = responseJSON.name;
+      expect(actualListName).toContain(expectedListName);
 
       // Collect lists ids and push to variable
       // Arrange:
@@ -81,12 +87,17 @@ test.describe('Lists handling - factories implementation', () => {
         },
       );
       const responseGetListsIdsJSON = await responseGetListsIds.json();
-      // console.log(responseJSON);
-      responseGetListsIdsJSON.forEach((listId: { id: string }) => {
-        createdListsIds.push(listId.id);
+      // console.log('Collecting Lists Ids', responseListsIdsJSON);
+      // Before destructuring
+      // responseListsIdsJSON.forEach((listId: { id: string }) => {
+      //   createdListsIds.push(listId.id);
+      // After destructuring - destructure inside loop
+      responseGetListsIdsJSON.forEach(({ id }: { id: string }) => {
+        createdListsIds.push(id);
       });
 
-      // Assert:
+      // Assert: - no possible to destructuring object to verify its elements quantity
+      // no destructuring needed for that assertion
       expect(response.status()).toEqual(expectedStatusCode);
       const actualListQuantity = responseGetListsIdsJSON.length;
       expect(actualListQuantity).toBeGreaterThan(expectedListsQuantity);
@@ -98,8 +109,10 @@ test.describe('Lists handling - factories implementation', () => {
       // Arrange:
       const listForUpdateId = createdListsIds[1];
       const expectedStatusCode = 200;
-      data = prepareRandomListData(undefined, '');
+      data = prepareRandomListDataSimplified(undefined, '');
       // console.log('Update:', data);
+      // Destructuring data object
+      const { name: expectedUpdatedListName } = data;
 
       // Act: ('https://api.trello.com/1/lists/{id}/{field}?key=APIKey&token=APIToken'
       const response = await request.put(`/1/lists/${listForUpdateId}`, {
@@ -109,33 +122,40 @@ test.describe('Lists handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const { id: actualListId, name: actualListName } = responseJSON;
 
       // Assert:
+      // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualListId = responseJSON.id;
+      // expect(actualListId).toContain(listForUpdateId);
+      // const actualListName = responseJSON.name;
+      // expect(actualListName).toContain(data.name);
+      // After destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualListId = responseJSON.id;
+      // const actualListId = responseJSON.id;
       expect(actualListId).toContain(listForUpdateId);
-      const actualListName = responseJSON.name;
-      expect(actualListName).toContain(data.name);
+      // const actualListName = responseJSON.name;
+      expect(actualListName).toContain(expectedUpdatedListName);
     });
     await test.step('1.2 Should get a list field', async () => {
       // Arrange:
       const updatedListId = createdListsIds[1];
       const expectedStatusCode = 200;
 
-      // const getFieldParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'name',
-      // };
-      const getFieldParams: ParamsDataModel = prepareParamsData(
+      const getFieldParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name',
       );
+      // console.log(getFieldParams);
+      // Destructuring globally/script visible data object
+      const { name: expectedUpdatedListName } = data;
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/lists/${updatedListId}`, {
@@ -144,13 +164,22 @@ test.describe('Lists handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const { id: actualListId, name: actualListName } = responseJSON;
 
       // Assert:
+      // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualListId = responseJSON.id;
+      // expect(actualListId).toContain(updatedListId);
+      // const actualListName = responseJSON.name;
+      // expect(actualListName).toContain(data.name);
+      // After destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualListId = responseJSON.id;
+      // const actualListId = responseJSON.id;
       expect(actualListId).toContain(updatedListId);
-      const actualListName = responseJSON.name;
-      expect(actualListName).toContain(data.name);
+      // const actualListName = responseJSON.name;
+      expect(actualListName).toContain(expectedUpdatedListName);
     });
   });
   test('2. Archive list and verify whether exists', async ({ request }) => {
@@ -162,34 +191,15 @@ test.describe('Lists handling - factories implementation', () => {
       // const data: ListDataModel = {
       //   closed: true,
       // };
-      const data: ListDataModel = prepareRandomListData(
+      const data: ListDataModel = prepareRandomListDataSimplified(
         undefined,
         undefined,
         undefined,
         true,
       );
       // console.log(data);
-
-      // console.log(
-      //   '4 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top', true),
-      // );
-      // console.log(
-      //   '3 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top', false),
-      // );
-      // console.log(
-      //   '3 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top'),
-      // );
-      // console.log('2 params', prepareRandomListData(createdBoardId, 'Name'));
-      // console.log('1 params', prepareRandomListData(undefined, 'Name'));
-      // console.log('1 params', prepareRandomListData(undefined, undefined));
-      // console.log('1 params', prepareRandomListData(undefined, ''));
-      // console.log(
-      //   '1 params',
-      //   prepareRandomListData(undefined, undefined, undefined, true),
-      // );
+      // Destructuring data object
+      const { closed: expectedListStatus } = data;
 
       // Act: 'https://api.trello.com/1/lists/{id}/closed?key=APIKey&token=APIToken'
       const response = await request.put(`/1/lists/${listForArchiveId}`, {
@@ -199,13 +209,22 @@ test.describe('Lists handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const { id: actualListId, closed: actualListStatus } = responseJSON;
 
       // Assert:
+      // // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualListId = responseJSON.id;
+      // expect(actualListId).toEqual(listForArchiveId);
+      // const actualListStatus = responseJSON.closed;
+      // expect(actualListStatus).toEqual(data.closed);
+      // After destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualListId = responseJSON.id;
+      // const actualListId = responseJSON.id;
       expect(actualListId).toEqual(listForArchiveId);
-      const actualListStatus = responseJSON.closed;
-      expect(actualListStatus).toEqual(data.closed);
+      // const actualListStatus = responseJSON.closed;
+      expect(actualListStatus).toEqual(expectedListStatus);
     });
     await test.step('2.2 Should get archived list', async () => {
       // Arrange:
@@ -221,14 +240,29 @@ test.describe('Lists handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const {
+        id: actualListId,
+        closed: actualListStatus,
+        name: actualListName,
+      } = responseJSON;
 
       // Assert:
+      // // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualListId = responseJSON.id;
+      // expect(actualListId).toEqual(listForArchiveId);
+      // const actualListStatus = responseJSON.closed;
+      // expect(actualListStatus).toEqual(expectedListStatus);
+      // const actualListName = responseJSON.name;
+      // expect(actualListName).toEqual(expectedListName);
+      // Before destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualListId = responseJSON.id;
+      // const actualListId = responseJSON.id;
       expect(actualListId).toEqual(listForArchiveId);
-      const actualListStatus = responseJSON.closed;
+      // const actualListStatus = responseJSON.closed;
       expect(actualListStatus).toEqual(expectedListStatus);
-      const actualListName = responseJSON.name;
+      // const actualListName = responseJSON.name;
       expect(actualListName).toEqual(expectedListName);
     });
   });
@@ -237,16 +271,15 @@ test.describe('Lists handling - factories implementation', () => {
     // Arrange:
     const listForUpdateId = createdListsIds[createdListsIds.length - 1];
     const expectedStatusCode = 200;
-    // const data: ListDataModel = {
-    //   name: 'Tasks with the highest priority',
-    //   pos: 'top',
-    // };
-    const data: ListDataModel = prepareRandomListData(
+
+    const data: ListDataModel = prepareRandomListDataSimplified(
       undefined,
       'Updated:',
       'top',
     );
     // console.log('update:', data);
+    // Destructuring data object
+    const { name: expectedListNameAfterUpdate } = data;
 
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
     const response = await request.put(`/1/lists/${listForUpdateId}`, {
@@ -256,13 +289,22 @@ test.describe('Lists handling - factories implementation', () => {
     });
     const responseJSON = await response.json();
     // console.log(responseJSON);
+    // Destructuuring responseJSON object
+    const { id: actualListId, name: actualListName } = responseJSON;
 
     // Assert:
+    // // Before Destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // const actualListId = responseJSON.id;
+    // expect(actualListId).toEqual(listForUpdateId);
+    // const actualListName = responseJSON.name;
+    // expect(actualListName).toEqual(data.name);
+    // After Destructuring
     expect(response.status()).toEqual(expectedStatusCode);
-    const actualListId = responseJSON.id;
+    // const actualListId = responseJSON.id;
     expect(actualListId).toEqual(listForUpdateId);
-    const actualListName = responseJSON.name;
-    expect(actualListName).toEqual(data.name);
+    // const actualListName = responseJSON.name;
+    expect(actualListName).toEqual(expectedListNameAfterUpdate);
   });
   test.afterAll('Delete a board', async ({ request }) => {
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'

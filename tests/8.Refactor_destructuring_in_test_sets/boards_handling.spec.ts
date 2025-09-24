@@ -1,53 +1,59 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Prepare factories for models handling
-// TODO: Make the models and factories simpler to use
+// TODO: Improve tests by destructuring objects
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Boards handling - factories implementation', () => {
+test.describe('Boards handling - destructured', () => {
   let createdBoardId: string;
-  let boardName: string;
+  let boardName: string | undefined;
   let boardDescription: string | undefined;
 
   test.beforeAll('Board preparation', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
 
-    // const data: BoardDataModel = {
-    //   name: faker.lorem.words(2),
-    //   desc: 'My first Board description',
-    // };
-    const data: BoardDataModel = prepareRandomBoardData();
-    // console.log(data);
+    const data: BoardDataModel = prepareRandomBoardDataSimplified();
+    // console.log('Board data preparation:', data);
+    // Destructuring
+    const { name: expectedBoardName, desc: expectedBoardDescription } = data;
+    // console.log(expectedBoardName, expectedBoardDescription);
 
     // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
     const response = await request.post(`/1/boards`, { headers, params, data });
     const responseJSON = await response.json();
-    // console.log(responseJSON);
-    createdBoardId = responseJSON.id;
+    // console.log('Board response Json:', responseJSON);
+    // JSON Destructuring:
+    const {
+      id: actualBoardId,
+      name: actualBoardName,
+      desc: actualBoardDescription,
+    } = responseJSON;
+    // console.log(actualBoardId, actualBoardName, actualBoardDescription);
+    // Before Destructuring
+    // createdBoardId = responseJSON.id;
+    // After destructuring
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON).toHaveProperty('id');
-    const actualBoardName = responseJSON.name;
-    expect(actualBoardName).toContain(data.name);
-    const actualBoardDescription = responseJSON.desc;
-    expect(actualBoardDescription).toContain(data.desc);
-    // Add name of board to variable
-    boardName = actualBoardName;
-    boardDescription = data.desc;
+    // const actualBoardName = responseJSON.name;
+    expect(actualBoardName).toContain(expectedBoardName);
+    // const actualBoardDescription = responseJSON.desc;
+    expect(actualBoardDescription).toContain(expectedBoardDescription);
+    // === Pass proper values to proper variables
+    createdBoardId = actualBoardId;
+    boardName = expectedBoardName;
+    boardDescription = expectedBoardDescription;
   });
   test('1. Should get a board', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
-    // const expectedBoardName = boardName;
-    // const expectedBoardDescription = 'My first Board description';
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
@@ -56,15 +62,21 @@ test.describe('Boards handling - factories implementation', () => {
     });
     const responseJSON = await response.json();
     // console.log(responseJSON);
+    // Destructuring
+    const {
+      id: actualBoardId,
+      name: actualBoardName,
+      desc: actualBoardDescription,
+    } = responseJSON;
 
     // Assert:
     expect(response.status()).toEqual(expectedStatusCode);
-
-    const actualBoardId = responseJSON.id;
+    // After destructuring
+    // const actualBoardId = responseJSON.id;
     expect(actualBoardId).toContain(createdBoardId);
-    const actualBoardName = responseJSON.name;
+    // const actualBoardName = responseJSON.name;
     expect(actualBoardName).toContain(boardName);
-    const actualBoardDescription = responseJSON.desc;
+    // const actualBoardDescription = responseJSON.desc;
     expect(actualBoardDescription).toContain(boardDescription);
   });
 
@@ -77,11 +89,7 @@ test.describe('Boards handling - factories implementation', () => {
         const expectedBoardId = createdBoardId;
         const expectedStatusCode = 200;
 
-        // const data: BoardDataModel = {
-        //   name: 'Updated Board name',
-        //   desc: 'Updated Board description',
-        // };
-        const data: BoardDataModel = prepareRandomBoardData(
+        const data: BoardDataModel = prepareRandomBoardDataSimplified(
           'Updated Board name',
           true,
           4,
@@ -90,6 +98,8 @@ test.describe('Boards handling - factories implementation', () => {
           5,
         );
         // console.log(data);
+        const { name: expectedBoardName, desc: expectedBoardDescription } =
+          data;
 
         // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
         const response = await request.put(`/1/boards/${expectedBoardId}`, {
@@ -99,23 +109,31 @@ test.describe('Boards handling - factories implementation', () => {
         });
         const responseJSON = await response.json();
         // console.log(responseJSON);
+        // Destructuring JSON
+        const {
+          id: actualBoardId,
+          name: actualBoardName,
+          desc: actualBoardDescription,
+        } = responseJSON;
 
         // Assert:
         expect(response.status()).toEqual(expectedStatusCode);
-
-        const actualBoardId = responseJSON.id;
+        // After Destructuring
+        // const actualBoardId = responseJSON.id;
         expect(actualBoardId).toContain(expectedBoardId);
-        const actualBoardName = responseJSON.name;
-        expect(actualBoardName).toContain(data.name);
-        const actualBoardDescription = responseJSON.desc;
-        expect(actualBoardDescription).toContain(data.desc);
+        // const actualBoardName = responseJSON.name;
+        expect(actualBoardName).toContain(expectedBoardName);
+        // const actualBoardDescription = responseJSON.desc;
+        expect(actualBoardDescription).toContain(expectedBoardDescription);
         // Add name of board to variable
-        return data;
+        // Before destructuring
+        // return data;
+        // After destructuring
+        return expectedBoardName;
       });
     await test.step('2.2 Should get a field from board', async () => {
       // Arrange:
       const expectedStatusCode = 200;
-      // const updatedBoardName = boardName;
 
       // Act: 'https://api.trello.com/1/boards/{id}/{field}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/boards/${createdBoardId}/name`, {
@@ -124,12 +142,16 @@ test.describe('Boards handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring JSON
+      const { _value: actualBoardName } = responseJSON;
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
-
-      const actualBoardName = responseJSON._value;
-      expect(actualBoardName).toContain(updatedBoardData.name);
+      // const actualBoardName = responseJSON._value;
+      // expect(actualBoardName).toContain(updatedBoardData.name);
+      // After destructuring
+      // const actualBoardName = responseJSON._value;
+      expect(actualBoardName).toContain(updatedBoardData);
     });
   });
 
@@ -146,11 +168,16 @@ test.describe('Boards handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring JSON
+      const { _value: actualResponseValue } = responseJSON;
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
-
-      const actualResponseValue = responseJSON._value;
+      // Before destructuring
+      // const actualResponseValue = responseJSON._value;
+      // expect(actualResponseValue).toEqual(expectedResponseValue);
+      // After destructuring
+      // const actualResponseValue = responseJSON._value;
       expect(actualResponseValue).toEqual(expectedResponseValue);
     });
     await test.step('3.2 (NP) Should NOT get a deleted board', async () => {
@@ -177,11 +204,10 @@ test.describe('Boards handling - factories implementation', () => {
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
 
-    // const incorrectParams: ParamsDataModel = {
-    //   key: 'poisfbnzpoib',
-    //   token: params.token,
-    // };
-    const incorrectParams: ParamsDataModel = prepareParamsData('', 'asefawfwf');
+    const incorrectParams: ParamsDataModel = prepareParamsDataSimplified(
+      '',
+      'sifnagehehwe',
+    );
     // console.log(incorrectParams);
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
