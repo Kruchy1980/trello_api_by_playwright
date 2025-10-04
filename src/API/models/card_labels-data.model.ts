@@ -13,7 +13,7 @@ export interface CardLabelDataModel {
 
 // For Adding Label To Card Only
 export interface LabelOperationsDataModel {
-  value?: string;
+  value: string;
 }
 
 // export interface LabelDataModelSimplified {
