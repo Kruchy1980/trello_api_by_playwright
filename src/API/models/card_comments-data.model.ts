@@ -1,3 +1,3 @@
 export interface CardCommentDataModel {
-  text?: string;
+  text: string;
 }
