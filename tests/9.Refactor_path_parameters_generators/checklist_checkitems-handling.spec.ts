@@ -255,6 +255,7 @@ test.describe('CheckItems on checklists handling - path_generators', () => {
         'checkItem',
         checkItemToMoveId,
       );
+      // console.log(updateAndMoveCheckItemUrl);
       const updateCheckItemParams: ParamsDataModel =
         prepareParamsDataSimplified(
           '',
@@ -277,6 +278,7 @@ test.describe('CheckItems on checklists handling - path_generators', () => {
         headers,
         params: { ...params, ...updateCheckItemParams },
       });
+      // console.log(response.url());
       const responseJSON = await response.json();
       const { name: actualCheckItemName, state: actualCheckItemState } =
         responseJSON;
