@@ -18,9 +18,6 @@ export function prepareRandomBoardLabelData(
   labelName?: string,
   words?: number,
 ): LabelDataModel {
-  // Solution I with faker - not recommended - faker generates colors not maintained by TRELLO app
-  //   const color: string = customColor ? customColor : faker.color.human();
-
   // Solution II with choice of random color method
   // Prepare method which generates random color from array of colors
   const randomColorGenerator = (): string => {

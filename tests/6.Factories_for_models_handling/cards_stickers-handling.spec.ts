@@ -1,6 +1,7 @@
 import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomStickerData } from '@_src/API/factories/card_stickers-data.factory';
 import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
@@ -19,7 +20,6 @@ test.describe('Cards stickers handling - factories implementation', () => {
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
   let createdStickersIds: string[] = [];
-  // Added for current solution
   let createdStickersNames: string[] = [];
 
   test.beforeAll(
@@ -107,7 +107,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
         50.22,
         3,
       );
-      // console.log('Add Sticker:', data);
+      // console.log('Add Sticker:', data.image);
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken'
       const response = await request.post(
@@ -155,16 +155,6 @@ test.describe('Cards stickers handling - factories implementation', () => {
         180,
       );
       // console.log('Update:', data);
-      // For other parameters verification
-      // console.log(
-      //   'All params',
-      //   prepareRandomStickerData(undefined, 12, undefined, 2, 180),
-      // );
-      // console.log(
-      //   'No name',
-      //   prepareRandomStickerData(undefined, 12, 35, 2, 180),
-      // );
-      // console.log('No rotate', prepareRandomStickerData('', 12, 35, 2));
       // Act: /1/cards/{id}/stickers/{idSticker}?top={top}&left={left}&zIndex={zIndex}
       const response = await request.put(
         `/1/cards/${cardId}/stickers/${stickerId}`,
@@ -176,7 +166,6 @@ test.describe('Cards stickers handling - factories implementation', () => {
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
       const actualStickerName = responseJSON.image;
-      // console.log(actualStickerName);
       expect(actualStickerName).toContain(data.image);
       const actualStickerFromTop = responseJSON.top;
       expect(actualStickerFromTop).toEqual(data.top);
@@ -190,16 +179,28 @@ test.describe('Cards stickers handling - factories implementation', () => {
       dataForVerification = data;
     });
     await test.step('1.2 Should get a sticker field', async () => {
-      // console.log('Data for verification:', dataForVerification);
+      // console.log(dataForVerificationStickers);
       // Arrange:
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-      const stickerParams: ParamsDataModel = {
-        key: params.key,
-        token: params.token,
-        fields: 'id,image,rotate',
-      };
+
+      // const stickerParams: ParamsDataModel = {
+      //   key: params.key,
+      //   token: params.token,
+      //   fields: 'id,image,rotate',
+      // };
+      const stickerParams: ParamsDataModel = prepareParamsData(
+        '',
+        '',
+        '',
+        undefined,
+        false,
+        '',
+        'id,image,rotate',
+      );
+
+      // console.log(stickerParams);
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
       const response = await request.get(
@@ -270,7 +271,6 @@ test.describe('Cards stickers handling - factories implementation', () => {
       );
     }
     createdStickersIds = [];
-    // Array cleared after each test for present solution
     createdStickersNames = [];
   });
 

@@ -13,7 +13,7 @@ export function prepareRandomChecklistData(
   const name: string =
     checklistName && checklistName !== ''
       ? `${checklistName} - ${faker.lorem.words(titleLength ?? 1)}`
-      : checklistName === ''
+      : checklistName
         ? faker.lorem.words(titleLength ?? 1)
         : '';
 
@@ -22,7 +22,7 @@ export function prepareRandomChecklistData(
   const value: string =
     dynamicValue && dynamicValue !== ''
       ? `${dynamicValue} - ${faker.lorem.sentences(sentencesLength ?? 1)}`
-      : dynamicValue === ''
+      : dynamicValue
         ? faker.lorem.sentences(sentencesLength ?? 1)
         : '';
 
@@ -31,10 +31,9 @@ export function prepareRandomChecklistData(
   //     idCard,
   //     name,
   //     pos,
-  //     value,
   //   };
 
-  // Solution II Partial object returning
+  // Solution II Full object returning
   const newChecklistData: ChecklistDataModel = {
     ...(idCard !== '' && { idCard }),
     ...(name !== '' && { name }),

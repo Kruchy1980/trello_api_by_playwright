@@ -2,6 +2,7 @@ import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
 import { prepareRandomChecklistData } from '@_src/API/factories/checklist-data.factory';
 import { prepareRandomCheckItemData } from '@_src/API/factories/checklist_checkitems-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
@@ -208,13 +209,20 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
       const checkItemToMoveId = createdCheckItemsIds[1];
       const expectedCheckItemStatus = 'complete';
 
-      const updateCheckItemParams: ParamsDataModel = {
-        key: params.key,
-        token: params.token,
-        idChecklist: createdChecklistsIds[1],
-        name: 'Task completed',
-        state: true,
-      };
+      // const updateCheckItemParams: ParamsDataModel = {
+      //   key: params.key,
+      //   token: params.token,
+      //   idChecklist: createdChecklistsIds[1],
+      //   name: 'Task completed',
+      //   state: true,
+      // };
+      const updateCheckItemParams: ParamsDataModel = prepareParamsData(
+        '',
+        '',
+        createdChecklistsIds[1],
+        'Task Completed',
+        true,
+      );
 
       // Act: https://api.trello.com/1/checklists/${checklistIdFrom}/checkItems/${checkItemId}?idChecklist=${checklistIdTo}&key=APIKey&token=APIToken
       const response = await request.put(

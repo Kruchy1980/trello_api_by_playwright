@@ -1,5 +1,6 @@
 import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
 import { prepareRandomListData } from '@_src/API/factories/list-data.factory';
+import { prepareParamsData } from '@_src/API/factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
@@ -121,11 +122,22 @@ test.describe('Lists handling - factories implementation', () => {
       const updatedListId = createdListsIds[1];
       const expectedStatusCode = 200;
 
-      const getFieldParams: ParamsDataModel = {
-        key: params.key,
-        token: params.token,
-        fields: 'name',
-      };
+      // const getFieldParams: ParamsDataModel = {
+      //   key: params.key,
+      //   token: params.token,
+      //   fields: 'name',
+      // };
+      const getFieldParams: ParamsDataModel = prepareParamsData(
+        '',
+        '',
+        '',
+        undefined,
+        false,
+        '',
+        'name',
+      );
+
+      // console.log(getFieldParams);
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/lists/${updatedListId}`, {

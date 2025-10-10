@@ -28,7 +28,7 @@ export function prepareRandomCheckItemData(
     ...(name !== '' && { name }),
     ...(pos !== undefined && { pos }),
     ...(checked && { checked }),
-    ...(due !== '' && { due }),
+    ...(due && { due }),
   };
 
   return randomChecklistCheckItemData;

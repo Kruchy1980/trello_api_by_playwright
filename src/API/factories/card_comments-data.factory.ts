@@ -8,11 +8,11 @@ export function prepareRandomCommentData(
   // Solution 1
   // const text: string = commentText
   //   ? `${commentText} - ${faker.lorem.sentences({ min: 1, max: sentences ?? 1 })}`
-  //   : `${faker.lorem.sentences({ min: 1, max: sentences ?? 1 })}`;
-  // Solution II - shortened
+  //   : `${faker.lorem.paragraphs({ min: 1, max: sentences ?? 1 })}`;
+  // Solution II
   const text: string = commentText
     ? `${commentText} - ${faker.lorem.sentences(sentences ?? 1)}`
-    : `${faker.lorem.sentences(sentences ?? 1)}`;
+    : `${faker.lorem.paragraphs(sentences ?? 1)}`;
 
   const randomCommentData: CardCommentDataModel = {
     text,
