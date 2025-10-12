@@ -11,7 +11,6 @@ import { pathParameters } from '@_src/API/utils/path_parameters_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Improve tests by destructuring objects
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
