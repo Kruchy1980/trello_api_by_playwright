@@ -48,8 +48,8 @@ export function prepareRandomCardData(
   //     due,
   //   };
 
-  //Solution III updated types to array variable added
-  //Preparation array of properties  for dynamically generated object
+  // Solution III updated types to array variable added
+  // Preparation array of properties  for dynamically generated object
   //   const objectPropertiesArray: CardDataModel[] = [];
 
   // Values for feeling up objectPropertiesArray
