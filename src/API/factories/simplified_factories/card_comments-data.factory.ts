@@ -5,9 +5,6 @@ export function prepareRandomCommentDataSimplified(
   commentText: string,
   sentences?: number,
 ): CardCommentDataModel {
-  // const text: string = commentText
-  //   ? `${commentText} - ${faker.lorem.sentences(sentences ?? 1)}`
-  //   : `${faker.lorem.paragraphs(sentences ?? 1)}`;
   const text: string = generateRandomSimpleDescription(commentText, sentences);
 
   const randomCommentData: CardCommentDataModel = {
