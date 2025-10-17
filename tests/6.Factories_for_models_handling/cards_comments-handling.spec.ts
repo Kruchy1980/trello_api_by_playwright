@@ -136,20 +136,6 @@ test.describe('Cards comments handling - factories implementation', () => {
       false,
       'commentCard',
     );
-
-    // const commentCardParams: ParamsDataModel = {
-    //   key: params.key,
-    //   token: params.token,
-    //   filter: 'commentCard',
-    // };
-    const commentCardParams: ParamsDataModel = prepareParamsData(
-      '',
-      '',
-      '',
-      undefined,
-      false,
-      'commentCard',
-    );
     // console.log(commentCardParams);
 
     // Act: 'https://api.trello.com/1/cards/{id}/actions?key=APIKey&token=APIToken'
