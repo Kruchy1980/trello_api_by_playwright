@@ -1,7 +1,7 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomStickerData } from '@_src/API/factories/card_stickers-data.factory';
-import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomStickerDataSimplified } from '@_src/API/factories/simplified_factories/card_stickers-data.factory';
+import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
@@ -10,12 +10,11 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards stickers handling - factories implementation', () => {
+test.describe('Cards stickers handling - simplified factories', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
@@ -26,10 +25,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
     'Board, card preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const data: BoardDataModel = {
-      //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-      // };
-      const data: BoardDataModel = prepareRandomBoardData();
+      const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/boards`, {
@@ -59,14 +55,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
       // Card Preparation
       for (let i = 0; i < 3; i++) {
         // Arrange:
-        // const data: CardDataModel = {
-        //   idList: createdListsIds[i],
-        //   name: `Card for labels - ${new Date().getTime()}`,
-        //   due: new Date(
-        //     new Date().setDate(new Date().getDate() + (i + 1)),
-        //   ).toISOString(),
-        // };
-        const data: CardDataModel = prepareRandomCardData(
+        const data: CardDataModel = prepareRandomCardDataSimplified(
           createdListsIds[i],
           'Card Name',
           undefined,
@@ -90,18 +79,10 @@ test.describe('Cards stickers handling - factories implementation', () => {
   );
 
   test.beforeEach('Add a sticker to a card', async ({ request }) => {
-    // const stickersNames = ['check', 'thumbsdown', 'rocketship'];
-    // for (let i = 0; i < stickersNames.length; i++) {
     for (let i = 0; i < 3; i++) {
       // Arrange:
       const expectedStatusCode = 200;
-      // const data: CardStickerDataModel = {
-      //   image: stickersNames[i],
-      //   top: 20.22,
-      //   left: 50.22,
-      //   zIndex: 5,
-      // };
-      const data: CardStickerDataModel = prepareRandomStickerData(
+      const data: CardStickerDataModel = prepareRandomStickerDataSimplified(
         '',
         20.22,
         50.22,
@@ -140,14 +121,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-      // const data: CardStickerDataModel = {
-      //   image: createdStickerName,
-      //   top: 100,
-      //   left: 50,
-      //   zIndex: 5,
-      //   rotate: 180,
-      // };
-      const data: CardStickerDataModel = prepareRandomStickerData(
+      const data: CardStickerDataModel = prepareRandomStickerDataSimplified(
         createdStickersNames[1],
         12,
         undefined,
@@ -179,18 +153,11 @@ test.describe('Cards stickers handling - factories implementation', () => {
       dataForVerification = data;
     });
     await test.step('1.2 Should get a sticker field', async () => {
-      // console.log(dataForVerificationStickers);
       // Arrange:
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-
-      // const stickerParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'id,image,rotate',
-      // };
-      const stickerParams: ParamsDataModel = prepareParamsData(
+      const stickerParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',

@@ -1,17 +1,16 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Boards handling - factories implementation', () => {
+test.describe('Boards handling - simplified factories', () => {
   let createdBoardId: string;
   let boardName: string;
   let boardDescription: string | undefined;
@@ -20,11 +19,7 @@ test.describe('Boards handling - factories implementation', () => {
     // Arrange:
     const expectedStatusCode = 200;
 
-    // const data: BoardDataModel = {
-    //   name: faker.lorem.words(2),
-    //   desc: 'My first Board description',
-    // };
-    const data: BoardDataModel = prepareRandomBoardData();
+    const data: BoardDataModel = prepareRandomBoardDataSimplified();
     // console.log(data);
 
     // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
@@ -46,8 +41,6 @@ test.describe('Boards handling - factories implementation', () => {
   test('1. Should get a board', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
-    // const expectedBoardName = boardName;
-    // const expectedBoardDescription = 'My first Board description';
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     const response = await request.get(`/1/boards/${createdBoardId}`, {
@@ -77,11 +70,7 @@ test.describe('Boards handling - factories implementation', () => {
         const expectedBoardId = createdBoardId;
         const expectedStatusCode = 200;
 
-        // const data: BoardDataModel = {
-        //   name: 'Updated Board name',
-        //   desc: 'Updated Board description',
-        // };
-        const data: BoardDataModel = prepareRandomBoardData(
+        const data: BoardDataModel = prepareRandomBoardDataSimplified(
           'Updated Board name',
           true,
           4,
@@ -115,7 +104,6 @@ test.describe('Boards handling - factories implementation', () => {
     await test.step('2.2 Should get a field from board', async () => {
       // Arrange:
       const expectedStatusCode = 200;
-      // const updatedBoardName = boardName;
 
       // Act: 'https://api.trello.com/1/boards/{id}/{field}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/boards/${createdBoardId}/name`, {
@@ -176,13 +164,10 @@ test.describe('Boards handling - factories implementation', () => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-    // const incorrectParams: ParamsDataModel = {
-    //   key: 'poisfbnzpoib',
-    //   token: params.token,
-    // };
-    const incorrectParams: ParamsDataModel = prepareParamsData(
+
+    const incorrectParams: ParamsDataModel = prepareParamsDataSimplified(
       '',
-      'gawgagawgga',
+      'sifnagehehwe',
     );
     // console.log(incorrectParams);
 

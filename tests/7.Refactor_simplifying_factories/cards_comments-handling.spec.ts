@@ -1,7 +1,7 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomCommentData } from '@_src/API/factories/card_comments-data.factory';
-import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomCommentDataSimplified } from '@_src/API/factories/simplified_factories/card_comments-data.factory';
+import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardCommentDataModel } from '@_src/API/models/card_comments-data.model';
@@ -10,12 +10,11 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards comments handling - factories implementation', () => {
+test.describe('Cards comments handling - simplified factories', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
@@ -27,10 +26,7 @@ test.describe('Cards comments handling - factories implementation', () => {
     'Board, card preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const data: BoardDataModel = {
-      //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-      // };
-      const data: BoardDataModel = prepareRandomBoardData();
+      const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/boards`, {
@@ -59,14 +55,7 @@ test.describe('Cards comments handling - factories implementation', () => {
 
       // Card Preparation
       // Arrange:
-      // const cardCreationData: CardDataModel = {
-      //   idList: createdListsIds[0],
-      //   name: 'My first card for comments name',
-      //   due: new Date(
-      //     new Date().setDate(new Date().getDate() + 2),
-      //   ).toISOString(),
-      // };
-      const cardCreationData: CardDataModel = prepareRandomCardData(
+      const cardCreationData: CardDataModel = prepareRandomCardDataSimplified(
         createdListsIds[0],
         '',
         undefined,
@@ -90,10 +79,11 @@ test.describe('Cards comments handling - factories implementation', () => {
     // Arrange:
     const expectedStatusCode = 200;
     const expectedCommentType = 'comment';
-    // const data: CardCommentDataModel = {
-    //   text: 'My first comment on a card',
-    // };
-    const data: CardCommentDataModel = prepareRandomCommentData('', 2);
+
+    const data: CardCommentDataModel = prepareRandomCommentDataSimplified(
+      '',
+      2,
+    );
 
     // Act: 'https://api.trello.com/1/cards/{id}/actions/comments?text={text}&key=APIKey&token=APIToken'
     const response = await request.post(
@@ -123,26 +113,7 @@ test.describe('Cards comments handling - factories implementation', () => {
     const expectedStatusCode = 200;
     const expectedCardCommentText = createdCommentText;
 
-    // const commentCardParams: ParamsDataModel = {
-    //   key: params.key,
-    //   token: params.token,
-    //   filter: 'commentCard',
-    // };
-    const commentCardParams: ParamsDataModel = prepareParamsData(
-      '',
-      '',
-      '',
-      undefined,
-      false,
-      'commentCard',
-    );
-
-    // const commentCardParams: ParamsDataModel = {
-    //   key: params.key,
-    //   token: params.token,
-    //   filter: 'commentCard',
-    // };
-    const commentCardParams: ParamsDataModel = prepareParamsData(
+    const commentCardParams: ParamsDataModel = prepareParamsDataSimplified(
       '',
       '',
       '',
@@ -169,10 +140,10 @@ test.describe('Cards comments handling - factories implementation', () => {
   test('2. Should update a comment action on a card', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
-    // const data: CardCommentDataModel = {
-    //   text: 'Updated comment text',
-    // };
-    const data: CardCommentDataModel = prepareRandomCommentData('Updated ', 3);
+    const data: CardCommentDataModel = prepareRandomCommentDataSimplified(
+      'Updated ',
+      3,
+    );
     // Act: 'https://api.trello.com/1/cards/{id}/actions/{idAction}/comments?text={text}&key=APIKey&token=APIToken'
     const response = await request.put(
       `/1/cards/${createdCardId}/actions/${commentActionId}/comments`,

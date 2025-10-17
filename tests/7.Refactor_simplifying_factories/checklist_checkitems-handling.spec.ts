@@ -1,8 +1,8 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareRandomChecklistData } from '@_src/API/factories/checklist-data.factory';
-import { prepareRandomCheckItemData } from '@_src/API/factories/checklist_checkitems-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareRandomChecklistDataSimplified } from '@_src/API/factories/simplified_factories/checklist-data.factory';
+import { prepareRandomCheckItemDataSimplified } from '@_src/API/factories/simplified_factories/checklist_checkitems-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ChecklistDataModel } from '@_src/API/models/checklist-data.model';
@@ -12,11 +12,10 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
-test.describe('CheckItems on checklists handling - factories implementation', () => {
+test.describe('CheckItems on checklists handling - simplified factories', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
@@ -27,10 +26,7 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
     'Board, card, checkLists preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const data: BoardDataModel = {
-      //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-      // };
-      const data: BoardDataModel = prepareRandomBoardData();
+      const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/boards`, {
@@ -59,14 +55,7 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
 
       // Card Preparation
       // Arrange:
-      // const cardCreationData: CardDataModel = {
-      //   idList: createdListsIds[0],
-      //   name: 'My first card for comments name',
-      //   due: new Date(
-      //     new Date().setDate(new Date().getDate() + 2),
-      //   ).toISOString(),
-      // };
-      const cardCreationData: CardDataModel = prepareRandomCardData(
+      const cardCreationData: CardDataModel = prepareRandomCardDataSimplified(
         createdListsIds[0],
         'Card Name',
         undefined,
@@ -89,12 +78,9 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
       // Checklists preparation
       for (let i = 0; i < 2; i++) {
         // Arrange:
-        // const checklistCreationData: ChecklistDataModel = {
-        //   idCard: createdCardId,
-        //   name: `Checklist no_-${new Date().getMilliseconds()}`,
-        // };
         const checklistCreationData: ChecklistDataModel =
-          prepareRandomChecklistData(createdCardId, '');
+          prepareRandomChecklistDataSimplified(createdCardId, '');
+        // console.log('Before All checklist:', checklistCreationData);
 
         // Act: 'https://api.trello.com/1/checklists?idCard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
         const response = await request.post(`/1/checklists`, {
@@ -115,13 +101,11 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
       // Arrange:
       const checklistId = createdChecklistsIds[0];
       const expectedStatusCode = 200;
-      // const data: ChecklistCheckItemDataModel = {
-      //   name: `CheckItem for Checklist - ${checklistId}`,
-      // };
-      const data: ChecklistCheckItemDataModel = prepareRandomCheckItemData(
-        `CheckItem for Checklist - ${checklistId}`,
-        2,
-      );
+      const data: ChecklistCheckItemDataModel =
+        prepareRandomCheckItemDataSimplified(
+          `CheckItem for Checklist - ${checklistId}`,
+          2,
+        );
       // console.log('My new checkItem', data);
 
       // Act: 'https://api.trello.com/1/checklists/{id}/checkItems?name={name}&key=APIKey&token=APIToken
@@ -140,16 +124,15 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
       // Other CheckItem Preparation
       // Arrange:
       const expectedCheckItemStatus = 'incomplete';
-      // const checkItemCreationTopData: ChecklistCheckItemDataModel = {
-      //   name: `CheckItem - move when done to other checklist`,
-      //   pos: 'top',
-      //   due: new Date(
-      //     new Date().setDate(new Date().getDate() + 2),
-      //   ).toISOString(),
-      //   checked: false,
-      // };
       const checkItemCreationTopData: ChecklistCheckItemDataModel =
-        prepareRandomCheckItemData('New checkItem', 2, true, 2, 'top', false);
+        prepareRandomCheckItemDataSimplified(
+          'New checkItem',
+          2,
+          true,
+          2,
+          'top',
+          false,
+        );
 
       // console.log('Other checkItem moved top:', checkItemCreationTopData);
 
@@ -208,21 +191,14 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
       const cardId = createdCardId;
       const checkItemToMoveId = createdCheckItemsIds[1];
       const expectedCheckItemStatus = 'complete';
-
-      // const updateCheckItemParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   idChecklist: createdChecklistsIds[1],
-      //   name: 'Task completed',
-      //   state: true,
-      // };
-      const updateCheckItemParams: ParamsDataModel = prepareParamsData(
-        '',
-        '',
-        createdChecklistsIds[1],
-        'Task Completed',
-        true,
-      );
+      const updateCheckItemParams: ParamsDataModel =
+        prepareParamsDataSimplified(
+          '',
+          '',
+          createdChecklistsIds[1],
+          'Task Completed',
+          true,
+        );
       // console.log(updateCheckItemParams);
 
       // Act: https://api.trello.com/1/checklists/${checklistIdFrom}/checkItems/${checkItemId}?idChecklist=${checklistIdTo}&key=APIKey&token=APIToken

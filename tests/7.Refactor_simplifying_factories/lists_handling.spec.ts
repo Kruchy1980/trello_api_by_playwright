@@ -1,6 +1,6 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomListData } from '@_src/API/factories/list-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomListDataSimplified } from '@_src/API/factories/simplified_factories/list-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
@@ -13,16 +13,12 @@ import { expect, test } from '@playwright/test';
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Lists handling - factories implementation', () => {
+test.describe('Lists handling - simplified factories', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let data: ListDataModel;
   test.beforeAll('Board preparation', async ({ request }) => {
-    // Arrange:
-    // const data: BoardDataModel = {
-    //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-    // };
-    const data: BoardDataModel = prepareRandomBoardData(
+    const data: BoardDataModel = prepareRandomBoardDataSimplified(
       'New Board',
       true,
       undefined,
@@ -42,12 +38,8 @@ test.describe('Lists handling - factories implementation', () => {
     async ({ request }) => {
       // Arrange:
       const expectedStatusCode = 200;
-      // const data: ListDataModel = {
-      //   name: 'My first list name',
-      //   pos: 'top',
-      //   idBoard: createdBoardId,
-      // };
-      const data: ListDataModel = prepareRandomListData(
+
+      const data: ListDataModel = prepareRandomListDataSimplified(
         createdBoardId,
         'List Name',
         'top',
@@ -98,7 +90,7 @@ test.describe('Lists handling - factories implementation', () => {
       // Arrange:
       const listForUpdateId = createdListsIds[1];
       const expectedStatusCode = 200;
-      data = prepareRandomListData(undefined, '');
+      data = prepareRandomListDataSimplified(undefined, '');
       // console.log('Update:', data);
 
       // Act: ('https://api.trello.com/1/lists/{id}/{field}?key=APIKey&token=APIToken'
@@ -122,12 +114,7 @@ test.describe('Lists handling - factories implementation', () => {
       const updatedListId = createdListsIds[1];
       const expectedStatusCode = 200;
 
-      // const getFieldParams: ParamsDataModel = {
-      //   key: params.key,
-      //   token: params.token,
-      //   fields: 'name',
-      // };
-      const getFieldParams: ParamsDataModel = prepareParamsData(
+      const getFieldParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
         '',
@@ -163,34 +150,13 @@ test.describe('Lists handling - factories implementation', () => {
       // const data: ListDataModel = {
       //   closed: true,
       // };
-      const data: ListDataModel = prepareRandomListData(
+      const data: ListDataModel = prepareRandomListDataSimplified(
         undefined,
         undefined,
         undefined,
         true,
       );
       // console.log(data);
-
-      // console.log(
-      //   '4 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top', true),
-      // );
-      // console.log(
-      //   '3 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top', false),
-      // );
-      // console.log(
-      //   '3 params',
-      //   prepareRandomListData(createdBoardId, 'Name', 'top'),
-      // );
-      // console.log('2 params', prepareRandomListData(createdBoardId, 'Name'));
-      // console.log('1 params', prepareRandomListData(undefined, 'Name'));
-      // console.log('1 params', prepareRandomListData(undefined, undefined));
-      // console.log('1 params', prepareRandomListData(undefined, ''));
-      // console.log(
-      //   '1 params',
-      //   prepareRandomListData(undefined, undefined, undefined, true),
-      // );
 
       // Act: 'https://api.trello.com/1/lists/{id}/closed?key=APIKey&token=APIToken'
       const response = await request.put(`/1/lists/${listForArchiveId}`, {
@@ -238,11 +204,8 @@ test.describe('Lists handling - factories implementation', () => {
     // Arrange:
     const listForUpdateId = createdListsIds[createdListsIds.length - 1];
     const expectedStatusCode = 200;
-    // const data: ListDataModel = {
-    //   name: 'Tasks with the highest priority',
-    //   pos: 'top',
-    // };
-    const data: ListDataModel = prepareRandomListData(
+
+    const data: ListDataModel = prepareRandomListDataSimplified(
       undefined,
       'Updated:',
       'top',
