@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test';
 // TODO: For refactoring
 // TODO: Simplify the URLS generation
 
-test('Authorization verification - path_parameters', async ({ request }) => {
+test('Authorization verification - RU_SO implemented', async ({ request }) => {
   // Arrange:
   const memberRequest = new MemberRequest(request);
   const expectedStatusCode = 200;

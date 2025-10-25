@@ -13,7 +13,7 @@ import { expect, test } from '@playwright/test';
 // TODO: For refactoring
 // TODO: Implement ROP (Request Object Model)
 
-test.describe('Cards handling - ROP', () => {
+test.describe('Cards handling - RU_SO implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;

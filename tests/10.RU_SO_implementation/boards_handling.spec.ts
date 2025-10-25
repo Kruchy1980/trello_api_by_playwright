@@ -10,7 +10,7 @@ import { expect, test } from '@playwright/test';
 // TODO: For Refactoring
 // TODO: Implement ROP (Request Object Model)
 
-test.describe('Boards handling - path_generators', () => {
+test.describe('Boards handling - RU_SO implemented', () => {
   let createdBoardId: string;
   let boardName: string | undefined;
   let boardDescription: string | undefined;
