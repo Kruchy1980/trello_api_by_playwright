@@ -223,7 +223,6 @@ test.describe('CheckItems on checklists handling - factories implementation', ()
         'Task Completed',
         true,
       );
-      // console.log(updateCheckItemParams);
 
       // Act: https://api.trello.com/1/checklists/${checklistIdFrom}/checkItems/${checkItemId}?idChecklist=${checklistIdTo}&key=APIKey&token=APIToken
       const response = await request.put(

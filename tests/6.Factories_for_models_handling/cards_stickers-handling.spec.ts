@@ -199,6 +199,7 @@ test.describe('Cards stickers handling - factories implementation', () => {
         '',
         'id,image,rotate',
       );
+
       // console.log(stickerParams);
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
