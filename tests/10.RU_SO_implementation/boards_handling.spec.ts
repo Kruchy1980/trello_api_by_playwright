@@ -8,10 +8,10 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Prepare functions for generate URLS
-// TODO: Simplify the URLS generation
+// TODO: Implement RUSO (Request Utilities/ Service Objects)
+// TODO: Implement ROP (Request Object Model)
 
-test.describe('Boards handling - path_generators', () => {
+test.describe('Boards handling - RUSO implemented', () => {
   let createdBoardId: string;
   let boardName: string | undefined;
   let boardDescription: string | undefined;

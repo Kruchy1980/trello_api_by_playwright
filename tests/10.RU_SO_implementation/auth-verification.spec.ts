@@ -4,9 +4,10 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Simplify the URLS generation
+// TODO: Implement RUSO (Request Utilities/ Service Objects)
+// TODO: Implement ROP (Request Object Model)
 
-test('Authorization verification - path_parameters', async ({ request }) => {
+test('Authorization verification - RUSO implemented', async ({ request }) => {
   // Arrange:
   const memberRequest = new MemberRequest(request);
   const expectedStatusCode = 200;

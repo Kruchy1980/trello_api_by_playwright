@@ -14,9 +14,10 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
+// TODO: Implement RUSO (Request Utilities/ Service Objects)
 // TODO: Implement ROP (Request Object Model)
 
-test.describe('Cards comments handling - ROP', () => {
+test.describe('Cards comments handling - RUSO implemented', () => {
   // Variables needed for tests
   let createdBoardId: string;
   const createdListsIds: string[] = [];

@@ -16,8 +16,9 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
+// TODO: Implement RUSO (Request Utilities/ Service Objects)
 // TODO: Implement ROP (Request Object Model)
-test.describe('CheckItems on checklists handling - ROP', () => {
+test.describe('CheckItems on checklists handling - RUSO implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
