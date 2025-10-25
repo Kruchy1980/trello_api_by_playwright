@@ -181,11 +181,12 @@ test.describe('Cards handling - factories implementation', () => {
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
+      // console.log(updatedCardParams);
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
@@ -237,13 +238,13 @@ test.describe('Cards handling - factories implementation', () => {
         '',
         '',
         '',
-        '',
+        undefined,
         false,
         '',
         'name,desc,due',
       );
-
       // console.log(deletedCardParams);
+
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
       const response = await request.get(`/1/cards/${createdCardId}`, {
         headers,

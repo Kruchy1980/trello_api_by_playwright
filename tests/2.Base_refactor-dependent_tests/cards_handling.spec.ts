@@ -183,6 +183,6 @@ test.describe.serial('Cards handling - dependent tests', () => {
     // const headers = { 'Content-Type': 'application/json' };
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    await request.delete(`/1/boards/${createdBoardId}}`, { headers, params });
+    await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
   });
 });

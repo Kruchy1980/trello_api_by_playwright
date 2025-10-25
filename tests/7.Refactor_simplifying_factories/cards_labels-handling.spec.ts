@@ -10,7 +10,6 @@ import {
   LabelDataModelSimplified,
   LabelOperationsDataModelSimplified,
 } from '@_src/API/models/card_label_new_version_model/card_label_model_simplified';
-
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
