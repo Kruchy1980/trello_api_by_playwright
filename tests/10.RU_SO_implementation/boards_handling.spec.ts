@@ -8,8 +8,7 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Prepare functions for generate URLS
-// TODO: Simplify the URLS generation
+// TODO: Implement ROP (Request Object Model)
 
 test.describe('Boards handling - path_generators', () => {
   let createdBoardId: string;
