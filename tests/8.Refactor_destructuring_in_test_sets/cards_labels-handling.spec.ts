@@ -10,15 +10,16 @@ import {
   LabelDataModelSimplified,
   LabelOperationsDataModelSimplified,
 } from '@_src/API/models/card_label_new_version_model/card_label_model_simplified';
+
 import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Make the models and factories simpler to use
+// TODO: Improve tests by destructuring objects
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards labels handling - simplified factories', () => {
+test.describe('Cards labels handling - destructured', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
@@ -38,7 +39,12 @@ test.describe('Cards labels handling - simplified factories', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
-      createdBoardId = responseJSON.id;
+      // Destructuring responseJSON object
+      const { id: actualBoardId } = responseJSON;
+      // Before Destructuring
+      // createdBoardId = responseJSON.id;
+      // Before Destructuring
+      createdBoardId = actualBoardId;
 
       // Collect lists Id's
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -51,8 +57,12 @@ test.describe('Cards labels handling - simplified factories', () => {
       );
       const responseListsIdsJSON = await responseListsIds.json();
       // console.log(responseJSON);
-      responseListsIdsJSON.forEach((listId: { id: string }) => {
-        createdListsIds.push(listId.id);
+      // Before destructuring:
+      // responseListsIdsJSON.forEach((listId: { id: string }) => {
+      //   createdListsIds.push(listId.id);
+      // After destructuring - destructure inside loop
+      responseListsIdsJSON.forEach(({ id }: { id: string }) => {
+        createdListsIds.push(id);
       });
 
       // Card Preparation
@@ -75,7 +85,12 @@ test.describe('Cards labels handling - simplified factories', () => {
         });
         const responseJSON = await response.json();
         // console.log(responseJSON);
-        createdCardsIds.push(responseJSON.id);
+        // Destructuring JSON
+        const { id: actualCardId } = responseJSON;
+        // Before destructuring
+        // createdCardsIds.push(responseJSON.id);
+        // After destructuring
+        createdCardsIds.push(actualCardId);
       }
     },
   );
@@ -89,6 +104,10 @@ test.describe('Cards labels handling - simplified factories', () => {
       undefined,
       createdBoardId,
     );
+    // console.log('Before Each data:', data);
+    // Destructuring data object
+    const { color: expectedBoardLabelColor, name: expectedBoardLabeName } =
+      data;
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
     const response = await request.post(`/1/labels`, {
@@ -97,16 +116,35 @@ test.describe('Cards labels handling - simplified factories', () => {
       data,
     });
     const responseJSON = await response.json();
-    // console.log(responseJSON);
-    createdBoardLabelId = responseJSON.id;
+    // console.log('Response JSON for board label:', responseJSON);
+    // console.log(responseJSON.id);
+    // Destructuring JSON
+    const {
+      id: actualBoardLabelId,
+      name: actualBoardLabelName,
+      color: actualBoardLabelColor,
+    } = responseJSON;
 
     // Assert:
+    // Before destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // expect(responseJSON).toHaveProperty('id');
+    // const actualLabelName = responseJSON.name;
+    // expect(actualLabelName).toContain(data.name);
+    // const actualLabelColor = responseJSON.color;
+    // expect(actualLabelColor).toContain(data.color);
+    // ===== Passing Label ID to variable ====
+    // createdBoardLabelId = responseJSON.id;
+
+    // After destructuring
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON).toHaveProperty('id');
-    const actualLabelName = responseJSON.name;
-    expect(actualLabelName).toContain(data.name);
-    const actualLabelColor = responseJSON.color;
-    expect(actualLabelColor).toContain(data.color);
+    // const actualBoardLabelName = responseJSON.name;
+    expect(actualBoardLabelName).toContain(expectedBoardLabeName);
+    // const actualBoardLabelColor = responseJSON.color;
+    expect(actualBoardLabelColor).toContain(expectedBoardLabelColor);
+    // ===== Passing Label ID to variable ====
+    createdBoardLabelId = actualBoardLabelId;
   });
   test('1. Should add label to card', async ({ request }) => {
     // Arrange:
@@ -114,6 +152,9 @@ test.describe('Cards labels handling - simplified factories', () => {
     const cardId = createdCardsIds[0];
     const data: LabelOperationsDataModelSimplified =
       prepareOperationDataSimplified(createdBoardLabelId);
+    // Destructuring data object
+    // console.log('Assigning data object:', data);
+    const { value: expectedBoardLabelId } = data;
 
     // Act: 'https://api.trello.com/1/cards/{id}/idLabels?key=APIKey&token=APIToken'
     const response = await request.post(`/1/cards/${cardId}/idLabels`, {
@@ -122,12 +163,20 @@ test.describe('Cards labels handling - simplified factories', () => {
       data,
     });
     const responseJSON = await response.json();
-    // console.log(responseJSON);
+    // console.log('Assigning BoardLabeL ID JSON:', responseJSON);
+    // Destructuring JSON Value from an Array
+    const [actualLabelId] = responseJSON;
+    // // console.log(actualLabelId);
 
     // Assert:
+    // Before Destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // const actualLabelId = responseJSON[0];
+    // expect(actualLabelId).toContain(expectedBoardLabelId);
+    // After Destructuring
     expect(response.status()).toEqual(expectedStatusCode);
-    const actualLabelId = responseJSON[0];
-    expect(actualLabelId).toContain(createdBoardLabelId);
+    // const actualLabelId = responseJSON[0];
+    expect(actualLabelId).toContain(expectedBoardLabelId);
   });
 
   test('2. Should update whole label', async ({ request }) => {
@@ -138,6 +187,10 @@ test.describe('Cards labels handling - simplified factories', () => {
       'Custom label for a card - updated for deadly',
       3,
     );
+    // console.log('Update label data:', data);
+    // Destructuring data object
+    const { color: expectedBoardLabelColor, name: expectedBoardLabelName } =
+      data;
 
     // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
     const response = await request.put(`/1/labels/${createdBoardLabelId}`, {
@@ -146,17 +199,32 @@ test.describe('Cards labels handling - simplified factories', () => {
       data,
     });
     const responseJSON = await response.json();
-    // console.log(responseJSON);
-
+    // console.log('Response from Update:', responseJSON);
+    // Destructuring JSON object
+    const {
+      id: actualBoardLabelId,
+      name: actualBoardLabelName,
+      color: actualBoardLabelColor,
+    } = responseJSON;
     // Assert:
+    // Before destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // expect(responseJSON).toHaveProperty('id');
+    // const actualLabelId = responseJSON.id;
+    // expect(actualLabelId).toContain(createdBoardLabelId);
+    // const actualLabelName = responseJSON.name;
+    // expect(actualLabelName).toContain(data.name);
+    // const actualLabelColor = responseJSON.color;
+    // expect(actualLabelColor).toContain(data.color);
+    // After destructuring
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON).toHaveProperty('id');
-    const actualLabelId = responseJSON.id;
-    expect(actualLabelId).toContain(createdBoardLabelId);
-    const actualLabelName = responseJSON.name;
-    expect(actualLabelName).toContain(data.name);
-    const actualLabelColor = responseJSON.color;
-    expect(actualLabelColor).toContain(data.color);
+    // const actualBoardLabelId = responseJSON.id;
+    expect(actualBoardLabelId).toContain(createdBoardLabelId);
+    // const actualBoardLabelName = responseJSON.name;
+    expect(actualBoardLabelName).toContain(expectedBoardLabelName);
+    // const actualBoardLabelColor = responseJSON.color;
+    expect(actualBoardLabelColor).toContain(expectedBoardLabelColor);
   });
 
   test.describe('Cards Labels handling - directly on Card - independent', () => {
@@ -170,6 +238,10 @@ test.describe('Cards labels handling - simplified factories', () => {
         '',
         2,
       );
+      // console.log('Label directly on card data', data);
+      // Destructuring data object
+      const { color: expectedBoardLabelColor, name: expectedBoardLabelName } =
+        data;
 
       // Act: 'https://api.trello.com/1/cards/{id}/labels?color={color}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/cards/${cardId}/labels`, {
@@ -178,21 +250,41 @@ test.describe('Cards labels handling - simplified factories', () => {
         data,
       });
       const responseJSON = await response.json();
-      // console.log(responseJSON);
-      createdLabelOnCardId = responseJSON.id;
+      // console.log('Create Label on card directly JSON', responseJSON);
+      // Destructuring responseJSON object
+      const {
+        id: actualLabelId,
+        name: actualLabelName,
+        color: actualLabelColor,
+      } = responseJSON;
 
       // Assert:
+      // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // expect(responseJSON).toHaveProperty('id');
+      // const actualLabelName = responseJSON.name;
+      // expect(actualLabelName).toContain(data.name);
+      // const actualLabelColor = responseJSON.color;
+      // expect(actualLabelColor).toContain(data.color);
+      // ==== Passing label Id to variable ====
+      // createdLabelOnCardId = responseJSON.id;
+      // After destructuring
       expect(response.status()).toEqual(expectedStatusCode);
       expect(responseJSON).toHaveProperty('id');
-      const actualLabelName = responseJSON.name;
-      expect(actualLabelName).toContain(data.name);
-      const actualLabelColor = responseJSON.color;
-      expect(actualLabelColor).toContain(data.color);
+      // const actualLabelName = responseJSON.name;
+      expect(actualLabelName).toContain(expectedBoardLabelName);
+      // const actualLabelColor = responseJSON.color;
+      expect(actualLabelColor).toContain(expectedBoardLabelColor);
+      // ==== Passing label Id to variable ====
+      createdLabelOnCardId = actualLabelId;
     });
     test('3. Should update field on label', async ({ request }) => {
       // Arrange:
       const expectedStatusCode = 200;
       const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified();
+      // console.log('Update label object', data);
+      // Destructuring object
+      const { color: expectedLabelColor } = data;
 
       // Act: 'https://api.trello.com/1/labels/{id}/{field}?value=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
       const response = await request.put(`/1/labels/${createdLabelOnCardId}`, {
@@ -201,14 +293,23 @@ test.describe('Cards labels handling - simplified factories', () => {
         data,
       });
       const responseJSON = await response.json();
-      // console.log(responseJSON);
+      // console.log('Update label response JSON', responseJSON);
+      // Destructuring responseJSON object
+      const { id: actualLabelId, color: actualLabelColor } = responseJSON;
 
       // Assert:
+      // Before Destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualLabelId = responseJSON.id;
+      // expect(actualLabelId).toContain(createdLabelOnCardId);
+      // const actualLabelColor = responseJSON.color;
+      // expect(actualLabelColor).toContain(data.color);
+      // After Destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualLabelId = responseJSON.id;
+      // const actualLabelId = responseJSON.id;
       expect(actualLabelId).toContain(createdLabelOnCardId);
-      const actualLabelColor = responseJSON.color;
-      expect(actualLabelColor).toContain(data.color);
+      // const actualLabelColor = responseJSON.color;
+      expect(actualLabelColor).toContain(expectedLabelColor);
     });
     test('4. Should delete label and verify whether resource exists', async ({
       request,
@@ -216,7 +317,10 @@ test.describe('Cards labels handling - simplified factories', () => {
       await test.step('4.1 Should delete a label', async () => {
         // Arrange:
         const expectedStatusCode = 200;
-        const expectedResponseValue = '{}';
+        // Before destructuring
+        // const expectedResponseObject = '{}';
+        // After destructuring
+        const expectedResponseObject = {};
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
         const response = await request.delete(
@@ -228,11 +332,20 @@ test.describe('Cards labels handling - simplified factories', () => {
         );
         const responseJSON = await response.json();
         // console.log(responseJSON);
+        // Destructuring response JSON
+        const { limits: actualResponseObject } = responseJSON;
+        // console.log('Value from JSON', actualResponseObject);
 
         // Assert:
+        // Before Destructuring
+        // expect(response.status()).toEqual(expectedStatusCode);
+        // const actualResponseObject = JSON.stringify(responseJSON.limits);
+        // expect(actualResponseObject).toContain(expectedResponseObject);
+
+        // After Destructuring
         expect(response.status()).toEqual(expectedStatusCode);
-        const actualResponseValue = JSON.stringify(responseJSON.limits);
-        expect(actualResponseValue).toContain(expectedResponseValue);
+        // const actualResponseObject = JSON.stringify(responseJSON.limits);
+        expect(actualResponseObject).toEqual(expectedResponseObject);
       });
       await test.step('4.2 (NP) Should NOT get deleted label', async () => {
         // Arrange:

@@ -104,7 +104,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 │ ├─── **helpers** <-- methods/functions for simplifying factories
 │ │ └─── **factories** <-- sub folder which collects data-generAtors and helper functions | | for factories simplifying
 │ │ ├─── **data_generators** <-- sub folder with data generators used in factories
-│ │ └─── **helper_functions** <-- sub folder which contains any helper functions
+│ │ └─── **helper_functions** <-- sub folder which contains used helper functions
 └─── **tests** <-- folder with tests
 | ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
@@ -113,4 +113,5 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 | └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models
 | └─── **6.Factories_for_models_handling** <-- factories for data preparation and implementation
 | └─── **7.Refactor_simplifying_factories** <-- simplified factories implemented
+| └─── **8.Refactor_destructuring_in_test_sets** <-- Folder which contains all tests with destructured needed objects
 ```

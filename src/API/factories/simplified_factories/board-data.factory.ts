@@ -10,52 +10,19 @@ export function prepareRandomBoardDataSimplified(
   fakeDesc?: boolean,
   numberParagraphs?: number,
 ): BoardDataModel {
-  // let boardName: string = '';
-  // let boardDescription: string = '';
-  // let randomBoardData: BoardDataModel = {};
-
   const name: string = generateRandomLargeName(
     boardName,
     fake,
     numberCharacters,
   );
 
-  // If conditional statement usage
-  // if (name && fake) {
-  //   boardName = `${name} - ${faker.word.sample(numberCharacters)}`;
-  // } else if (name && !fake) {
-  //   boardName = `${name}`;
-  // } else if (!name) {
-  //   boardName = `${faker.word.sample(numberCharacters)}`;
 
-  // }
   const desc: string = generateRandomLargeDescription(
     description,
     fakeDesc,
     numberParagraphs,
   );
 
-  // if (description && fakeDesc) {
-  //   boardDescription = `${description} - ${faker.lorem.paragraphs(numberParagraphs)}`;
-  // } else if (description && !fakeDesc) {
-  //   boardDescription = `${description}`;
-  // } else if (!description) {
-  //   boardDescription = `${faker.lorem.paragraphs(numberParagraphs)}`;
-  // }
-
-  // if (name !== '' && description !== '')
-  //   randomBoardData = {
-  //     name: boardName,
-  //     desc: boardDescription,
-  //   };
-  // if (name === '')
-  //   randomBoardData = {
-  //     desc: boardDescription,
-  //   };
-  // if (description === '')
-  //   randomBoardData = {
-  //     name: boardName,
-  //   };
   const randomBoardData: BoardDataModel = {
     ...(name !== '' && { name }),
     ...(desc !== '' && { desc }),
@@ -63,8 +30,3 @@ export function prepareRandomBoardDataSimplified(
 
   return randomBoardData;
 }
-
-// export interface BoardDataModel {
-//   name?: string;
-//   desc?: string;
-// }

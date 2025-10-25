@@ -1,7 +1,7 @@
-import { prepareRandomBoardData } from '@_src/API/factories/board-data.factory';
-import { prepareRandomCommentData } from '@_src/API/factories/card_comments-data.factory';
-import { prepareRandomCardData } from '@_src/API/factories/cards-data.factory';
-import { prepareParamsData } from '@_src/API/factories/params-data.factory';
+import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
+import { prepareRandomCommentDataSimplified } from '@_src/API/factories/simplified_factories/card_comments-data.factory';
+import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
+import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardCommentDataModel } from '@_src/API/models/card_comments-data.model';
@@ -10,12 +10,11 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare factories for models handling
 // TODO: Make the models and factories simpler to use
 // TODO: Prepare functions for generate URLS
 // TODO: Simplify the URLS generation
 
-test.describe('Cards comments handling - factories implementation', () => {
+test.describe('Cards comments handling - destructured', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
@@ -27,10 +26,7 @@ test.describe('Cards comments handling - factories implementation', () => {
     'Board, card preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      // const data: BoardDataModel = {
-      //   name: `My Board - ${new Date().toISOString().split('T')[1].split('Z')[0]}`,
-      // };
-      const data: BoardDataModel = prepareRandomBoardData();
+      const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
       const response = await request.post(`/1/boards`, {
@@ -40,7 +36,13 @@ test.describe('Cards comments handling - factories implementation', () => {
       });
       const responseJSON = await response.json();
       // console.log(responseJSON);
-      createdBoardId = responseJSON.id;
+      // Destructuring responseJSON object
+      const { id: actualBoardId } = responseJSON;
+      // === Value to variable Assigning ===
+      // Before destructuring
+      // createdBoardId = responseJSON.id;
+      // After destructuring
+      createdBoardId = actualBoardId;
 
       // Collect lists Id's
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -53,20 +55,16 @@ test.describe('Cards comments handling - factories implementation', () => {
       );
       const responseListsIdsJSON = await responseListsIds.json();
       // console.log(responseJSON);
-      responseListsIdsJSON.forEach((listId: { id: string }) => {
-        createdListsIds.push(listId.id);
+      // responseListsIdsJSON.forEach((listId: { id: string }) => {
+      //   createdListsIds.push(listId.id);
+      // Destructuring responseListsIdsJSON object inside loop
+      responseListsIdsJSON.forEach(({ id }: { id: string }) => {
+        createdListsIds.push(id);
       });
 
       // Card Preparation
       // Arrange:
-      // const cardCreationData: CardDataModel = {
-      //   idList: createdListsIds[0],
-      //   name: 'My first card for comments name',
-      //   due: new Date(
-      //     new Date().setDate(new Date().getDate() + 2),
-      //   ).toISOString(),
-      // };
-      const cardCreationData: CardDataModel = prepareRandomCardData(
+      const cardCreationData: CardDataModel = prepareRandomCardDataSimplified(
         createdListsIds[0],
         '',
         undefined,
@@ -83,17 +81,26 @@ test.describe('Cards comments handling - factories implementation', () => {
       });
       const responseCardCreationJSON = await responseCardCreation.json();
       // console.log(responseJSON);
-      createdCardId = responseCardCreationJSON.id;
+      // Destructuring responseJSON
+      const { id: actualCardId } = responseCardCreationJSON;
+      // === Value to variable Assigning ===
+      // Before Destructuring
+      // createdCardId = responseCardCreationJSON.id;
+      // After Destructuring
+      createdCardId = actualCardId;
     },
   );
   test.beforeEach('Create a new comment on a card', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
     const expectedCommentType = 'comment';
-    // const data: CardCommentDataModel = {
-    //   text: 'My first comment on a card',
-    // };
-    const data: CardCommentDataModel = prepareRandomCommentData('', 2);
+
+    const data: CardCommentDataModel = prepareRandomCommentDataSimplified(
+      '',
+      2,
+    );
+    // console.log('New Card data:', data);
+    const { text: expectedCardCommentText } = data;
 
     // Act: 'https://api.trello.com/1/cards/{id}/actions/comments?text={text}&key=APIKey&token=APIToken'
     const response = await request.post(
@@ -103,19 +110,46 @@ test.describe('Cards comments handling - factories implementation', () => {
     const responseJSON = await response.json();
     // console.log(responseJSON);
     // console.log(responseJSON.entities);
-    commentActionId = responseJSON.id;
+    // console.log('Create new comment entity:', responseJSON);
+    // console.log('Entities in response:', responseJSON.entities);
+    // Destructuring responseJSON object
+    // 2 Steps Destructuring
+    // Step 1 - destructuring 2 different properties in one  step
+    const { id: actualCommentActionId, entities } = responseJSON;
+    // Step 2 Retrieving proper data from entities
+    const { type: actualCardCommentType, text: actualCardCommentText } =
+      entities[entities.length - 1];
+    //       // Step 1 + 2 destructuring - for easier code reading - not recommended by Me in the test
+    // const { id: actualCommentActionId, entities } = responseJSON,
+    //   { type: actualCardCommentType, text: actualCardCommentText } =
+    //     entities[entities.length - 1];
 
     //Assert:
+    // // Before Destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // expect(responseJSON.entities[0]).toHaveProperty('id');
+    // const actualCardCommentType =
+    //   responseJSON.entities[responseJSON.entities.length - 1].type;
+    // expect(actualCardCommentType).toContain(expectedCommentType);
+    // const actualCardCommentText =
+    //   responseJSON.entities[responseJSON.entities.length - 1].text;
+    // expect(actualCardCommentText).toContain(data.text);
+    // // === Add text of comment to global/script variable ===
+    // commentActionId = responseJSON.id;
+    // createdCommentText = data.text;
+
+    // After Destructuring
     expect(response.status()).toEqual(expectedStatusCode);
     expect(responseJSON.entities[0]).toHaveProperty('id');
-    const actualCardCommentType =
-      responseJSON.entities[responseJSON.entities.length - 1].type;
+    // const actualCardCommentType =
+    //   responseJSON.entities[responseJSON.entities.length - 1].type;
     expect(actualCardCommentType).toContain(expectedCommentType);
-    const actualCardCommentText =
-      responseJSON.entities[responseJSON.entities.length - 1].text;
-    expect(actualCardCommentText).toContain(data.text);
-    // Add text of comment to global variable
-    createdCommentText = data.text;
+    // const actualCardCommentText =
+    //   responseJSON.entities[responseJSON.entities.length - 1].text;
+    expect(actualCardCommentText).toContain(expectedCardCommentText);
+    // === Add text of comment and action Id to global/script variable ===
+    commentActionId = actualCommentActionId;
+    createdCommentText = expectedCardCommentText;
   });
 
   test('1. Should get a comment on a card', async ({ request }) => {
@@ -123,13 +157,7 @@ test.describe('Cards comments handling - factories implementation', () => {
     const expectedStatusCode = 200;
     const expectedCardCommentText = createdCommentText;
 
-
-    // const commentCardParams: ParamsDataModel = {
-    //   key: params.key,
-    //   token: params.token,
-    //   filter: 'commentCard',
-    // };
-    const commentCardParams: ParamsDataModel = prepareParamsData(
+    const commentCardParams: ParamsDataModel = prepareParamsDataSimplified(
       '',
       '',
       '',
@@ -147,19 +175,29 @@ test.describe('Cards comments handling - factories implementation', () => {
     const responseJSON = await response.json();
     // console.log(responseJSON);
     // commentActionId = responseJSON[0].id;
+    const [currentCommentObject] = responseJSON;
+    // console.log(currentCommentObject);
+    // Step 2 retrieving proper data from object
+    const {
+      data: { text: actualCardCommentText },
+    } = currentCommentObject;
+    // console.log(actualCardCommentText);
 
     //Assert:
     expect(response.status()).toEqual(expectedStatusCode);
-    const actualCardCommentText = responseJSON[0].data.text;
+    // const actualCardCommentText = responseJSON[0].data.text;
     expect(actualCardCommentText).toContain(expectedCardCommentText);
   });
   test('2. Should update a comment action on a card', async ({ request }) => {
     // Arrange:
     const expectedStatusCode = 200;
-    // const data: CardCommentDataModel = {
-    //   text: 'Updated comment text',
-    // };
-    const data: CardCommentDataModel = prepareRandomCommentData('Updated ', 3);
+    const data: CardCommentDataModel = prepareRandomCommentDataSimplified(
+      'Updated ',
+      3,
+    );
+    // console.log('Updated text of comment', data);
+    // Destructuring data object
+    const { text: expectedCardCommentText } = data;
     // Act: 'https://api.trello.com/1/cards/{id}/actions/{idAction}/comments?text={text}&key=APIKey&token=APIToken'
     const response = await request.put(
       `/1/cards/${createdCardId}/actions/${commentActionId}/comments`,
@@ -167,13 +205,25 @@ test.describe('Cards comments handling - factories implementation', () => {
     );
     const responseJSON = await response.json();
     // console.log(responseJSON);
+    // Destructuring responseJSON Object
+    const {
+      id: actualCardCommentId,
+      data: { text: actualCardCommentText },
+    } = responseJSON;
 
     //Assert:
+    // // Before destructuring
+    // expect(response.status()).toEqual(expectedStatusCode);
+    // const actualCardCommentId = responseJSON.id;
+    // expect(actualCardCommentId).toContain(commentActionId);
+    // const actualCardCommentText = responseJSON.data.text;
+    // expect(actualCardCommentText).toContain(data.text);
+    // After destructuring
     expect(response.status()).toEqual(expectedStatusCode);
-    const actualCardCommentId = responseJSON.id;
+    // const actualCardCommentId = responseJSON.id;
     expect(actualCardCommentId).toContain(commentActionId);
-    const actualCardCommentText = responseJSON.data.text;
-    expect(actualCardCommentText).toContain(data.text);
+    // const actualCardCommentText = responseJSON.data.text;
+    expect(actualCardCommentText).toContain(expectedCardCommentText);
   });
 
   test('3. Delete comment action and verify whether source exists', async ({
@@ -190,14 +240,21 @@ test.describe('Cards comments handling - factories implementation', () => {
       );
       const responseJSON = await response.json();
       // console.log(responseJSON);
+      // Destructuring responseJSON object
+      const { _value: actualResponseValue } = responseJSON;
 
       //Assert:
+      // // Before destructuring
+      // expect(response.status()).toEqual(expectedStatusCode);
+      // const actualResponseValue = responseJSON._value;
+      // expect(actualResponseValue).toEqual(expectedResponseValue);
+      // After destructuring
       expect(response.status()).toEqual(expectedStatusCode);
-      const actualResponseValue = responseJSON._value;
+      // const actualResponseValue = responseJSON._value;
       expect(actualResponseValue).toEqual(expectedResponseValue);
     });
     await test.step('3.2 (NP) Should Not Get deleted comment Action', async () => {
-      // Arrange:
+      // Arrange: !!! No destructuring needed
       const expectedStatusCode = 404;
       const expectedResponseText = 'Not Found';
 
