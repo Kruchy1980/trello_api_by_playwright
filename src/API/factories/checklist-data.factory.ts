@@ -13,7 +13,7 @@ export function prepareRandomChecklistData(
   const name: string =
     checklistName && checklistName !== ''
       ? `${checklistName} - ${faker.lorem.words(titleLength ?? 1)}`
-      : checklistName === ''
+      : checklistName
         ? faker.lorem.words(titleLength ?? 1)
         : '';
 
@@ -22,7 +22,7 @@ export function prepareRandomChecklistData(
   const value: string =
     dynamicValue && dynamicValue !== ''
       ? `${dynamicValue} - ${faker.lorem.sentences(sentencesLength ?? 1)}`
-      : dynamicValue === ''
+      : dynamicValue
         ? faker.lorem.sentences(sentencesLength ?? 1)
         : '';
 

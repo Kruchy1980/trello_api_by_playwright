@@ -20,9 +20,10 @@ export function prepareRandomStickerData(
     const randomIndex = Math.floor(Math.random() * builtInStickers.length);
     return builtInStickers[randomIndex];
   };
-
-  const image: string | undefined =
-    customImage !== '' ? customImage : stickerNameGenerator();
+  const image: string =
+    customImage !== '' && customImage !== undefined
+      ? customImage
+      : stickerNameGenerator();
 
   const left: number = fromLeft
     ? fromLeft
