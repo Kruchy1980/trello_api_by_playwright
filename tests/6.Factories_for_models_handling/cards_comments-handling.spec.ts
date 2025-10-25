@@ -123,7 +123,6 @@ test.describe('Cards comments handling - factories implementation', () => {
     const expectedStatusCode = 200;
     const expectedCardCommentText = createdCommentText;
 
-
     // const commentCardParams: ParamsDataModel = {
     //   key: params.key,
     //   token: params.token,

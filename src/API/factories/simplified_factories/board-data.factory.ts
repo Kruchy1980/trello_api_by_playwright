@@ -16,7 +16,6 @@ export function prepareRandomBoardDataSimplified(
     numberCharacters,
   );
 
-
   const desc: string = generateRandomLargeDescription(
     description,
     fakeDesc,
