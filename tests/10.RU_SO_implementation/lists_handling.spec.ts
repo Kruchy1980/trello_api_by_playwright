@@ -64,7 +64,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // const createListUrl = generatePathURLSimplified(
       //   pathParameters.listParameter,
       // );
-      // RUSO usage
+      // RUSO Usage
       const createListUrl = listRequest.buildUrl();
 
       const data: ListDataModel = prepareRandomListDataSimplified(
@@ -81,7 +81,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // RUSO usage
+      // RUSO Usage
       const response = await listRequest.sendRequest('post', createListUrl, {
         headers,
         params,
@@ -103,7 +103,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // RUSO usage
+      // RUSO Usage
       const collectListsFromBoardUrl = boardRequest.buildUrl(
         createdBoardId,
         'lists',
@@ -115,7 +115,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // RUSO usage
+      // RUSO Usage
       const responseGetListsIds = await boardRequest.sendRequest(
         'get',
         collectListsFromBoardUrl,
@@ -147,7 +147,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   pathParameters.listParameter,
       //   listForUpdateId,
       // );
-      // RUSO usage
+      // RUSO Usage
       const updateListFieldUrl = listRequest.buildUrl(listForUpdateId);
       data = prepareRandomListDataSimplified(undefined, '');
       const { name: expectedUpdatedListName } = data;
@@ -159,7 +159,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      //RUSO usage
+      // RUSO Usage
       const response = await listRequest.sendRequest(
         'put',
         updateListFieldUrl,
@@ -186,7 +186,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   pathParameters.listParameter,
       //   updatedListId,
       // );
-      // Path params generator usage
+      // RUSO Usage
       const getListFieldUrl = listRequest.buildUrl(updatedListId);
 
       const getFieldParams: ParamsDataModel = prepareParamsDataSimplified(
@@ -206,7 +206,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   headers,
       //   params: { ...params, ...getFieldParams },
       // });
-      // Path params generator usage
+      // RUSO Usage
       const response = await listRequest.sendRequest('get', getListFieldUrl, {
         headers,
         params: { ...params, ...getFieldParams },
@@ -274,7 +274,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   pathParameters.listParameter,
       //   listForArchiveId,
       // );
-      // Path params generator usage
+      // RUSO Usage
       const collectArchivedListUrl = listRequest.buildUrl(listForArchiveId);
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'

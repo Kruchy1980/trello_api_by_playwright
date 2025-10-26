@@ -134,7 +134,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
         // const createChecklistUrl = generatePathURLSimplified(
         //   pathParameters.checklistParameter,
         // );
-        // Path params generator usage
+        // RUSO Usage
         const createChecklistUrl = checklistRequest.buildUrl();
         const checklistCreationData: ChecklistDataModel =
           prepareRandomChecklistDataSimplified(createdCardId, '');
@@ -146,7 +146,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
         //   params,
         //   data: checklistCreationData,
         // });
-        // Path params generator usage
+        // RUSO Usage
         const response = await checklistRequest.sendRequest(
           'post',
           createChecklistUrl,
@@ -325,7 +325,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   'checkItem',
       //   checkItemToMoveId,
       // );
-      // Path params generator usage
+      // RUSO Usage
       const updateAndMoveCheckItemUrl = cardRequest.buildUrl(
         cardId,
         'checkItem',
@@ -382,7 +382,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   'checkItems',
       //   checkItemToDelete,
       // );
-      // Path params generator usage
+      // RUSO Usage
       const deleteCheckItemFromChecklistUrl = checklistRequest.buildUrl(
         checklistId,
         'checkItems',
@@ -422,7 +422,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   'checkItems',
       //   checkItemDeleted,
       // );
-      // Path params generator usage
+      // RUSO Usage
       const getDeletedCHeckItemUrl = checklistRequest.buildUrl(
         checklistId,
         'checkItems',

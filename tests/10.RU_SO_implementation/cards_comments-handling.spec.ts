@@ -91,7 +91,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       const cardRequest = new CardRequest(request);
       // // Path params generator usage
       // const cardsUrl = generatePathURLSimplified(pathParameters.cardParameter);
-      // Path params generator usage
+      // RUSO Usage
       const cardsUrl = cardRequest.buildUrl();
       // // Factory usage
       const cardCreationData: CardDataModel = prepareRandomCardDataSimplified(

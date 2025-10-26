@@ -143,7 +143,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
         //   params,
         //   data,
         // });
-        // RUSO usage only
+        // RUSO Usage
         const response = await boardRequest.sendRequest('PUT', updateBoardUrl, {
           headers,
           params,
@@ -232,7 +232,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // With RUSO usage
+      // RUSO Usage
       const response = await boardRequest.sendRequest(
         'delete',
         deleteBoardURL,
@@ -256,20 +256,16 @@ test.describe('Boards handling - RU_SO implemented', () => {
       //   pathParameters.boardParameter,
       //   createdBoardId,
       // );
-      // Using boardRequest
+      // RUSO Usage
       const getDeletedBoardUrl = boardRequest.buildUrl(createdBoardId);
 
       // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-      // const response = await request.get(`/1/boards/${createdBoardId}`, {
-      //   headers,
-      //   params,
-      // });
       // Using Path Params genrator only
       // const response = await request.get(getDeletedBoardUrl, {
       //   headers,
       //   params,
       // });
-      // Using RUSO attitude
+      // RUSO Usage
       const response = await boardRequest.sendRequest(
         'get',
         getDeletedBoardUrl,
@@ -295,6 +291,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
+    // RUSO Usage
     const unauthorizedUserUrL = boardRequest.buildUrl(createdBoardId);
     // console.log(unauthorizedUserUrL);
 

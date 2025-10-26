@@ -112,7 +112,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         //   params,
         //   data: dataCardCreation,
         // });
-        // Path params generator usage
+        // RUSO Usage
         const response = await cardRequest.sendRequest(
           'post',
           cardCreationUrl,
@@ -137,7 +137,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     // const createLabelURL = generatePathURLSimplified(
     //   pathParameters.labelParameter,
     // );
-    // Path params generator usage
+    // RUSO Usage
     const createLabelURL = labelRequest.buildUrl();
     const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
       'red',
@@ -223,7 +223,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     //   pathParameters.labelParameter,
     //   createdBoardLabelId,
     // );
-    // Path params generator usage
+    // RUSO Usage
     const updateWholeLabelUrl = labelRequest.buildUrl(createdBoardLabelId);
     const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
       'black',
@@ -372,7 +372,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         //   pathParameters.labelParameter,
         //   createdLabelOnCardId,
         // );
-        // RUSOusage
+        // RUSO Usage
         const deleteLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
@@ -406,7 +406,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         //   pathParameters.labelParameter,
         //   createdLabelOnCardId,
         // );
-        // Path params generator usage
+        // RUSO Usage
         const getDeletedLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
@@ -415,7 +415,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         //   headers,
         //   params,
         // });
-        // Path params generator usage
+        // RUSO Usage
         const response = await labelRequest.sendRequest(
           'get',
           getDeletedLabelUrl,

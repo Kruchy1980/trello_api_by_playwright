@@ -64,7 +64,7 @@ test.describe('Cards handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Path generator usage
+      // RUSO Usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -303,7 +303,7 @@ test.describe('Cards handling - RU_SO implemented', () => {
       //   headers,
       //   params: { ...params, ...deletedCardParams },
       // });
-      // Path params generator usage
+      // RUSO Usage
       const response = await cardRequest.sendRequest('get', getDeletedCardUrl, {
         headers,
         params: { ...params, ...deletedCardParams },

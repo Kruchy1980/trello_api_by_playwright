@@ -109,7 +109,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
         //   params,
         //   data,
         // });
-        // Path parameters generator usage
+        // RUSO Usage
         const response = await cardRequest.sendRequest(
           'post',
           cardCreationURL,
@@ -137,7 +137,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   createdCardsIds[i],
       //   'stickers',
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const addStickerURL = cardRequest.buildUrl(
         createdCardsIds[i],
         'stickers',
@@ -272,7 +272,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   'stickers',
       //   stickerId,
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const getStickerFieldUrl = cardRequest.buildUrl(
         cardId,
         'stickers',
@@ -296,7 +296,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   headers,
       //   params: { ...params, ...stickerParams },
       // });
-      //Path parameters generator usage
+      // RUSO Usage
       const response = await cardRequest.sendRequest(
         'get',
         getStickerFieldUrl,
@@ -335,7 +335,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   'stickers',
       //   stickerId,
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const deleteStickerUrl = cardRequest.buildUrl(
         cardId,
         'stickers',
@@ -348,7 +348,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Path parameters generator usage
+      // RUSO Usage
       const response = await cardRequest.sendRequest(
         'delete',
         deleteStickerUrl,
