@@ -14,7 +14,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Model)
 
 test.describe('Cards comments handling - RU_SO implemented', () => {
   // Variables needed for tests
@@ -33,7 +34,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
       // Path generator used only
       // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // ROP usage
+      // RUSO usage
       const boardURL = boardRequest.buildUrl();
 
       // // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
@@ -62,7 +63,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // ROP usage - lists from board collection
+      // RUSO usage - lists from board collection
       const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
       // // Path parameter generator used only
@@ -70,7 +71,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const responseListsIds = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -109,7 +110,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   params,
       //   data: { ...cardCreationData },
       // });
-      // ROP usage
+      // RUSO usage
       const responseCardCreation = await cardRequest.sendRequest(
         'post',
         cardsUrl,
@@ -136,7 +137,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   'actions',
     //   'comments',
     // );
-    // ROP Usage
+    // RUSO Usage
     const createCommentUrl = cardRequest.buildUrl(
       createdCardId,
       'actions',
@@ -156,7 +157,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await cardRequest.sendRequest('post', createCommentUrl, {
       headers,
       params,
@@ -188,7 +189,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   createdCardId,
     //   'actions',
     // );
-    // ROP usage
+    // RUSO usage
     const getCommentUrl = cardRequest.buildUrl(createdCardId, 'actions');
 
     const commentCardParams: ParamsDataModel = prepareParamsDataSimplified(
@@ -206,7 +207,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   headers,
     //   params: { ...params, ...commentCardParams },
     // });
-    // ROP usage
+    // RUSO usage
     const response = await cardRequest.sendRequest('get', getCommentUrl, {
       headers,
       params: { ...params, ...commentCardParams },
@@ -233,7 +234,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   commentActionId,
     //   'comments',
     // );
-    // ROP usage
+    // RUSO usage
     const updateCommentUrl = cardRequest.buildUrl(
       createdCardId,
       'actions',
@@ -252,7 +253,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await cardRequest.sendRequest('put', updateCommentUrl, {
       headers,
       params,
@@ -286,7 +287,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   commentActionId,
       //   'comments',
       // );
-      // ROP usage
+      // RUSO usage
       const deleteCommentURL = cardRequest.buildUrl(
         createdCardId,
         'actions',
@@ -315,7 +316,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   pathParameters.actionsParameter,
       //   commentActionId,
       // );
-      // ROP usage
+      // RUSO usage
       const getDeletedCommentURL = actionRequest.buildUrl(commentActionId);
 
       // Act: 'https://api.trello.com/1/actions/{id}?key=APIKey&token=APIToken'
@@ -324,7 +325,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await actionRequest.sendRequest(
         'get',
         getDeletedCommentURL,
@@ -347,7 +348,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -355,7 +356,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,

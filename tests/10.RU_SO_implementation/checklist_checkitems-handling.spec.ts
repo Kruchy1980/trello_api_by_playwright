@@ -16,7 +16,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Model)
 test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
@@ -31,7 +32,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       const boardRequest = new BoardRequest(request);
       // // Path params generator usage
       // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // ROP usage
+      // RUSO usage
       const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
@@ -60,7 +61,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // ROP usage
+      // RUSO usage
       const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
 
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -69,7 +70,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -90,7 +91,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       // const cardCreationURL = generatePathURLSimplified(
       //   pathParameters.cardParameter,
       // );
-      // ROP usage
+      // RUSO usage
       const cardCreationURL = cardRequest.buildUrl();
       const cardCreationData: CardDataModel = prepareRandomCardDataSimplified(
         createdListsIds[0],
@@ -109,7 +110,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //         params,
       //         data: cardCreationData,
       //       });
-      // ROP usage
+      // RUSO usage
       const responseCardCreation = await cardRequest.sendRequest(
         'post',
         cardCreationURL,
@@ -176,7 +177,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   checklistId,
       //   'checkItems',
       // );
-      // ROP usage
+      // RUSO usage
       const addAndMoveCheckItemUrl = checklistRequest.buildUrl(
         checklistId,
         'checkItems',
@@ -195,7 +196,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await checklistRequest.sendRequest(
         'post',
         addAndMoveCheckItemUrl,
@@ -220,7 +221,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   checklistId,
       //   'checkItems',
       // );
-      // ROP usage
+      // RUSO usage
       const prepareCheckItemInTopURL = checklistRequest.buildUrl(
         checklistId,
         'checkItems',
@@ -243,7 +244,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   prepareCheckItemInTopURL,
       //   { headers, params, data: checkItemCreationTopData },
       // );
-      // ROP usage
+      // RUSO usage
       const responseCheckItemTopCreation = await checklistRequest.sendRequest(
         'post',
         prepareCheckItemInTopURL,
@@ -279,7 +280,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
     //   checklistId,
     //   'checkItems',
     // );
-    // ROP usage
+    // RUSO usage
     const getCheckItemsUrl = checklistRequest.buildUrl(
       checklistId,
       'checkItems',
@@ -288,7 +289,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
     // Act: https://api.trello.com/1/checklists/{id}/checkItems?key=APIKey&token=APIToken
     // // Path params generator usage
     // const response = await request.get(getCheckItemsUrl, { headers, params });
-    // ROP usage
+    // RUSO usage
     const response = await checklistRequest.sendRequest(
       'get',
       getCheckItemsUrl,
@@ -350,7 +351,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //     params: { ...params, ...updateCheckItemParams },
       //   },
       // );
-      // ROP usage
+      // RUSO usage
       const response = await cardRequest.sendRequest(
         'put',
         updateAndMoveCheckItemUrl,
@@ -456,7 +457,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -464,7 +465,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,

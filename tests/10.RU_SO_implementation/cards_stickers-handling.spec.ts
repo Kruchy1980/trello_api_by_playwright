@@ -13,7 +13,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Model)
 
 test.describe('Cards stickers handling - RU_SO implemented', () => {
   let createdBoardId: string;
@@ -40,7 +41,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await boardRequest.sendRequest('post', boardURL, {
         headers,
         params,
@@ -58,7 +59,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // ROP usage
+      // RUSO usage
       const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
 
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
@@ -67,7 +68,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -89,7 +90,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
         // const cardCreationURL = generatePathURLSimplified(
         //   pathParameters.cardParameter,
         // );
-        // ROP usage
+        // RUSO usage
         const cardCreationURL = cardRequest.buildUrl();
         const data: CardDataModel = prepareRandomCardDataSimplified(
           createdListsIds[i],
@@ -161,7 +162,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await cardRequest.sendRequest('post', addStickerURL, {
         headers,
         params,
@@ -202,7 +203,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   'stickers',
       //   stickerId,
       // );
-      // ROP usage
+      // RUSO usage
       const updateStickerOnCardURL = cardRequest.buildUrl(
         cardId,
         'stickers',
@@ -230,7 +231,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await cardRequest.sendRequest(
         'put',
         updateStickerOnCardURL,
@@ -374,7 +375,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   cardId,
       //   'stickers',
       // );
-      // ROP usage
+      // RUSO usage
       const getDeletedStickerUrl = cardRequest.buildUrl(cardId, 'stickers');
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
@@ -383,7 +384,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await cardRequest.sendRequest(
         'get',
         getDeletedStickerUrl,
@@ -412,7 +413,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       //   'stickers',
       //   createdStickersIds[i],
       // );
-      // ROP usage
+      // RUSO usage
       const deleteStickersUrl = cardRequest.buildUrl(
         createdCardsIds[i],
         'stickers',
@@ -420,7 +421,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       );
       // // Path parameters generator usage
       // await request.delete(deleteStickersUrl, { headers, params });
-      // ROP usage
+      // RUSO usage
       await cardRequest.sendRequest('delete', deleteStickersUrl, {
         headers,
         params,
@@ -438,7 +439,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -446,7 +447,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,

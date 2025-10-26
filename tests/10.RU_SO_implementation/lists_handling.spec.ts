@@ -11,7 +11,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Model)
 
 test.describe('Lists handling - RU_SO implemented', () => {
   let createdBoardId: string;
@@ -23,7 +24,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     // const createBoardUrl = generatePathURLSimplified(
     //   pathParameters.boardParameter,
     // );
-    // ROP usage
+    // RUSO usage
     const createBoardUrl = boardRequest.buildUrl();
 
     const data: BoardDataModel = prepareRandomBoardDataSimplified(
@@ -40,7 +41,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     //       params,
     //       data,
     //     });
-    // ROP usage
+    // RUSO usage
     const response = await boardRequest.sendRequest('post', createBoardUrl, {
       headers,
       params,
@@ -63,7 +64,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // const createListUrl = generatePathURLSimplified(
       //   pathParameters.listParameter,
       // );
-      // ROP usage
+      // RUSO usage
       const createListUrl = listRequest.buildUrl();
 
       const data: ListDataModel = prepareRandomListDataSimplified(
@@ -80,7 +81,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await listRequest.sendRequest('post', createListUrl, {
         headers,
         params,
@@ -102,7 +103,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // ROP usage
+      // RUSO usage
       const collectListsFromBoardUrl = boardRequest.buildUrl(
         createdBoardId,
         'lists',
@@ -114,7 +115,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const responseGetListsIds = await boardRequest.sendRequest(
         'get',
         collectListsFromBoardUrl,
@@ -146,7 +147,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   pathParameters.listParameter,
       //   listForUpdateId,
       // );
-      // ROP usage
+      // RUSO usage
       const updateListFieldUrl = listRequest.buildUrl(listForUpdateId);
       data = prepareRandomListDataSimplified(undefined, '');
       const { name: expectedUpdatedListName } = data;
@@ -158,7 +159,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      //ROP usage
+      //RUSO usage
       const response = await listRequest.sendRequest(
         'put',
         updateListFieldUrl,
@@ -230,7 +231,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   pathParameters.listParameter,
       //   listForArchiveId,
       // );
-      // ROP usage
+      // RUSO usage
       const archiveListUrl = listRequest.buildUrl(listForArchiveId);
 
       const data: ListDataModel = prepareRandomListDataSimplified(
@@ -248,7 +249,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await listRequest.sendRequest('put', archiveListUrl, {
         headers,
         params,
@@ -282,7 +283,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await listRequest.sendRequest(
         'get',
         collectArchivedListUrl,
@@ -316,7 +317,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     //   pathParameters.listParameter,
     //   listForUpdateId,
     // );
-    // ROP usage
+    // RUSO usage
     const updateListFieldsUrl = listRequest.buildUrl(listForUpdateId);
 
     const data: ListDataModel = prepareRandomListDataSimplified(
@@ -333,7 +334,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await listRequest.sendRequest('put', updateListFieldsUrl, {
       headers,
       params,
@@ -355,7 +356,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -363,7 +364,7 @@ test.describe('Lists handling - RU_SO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,

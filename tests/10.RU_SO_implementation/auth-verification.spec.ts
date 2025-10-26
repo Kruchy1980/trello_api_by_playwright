@@ -4,7 +4,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Simplify the URLS generation
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Model)
 
 test('Authorization verification - RU_SO implemented', async ({ request }) => {
   // Arrange:
@@ -25,7 +26,7 @@ test('Authorization verification - RU_SO implemented', async ({ request }) => {
   //   headers,
   //   params,
   // });
-  // ROP usage
+  // RUSO usage
   const response = await memberRequest.sendRequest('get', authVerificationUrl, {
     headers,
     params,
