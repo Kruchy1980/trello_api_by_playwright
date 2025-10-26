@@ -17,7 +17,7 @@ import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
 // TODO: Implement RUSO (Request Unit/Utility/ Service Object)
-// TODO: Improve to ROP (Request Object Model)
+// TODO: Improve to ROP (Request Object Pattern)
 test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];

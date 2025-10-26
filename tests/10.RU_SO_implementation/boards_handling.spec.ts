@@ -9,7 +9,7 @@ import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
 // TODO: Implement RUSO (Request Unit/Utility/ Service Object)
-// TODO: Improve to ROP (Request Object Model)
+// TODO: Improve to ROP (Request Object Pattern)
 
 test.describe('Boards handling - RU_SO implemented', () => {
   let createdBoardId: string;
