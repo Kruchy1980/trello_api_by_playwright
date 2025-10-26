@@ -24,7 +24,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
     // const boardPathURL = generatePathURLSimplified(
     //   pathParameters.boardParameter,
     // );
-    // RUSO_Usage
+    // RUSO Usage
     const boardPathURL = boardRequest.buildUrl();
     // console.log('Prepared path parameter', boardPathURL);
 

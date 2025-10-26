@@ -17,7 +17,7 @@ test('Authorization verification - RU_SO implemented', async ({ request }) => {
   //   'me',
   //   'boards',
   // );
-  // ROP usage
+  // RUSO usage
   const authVerificationUrl = memberRequest.buildUrl('me', 'boards');
 
   // Act: 'https://api.trello.com/1/members/me/boards?key={yourKey}&token={yourToken}'

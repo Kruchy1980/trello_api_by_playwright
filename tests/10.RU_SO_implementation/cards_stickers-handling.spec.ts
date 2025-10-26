@@ -30,7 +30,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       const boardRequest = new BoardRequest(request);
       // // Path parameters generator usage
       // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // Path parameters generator usage
+      // RUSO Usage
       const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 

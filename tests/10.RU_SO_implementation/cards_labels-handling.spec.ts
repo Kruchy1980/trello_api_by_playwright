@@ -46,7 +46,7 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // Path parameters generator usage
+      // RUSO Usage
       const response = await boardRequest.sendRequest('post', boardURL, {
         headers,
         params,

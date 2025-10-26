@@ -64,7 +64,7 @@ test.describe('Checklists_handling - RU_SO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Path params generator usage
+      // RUSO Usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -124,7 +124,7 @@ test.describe('Checklists_handling - RU_SO implemented', () => {
     // const addChecklistToCardUrl = generatePathURLSimplified(
     //   pathParameters.checklistParameter,
     // );
-    // Path params generator usage
+    // RUSO Usage
     const addChecklistToCardUrl = checklistRequest.buildUrl();
     data = prepareRandomChecklistDataSimplified(createdCardId, '', 3);
     const { name: expectedChecklistName } = data;
@@ -199,7 +199,7 @@ test.describe('Checklists_handling - RU_SO implemented', () => {
     //   pathParameters.checklistParameter,
     //   createdChecklistId,
     // );
-    // RUSO generator usage
+    // RUSO usage
     const updateChecklistData = checklistRequest.buildUrl(createdChecklistId);
     const data: ChecklistDataModel = prepareRandomChecklistDataSimplified(
       '',

@@ -43,7 +43,7 @@ test.describe('CheckItems on checklists handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // Path params generator usage
+      // RUSO Usage
       const response = await boardRequest.sendRequest('post', boardURL, {
         headers,
         params,

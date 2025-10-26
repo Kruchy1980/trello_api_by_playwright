@@ -44,7 +44,7 @@ test.describe('Cards comments handling - RU_SO implemented', () => {
       //   params,
       //   data,
       // });
-      // Path generator usage only
+      // RUSO Usage
       const response = await boardRequest.sendRequest('POST', boardURL, {
         headers,
         params,
