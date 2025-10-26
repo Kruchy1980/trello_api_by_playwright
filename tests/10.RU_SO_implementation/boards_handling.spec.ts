@@ -38,7 +38,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
     //   data,
     // });
 
-    // New implementation with RUSO usage
+    // RUSO Usage
     const response = await boardRequest.sendRequest('post', boardPathURL, {
       headers,
       params,
