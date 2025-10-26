@@ -4,8 +4,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Utilities/ Service Objects)
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Objects)
+// TODO: Improve to ROP (Request Object Model)
 
 test('Authorization verification - RUSO implemented', async ({ request }) => {
   // Arrange:
@@ -17,7 +17,7 @@ test('Authorization verification - RUSO implemented', async ({ request }) => {
   //   'me',
   //   'boards',
   // );
-  // ROP usage
+  // RUSO usage
   const authVerificationUrl = memberRequest.buildUrl('me', 'boards');
 
   // Act: 'https://api.trello.com/1/members/me/boards?key={yourKey}&token={yourToken}'
@@ -26,7 +26,7 @@ test('Authorization verification - RUSO implemented', async ({ request }) => {
   //   headers,
   //   params,
   // });
-  // ROP usage
+  // RUSO usage
   const response = await memberRequest.sendRequest('get', authVerificationUrl, {
     headers,
     params,

@@ -19,8 +19,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Utilities/ Service Objects)
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Objects)
+// TODO: Improve to ROP (Request Object Model)
 
 test.describe('Cards labels handling - RUSO implemented', () => {
   let createdBoardId: string;
@@ -64,7 +64,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   createdBoardId,
       //   'lists',
       // );
-      // ROP usage
+      // RUSO usage
       const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
       // // Path parameters generator usage
@@ -72,7 +72,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP usage
+      // RUSO usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
@@ -93,7 +93,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
         // const cardCreationUrl = generatePathURLSimplified(
         //   pathParameters.cardParameter,
         // );
-        // ROP usage
+        // RUSO usage
         const cardCreationUrl = cardRequest.buildUrl();
         const dataCardCreation: CardDataModel = prepareRandomCardDataSimplified(
           createdListsIds[i],
@@ -155,7 +155,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await labelRequest.sendRequest('post', createLabelURL, {
       headers,
       params,
@@ -187,7 +187,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   cardId,
     //   'idLabels',
     // );
-    // ROP usage
+    // RUSO usage
     const addLabelToCardUrl = cardRequest.buildUrl(cardId, 'idLabels');
     const data: LabelOperationsDataModelSimplified =
       prepareOperationDataSimplified(createdBoardLabelId);
@@ -200,7 +200,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await cardRequest.sendRequest('post', addLabelToCardUrl, {
       headers,
       params,
@@ -240,7 +240,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   params,
     //   data,
     // });
-    // ROP usage
+    // RUSO usage
     const response = await labelRequest.sendRequest(
       'put',
       updateWholeLabelUrl,
@@ -278,7 +278,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   cardId,
       //   'labels',
       // );
-      // ROP usage
+      // RUSO usage
       const createLabelOnCardPath = cardRequest.buildUrl(cardId, 'labels');
       const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
         'yellow',
@@ -295,7 +295,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await cardRequest.sendRequest(
         'post',
         createLabelOnCardPath,
@@ -329,7 +329,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   pathParameters.labelParameter,
       //   createdLabelOnCardId,
       // );
-      // ROP usage
+      // RUSO usage
       const updateLabelFieldUrl = labelRequest.buildUrl(createdLabelOnCardId);
       const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified();
       const { color: expectedLabelColor } = data;
@@ -341,7 +341,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
       //   params,
       //   data,
       // });
-      // ROP usage
+      // RUSO usage
       const response = await labelRequest.sendRequest(
         'put',
         updateLabelFieldUrl,
@@ -372,7 +372,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
         //   pathParameters.labelParameter,
         //   createdLabelOnCardId,
         // );
-        // ROPusage
+        // RUSOusage
         const deleteLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
@@ -381,7 +381,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
         //   headers,
         //   params,
         // });
-        // ROP usage
+        // RUSO usage
         const response = await labelRequest.sendRequest(
           'delete',
           deleteLabelUrl,
@@ -440,7 +440,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -448,7 +448,7 @@ test.describe('Cards labels handling - RUSO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,

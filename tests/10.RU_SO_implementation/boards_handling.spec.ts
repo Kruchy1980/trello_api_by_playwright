@@ -8,8 +8,8 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Implement RUSO (Request Utilities/ Service Objects)
-// TODO: Implement ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Objects)
+// TODO: Improve to ROP (Request Object Model)
 
 test.describe('Boards handling - RUSO implemented', () => {
   let createdBoardId: string;
@@ -37,7 +37,7 @@ test.describe('Boards handling - RUSO implemented', () => {
     //   data,
     // });
 
-    // New implementation with ROP usage
+    // New implementation with RUSO usage
     const response = await boardRequest.sendRequest('post', boardPathURL, {
       headers,
       params,
@@ -69,7 +69,7 @@ test.describe('Boards handling - RUSO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP used
+    // RUSO used
     // const getBoardURL = boardRequest.buildUrl('', createdBoardId);
     const getBoardURL = boardRequest.buildUrl(createdBoardId);
     // console.log('Path Param added to url', getBoardURL);
@@ -80,7 +80,7 @@ test.describe('Boards handling - RUSO implemented', () => {
     //   params,
     // });
 
-    // New implementation with ROP usage
+    // New implementation with RUSO usage
     const response = await boardRequest.sendRequest('get', getBoardURL, {
       headers,
       params,
@@ -116,7 +116,7 @@ test.describe('Boards handling - RUSO implemented', () => {
         //   pathParameters.boardParameter,
         //   expectedBoardId,
         // );
-        // ROP usage
+        // RUSO usage
         const updateBoardUrl = boardRequest.buildUrl(expectedBoardId);
 
         const data: BoardDataModel = prepareRandomBoardDataSimplified(
@@ -142,7 +142,7 @@ test.describe('Boards handling - RUSO implemented', () => {
         //   params,
         //   data,
         // });
-        // ROP usage only
+        // RUSO usage only
         const response = await boardRequest.sendRequest('PUT', updateBoardUrl, {
           headers,
           params,
@@ -173,7 +173,7 @@ test.describe('Boards handling - RUSO implemented', () => {
       //   createdBoardId,
       //   'name',
       // );
-      // ROP usage
+      // RUSO usage
       const getFieldFromBoardUrl = boardRequest.buildUrl(
         createdBoardId,
         'name',
@@ -190,7 +190,7 @@ test.describe('Boards handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // ROP Usage
+      // RUSO Usage
       const response = await boardRequest.sendRequest(
         'get',
         getFieldFromBoardUrl,
@@ -231,7 +231,7 @@ test.describe('Boards handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // With ROP usage
+      // With RUSO usage
       const response = await boardRequest.sendRequest(
         'delete',
         deleteBoardURL,
@@ -268,7 +268,7 @@ test.describe('Boards handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Using ROP attitude
+      // Using RUSO attitude
       const response = await boardRequest.sendRequest(
         'get',
         getDeletedBoardUrl,
@@ -329,7 +329,7 @@ test.describe('Boards handling - RUSO implemented', () => {
     //   pathParameters.boardParameter,
     //   createdBoardId,
     // );
-    // ROP usage
+    // RUSO usage
     const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
     // // Path Params usage only
@@ -337,7 +337,7 @@ test.describe('Boards handling - RUSO implemented', () => {
     //   headers,
     //   params,
     // });
-    // ROP usage
+    // RUSO usage
     await boardRequest.sendRequest('delete', deleteBoardUrl, {
       headers,
       params,
