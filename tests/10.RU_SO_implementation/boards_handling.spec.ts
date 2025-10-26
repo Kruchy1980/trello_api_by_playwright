@@ -132,11 +132,6 @@ test.describe('Boards handling - RU_SO implemented', () => {
           data;
 
         // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-        // const response = await request.put(`/1/boards/${expectedBoardId}`, {
-        //   headers,
-        //   params,
-        //   data,
-        // });
         // Path Parameter generator only
         // const response = await request.put(updateBoardUrl, {
         //   headers,
@@ -182,10 +177,6 @@ test.describe('Boards handling - RU_SO implemented', () => {
       // console.log('Simplified parameterGenerator', getFieldFromBoardUrl);
 
       // Act: 'https://api.trello.com/1/boards/{id}/{field}?key=APIKey&token=APIToken'
-      // const response = await request.get(`/1/boards/${createdBoardId}/name`, {
-      //   headers,
-      //   params,
-      // });
       // // Path generator usage only
       // const response = await request.get(getFieldFromBoardUrl, {
       //   headers,
@@ -223,11 +214,7 @@ test.describe('Boards handling - RU_SO implemented', () => {
       const deleteBoardURL = boardRequest.buildUrl(createdBoardId);
 
       // // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-      // const response = await request.delete(`/1/boards/${createdBoardId}`, {
-      //   headers,
-      //   params,
-      // });
-
+      // Path Parameters usage only
       // const response = await request.delete(deleteBoardURL, {
       //   headers,
       //   params,
