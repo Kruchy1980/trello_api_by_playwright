@@ -300,7 +300,7 @@ test.describe('Cards stickers handling - path_generators', () => {
         'stickers',
       );
 
-      // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
+      // Act: 'https://api.trello.com/1/cards/{id}/stickers?key=APIKey&token=APIToken'
       // const response = await request.get(`/1/cards/${cardId}/stickers`, {
       //   headers,
       //   params,
