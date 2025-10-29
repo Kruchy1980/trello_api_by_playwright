@@ -1,5 +1,10 @@
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardCommentDataModel } from '@_src/API/models/card_comments-data.model';
+import {
+  LabelDataModelSimplified,
+  LabelOperationsDataModelSimplified,
+} from '@_src/API/models/card_label_new_version_model/card_label_model_simplified';
+import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
 import { pathParameters } from '@_src/API/utils/path_parameters_utils';
 import { APIRequestContext, APIResponse } from '@playwright/test';
 import { BaseRequest } from './baseRequest';
@@ -123,5 +128,100 @@ export class CardRequest extends BaseRequest {
         params,
       },
     );
+  }
+  // 'https://api.trello.com/1/cards/{id}/idLabels?key=APIKey&token=APIToken';: POST
+  public async addLabelToCard(
+    id: string,
+    field: string,
+    data: LabelOperationsDataModelSimplified,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('POST', this.buildUrl(id, field), {
+      headers,
+      params,
+      data,
+    });
+  }
+  // 'https://api.trello.com/1/cards/{id}/labels?color={color}&key=APIKey&token=APIToken';: POST
+  public async createLabelOnCard(
+    id: string,
+    field: string,
+    data: LabelDataModelSimplified,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('POST', this.buildUrl(id, field), {
+      headers,
+      params,
+      data,
+    });
+  }
+  // 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken';: POST
+  public async addStickerToCard(
+    id: string,
+    field: string,
+    data: CardStickerDataModel,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('POST', this.buildUrl(id, field), {
+      headers,
+      params,
+      data,
+    });
+  }
+  // /1/cards/{id}/stickers/{idSticker}?top={top}&left={left}&zIndex={zIndex}: PUT
+  public async updateStickerOnCard(
+    id: string,
+    field: string,
+    stickerId: string,
+    data: CardStickerDataModel,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('PUT', this.buildUrl(id, field, stickerId), {
+      headers,
+      params,
+      data,
+    });
+  }
+  // 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken: GET
+  public async getStickerElements(
+    id: string,
+    field: string,
+    stickerId: string,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('GET', this.buildUrl(id, field, stickerId), {
+      headers,
+      params,
+    });
+  }
+  // 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken': DELETE
+  public async deleteSticker(
+    id: string,
+    field: string,
+    stickerId: string,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('DELETE', this.buildUrl(id, field, stickerId), {
+      headers,
+      params,
+    });
+  }
+  // 'https://api.trello.com/1/cards/{id}/stickers?key=APIKey&token=APIToken': GET
+  public async getSticker(
+    id: string,
+    field: string,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('GET', this.buildUrl(id, field), {
+      headers,
+      params,
+    });
   }
 }
