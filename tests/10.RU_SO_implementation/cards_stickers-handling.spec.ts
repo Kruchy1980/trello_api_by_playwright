@@ -378,7 +378,7 @@ test.describe('Cards stickers handling - RU_SO implemented', () => {
       // RUSO usage
       const getDeletedStickerUrl = cardRequest.buildUrl(cardId, 'stickers');
 
-      // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
+      // Act: 'https://api.trello.com/1/cards/{id}/stickers?key=APIKey&token=APIToken'
       // // Path parameters generator usage
       // const response = await request.get(DeletedStickerUrl, {
       //   headers,
