@@ -16,6 +16,7 @@ export class CardRequest extends BaseRequest {
     super(request);
     this.basePath = pathParameters.cardParameter;
   }
+  // CARDS
   // 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken': POST
   public async createCard(
     data: CardDataModel,
@@ -63,6 +64,7 @@ export class CardRequest extends BaseRequest {
       params,
     });
   }
+  // CARD COMMENTS
   // Think about build new class for the following methods - is that necessary - base path is cards !!!
   // 'https://api.trello.com/1/cards/{id}/actions/comments?text={text}&key=APIKey&token=APIToken';: POST
   public async createCardComment(
@@ -129,6 +131,7 @@ export class CardRequest extends BaseRequest {
       },
     );
   }
+  // LABELS
   // 'https://api.trello.com/1/cards/{id}/idLabels?key=APIKey&token=APIToken';: POST
   public async addLabelToCard(
     id: string,
@@ -157,6 +160,7 @@ export class CardRequest extends BaseRequest {
       data,
     });
   }
+  // STICKERS
   // 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken';: POST
   public async addStickerToCard(
     id: string,
@@ -220,6 +224,20 @@ export class CardRequest extends BaseRequest {
     headers: Record<string, string>,
   ): Promise<APIResponse> {
     return this.sendRequest('GET', this.buildUrl(id, field), {
+      headers,
+      params,
+    });
+  }
+  // CHECKITEMS
+  // /1/cards/${cardId}/checkItem/${checkItemToMoveId}: PUT
+  public async editCardElement(
+    idMain: string,
+    element: string,
+    idTo: string,
+    params: Record<string, string | boolean>,
+    headers: Record<string, string>,
+  ): Promise<APIResponse> {
+    return this.sendRequest('PUT', this.buildUrl(idMain, element, idTo), {
       headers,
       params,
     });
