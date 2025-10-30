@@ -6,7 +6,7 @@ import { expect, test } from '@playwright/test';
 // TODO: For refactoring
 // TODO: Improve to ROP (Request Object Pattern)
 
-test('Authorization verification - RU_SO implemented', async ({ request }) => {
+test('Authorization verification - ROP implemented', async ({ request }) => {
   // Arrange:
   const memberRequest = new MemberRequest(request);
   const expectedStatusCode = 200;

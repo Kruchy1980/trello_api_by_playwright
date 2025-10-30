@@ -12,7 +12,7 @@ import { expect, test } from '@playwright/test';
 // TODO: For Refactoring
 // TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Boards handling - RU_SO implemented', () => {
+test.describe('Boards handling - ROP implemented', () => {
   let createdBoardId: string;
   let boardName: string | undefined;
   let boardDescription: string | undefined;
