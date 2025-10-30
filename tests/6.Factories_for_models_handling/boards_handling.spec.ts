@@ -176,12 +176,14 @@ test.describe('Boards handling - factories implementation', () => {
     // Arrange:
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-
     // const incorrectParams: ParamsDataModel = {
     //   key: 'poisfbnzpoib',
     //   token: params.token,
     // };
-    const incorrectParams: ParamsDataModel = prepareParamsData('', 'asefawfwf');
+    const incorrectParams: ParamsDataModel = prepareParamsData(
+      '',
+      'gawgagawgga',
+    );
     // console.log(incorrectParams);
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'

@@ -101,6 +101,13 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 │ └─── **utils** <-- sub-sub folder which contains utils for API tests
 | ├─── **models** <-- sub-sub-folder which contains models for used data in tests
 | ├─── **factories** <-- sub-sub-folder which contains factories for models handling
+│ │   └───**simplified_factories** <-- sub sub_folder with simplified factories
+│ ├─── **helpers** <-- methods/functions for simplifying factories
+│ │ └─── **factories** <-- sub folder which collects data-generAtors and helper functions | | for factories simplifying
+│ │ | ├─── **data_generators** <-- sub folder with data generators used in factories
+│ │ | └─── **helper_functions** <-- sub folder which contains used helper functions
+│ | │ └─── **path_params_generators** <-- sub folder which contains different methods for path generation in endpoints
+│ ├─── **requests** <--  folder which contains classes for RU/SO handling
 └─── **tests** <-- folder with tests
 | ├─── **1.Atomic-tests-dependent** <-- pure atomic tests without any updates
 | ├─── **2.Base_refactor-dependent** <-- tests with headers and auth params separated to external file
@@ -108,4 +115,8 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 | ├─── **4.Refactor_removing_query_params** <-- Tests with removed query params from endpoints
 | └─── **5.Refactor_object_models_preparation** <-- Tests with base implementation of models
 | └─── **6.Factories_for_models_handling** <-- factories for data preparation and implementation
+| └─── **7.Refactor_simplifying_factories** <-- simplified factories implemented
+| └─── **8.Refactor_destructuring_in_test_sets** <-- Folder which contains all tests with destructured needed objects
+| └─── **9.Refactor_path_parameters_generators** <-- Folder with tests corrected with path parameters generator usage
+| ├─── **10.RU_SO_implementation** <-- tests with Request Unit/Utility/ Service Object part implemented
 ```

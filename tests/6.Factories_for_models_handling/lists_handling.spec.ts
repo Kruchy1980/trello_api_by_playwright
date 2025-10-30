@@ -136,7 +136,6 @@ test.describe('Lists handling - factories implementation', () => {
         '',
         'name',
       );
-
       // console.log(getFieldParams);
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
