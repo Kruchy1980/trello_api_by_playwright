@@ -104,11 +104,15 @@ test.describe('Checklists_handling - RU_SO implemented', () => {
       //   data: cardCreationData,
       // });
       // RUSO usage
-      const responseCardCreation = await request.post(cardCreationURL, {
-        headers,
-        params,
-        data: cardCreationData,
-      });
+      const responseCardCreation = await cardRequest.sendRequest(
+        'post',
+        cardCreationURL,
+        {
+          headers,
+          params,
+          data: cardCreationData,
+        },
+      );
       const responseCardCreationJSON = await responseCardCreation.json();
       const { id: actualCardCreationId } = responseCardCreationJSON;
 
