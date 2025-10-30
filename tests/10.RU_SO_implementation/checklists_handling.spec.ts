@@ -64,7 +64,7 @@ test.describe('Checklists_handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Path params generator usage
+      // RUSO Usage
       const responseGetLists = await boardRequest.sendRequest(
         'get',
         getListsUrl,
