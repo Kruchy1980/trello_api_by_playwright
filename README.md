@@ -103,6 +103,7 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 | ├─── **factories** <-- sub-sub-folder which contains factories for models handling
 │ │ └───**simplified_factories** <-- sub sub_folder with simplified factories
 │ ├─── **helpers** <-- methods/functions for simplifying factories
+│ │ ├─── **conversion_helpers** <-- helper for converting to Record custom params objects
 │ │ └─── **factories** <-- sub folder which collects data-generAtors and helper functions | | for factories simplifying
 │ │ | ├─── **data_generators** <-- sub folder with data generators used in factories
 │ │ | └─── **helper_functions** <-- sub folder which contains used helper functions
@@ -119,4 +120,5 @@ Instruction for TRELLO Preparation for API tests: [TRELLO ACCOUNT KEYS PREPARATI
 | └─── **8.Refactor_destructuring_in_test_sets** <-- Folder which contains all tests with destructured needed objects
 | └─── **9.Refactor_path_parameters_generators** <-- Folder with tests corrected with path parameters generator usage
 | ├─── **10.RU_SO_implementation** <-- tests with Request Unit/Utility/ Service Object part implemented
+| ├─── **11.ROP_implementation** <-- tests with Request Object Pattern implemented
 ```
