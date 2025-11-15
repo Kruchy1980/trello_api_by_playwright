@@ -13,10 +13,10 @@ import { headers, params } from '@_src/API/utils/api_utils';
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Unit/Utility/ Service Objects)
-// TODO: Improve to ROP (Request Object Model)
+// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
+// TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Cards stickers handling - RUSO implemented', () => {
+test.describe('Cards stickers handling - RU_SO implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
@@ -30,7 +30,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       const boardRequest = new BoardRequest(request);
       // // Path parameters generator usage
       // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // Path parameters generator usage
+      // RUSO Usage
       const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
@@ -109,7 +109,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
         //   params,
         //   data,
         // });
-        // Path parameters generator usage
+        // RUSO Usage
         const response = await cardRequest.sendRequest(
           'post',
           cardCreationURL,
@@ -137,7 +137,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       //   createdCardsIds[i],
       //   'stickers',
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const addStickerURL = cardRequest.buildUrl(
         createdCardsIds[i],
         'stickers',
@@ -272,7 +272,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       //   'stickers',
       //   stickerId,
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const getStickerFieldUrl = cardRequest.buildUrl(
         cardId,
         'stickers',
@@ -296,7 +296,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       //   headers,
       //   params: { ...params, ...stickerParams },
       // });
-      //Path parameters generator usage
+      // RUSO Usage
       const response = await cardRequest.sendRequest(
         'get',
         getStickerFieldUrl,
@@ -335,7 +335,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       //   'stickers',
       //   stickerId,
       // );
-      // Path parameters generator usage
+      // RUSO Usage
       const deleteStickerUrl = cardRequest.buildUrl(
         cardId,
         'stickers',
@@ -348,7 +348,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       //   headers,
       //   params,
       // });
-      // Path parameters generator usage
+      // RUSO Usage
       const response = await cardRequest.sendRequest(
         'delete',
         deleteStickerUrl,
@@ -378,7 +378,7 @@ test.describe('Cards stickers handling - RUSO implemented', () => {
       // RUSO usage
       const getDeletedStickerUrl = cardRequest.buildUrl(cardId, 'stickers');
 
-      // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
+      // Act: 'https://api.trello.com/1/cards/{id}/stickers?key=APIKey&token=APIToken'
       // // Path parameters generator usage
       // const response = await request.get(DeletedStickerUrl, {
       //   headers,

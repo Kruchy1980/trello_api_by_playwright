@@ -10,19 +10,18 @@ import {
   LabelDataModelSimplified,
   LabelOperationsDataModelSimplified,
 } from '@_src/API/models/card_label_new_version_model/card_label_model_simplified';
-import { BoardRequest } from '@_src/API/requests/boardRequest';
-import { CardRequest } from '@_src/API/requests/cardRequest';
-import { LabelRequest } from '@_src/API/requests/labelRequest';
+import { BoardRequest } from '@_src/API/requests/for_ROP_Requests/boardRequest';
+import { CardRequest } from '@_src/API/requests/for_ROP_Requests/cardRequest';
+import { LabelRequest } from '@_src/API/requests/for_ROP_Requests/labelRequest';
 
 import { headers, params } from '@_src/API/utils/api_utils';
 
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
 // TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Cards labels handling - RU_SO implemented', () => {
+test.describe('Cards labels handling - ROP implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
@@ -33,53 +32,43 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     async ({ request }) => {
       // Arrange:
       const boardRequest = new BoardRequest(request);
-      // // Path parameters generator usage
-      // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // Path parameters generator usage
-      const boardURL = boardRequest.buildUrl();
+      // RUSO Usage
+      // const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
-      // // Path parameters generator usage
-      // const response = await request.post(boardURL, {
+      // // RUSO Usage
+      // const response = await boardRequest.sendRequest('post', boardURL, {
       //   headers,
       //   params,
       //   data,
       // });
       // RUSO Usage
-      const response = await boardRequest.sendRequest('post', boardURL, {
-        headers,
-        params,
-        data,
-      });
+      const response = await boardRequest.createBoard(data, params, headers);
       const responseJSON = await response.json();
       const { id: actualBoardId } = responseJSON;
       createdBoardId = actualBoardId;
 
       // Collect lists Id's
       // Arrange:
-      // // Path parameters generator usage
-      // const getListsUrl = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
-      //   createdBoardId,
-      //   'lists',
+      // RUSO usage
+      // const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
+      // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
+      // // RUSO usage
+      // const responseGetLists = await boardRequest.sendRequest(
+      //   'get',
+      //   getListsUrl,
+      //   {
+      //     headers,
+      //     params,
+      //   },
       // );
       // RUSO usage
-      const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
-      // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
-      // // Path parameters generator usage
-      // const responseGetLists = await request.get(getListsUrl, {
-      //   headers,
-      //   params,
-      // });
-      // RUSO usage
-      const responseGetLists = await boardRequest.sendRequest(
-        'get',
-        getListsUrl,
-        {
-          headers,
-          params,
-        },
+      const responseGetLists = await boardRequest.getBoardElements(
+        createdBoardId,
+        'lists',
+        params,
+        headers,
       );
       const responseGetListsJSON = await responseGetLists.json();
       responseGetListsJSON.forEach(({ id }: { id: string }) => {
@@ -89,12 +78,8 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       // Card Preparation
       const cardRequest = new CardRequest(request);
       for (let i = 0; i < 2; i++) {
-        // // Path params generator usage
-        // const cardCreationUrl = generatePathURLSimplified(
-        //   pathParameters.cardParameter,
-        // );
         // RUSO usage
-        const cardCreationUrl = cardRequest.buildUrl();
+        // const cardCreationUrl = cardRequest.buildUrl();
         const dataCardCreation: CardDataModel = prepareRandomCardDataSimplified(
           createdListsIds[i],
           'My Card Name',
@@ -106,21 +91,21 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         );
 
         // Act: 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
-        // // Path params generator usage
-        // const response = await request.post(cardCreationUrl, {
-        //   headers,
-        //   params,
-        //   data: dataCardCreation,
-        // });
-        // RUSO Usage
-        const response = await cardRequest.sendRequest(
-          'post',
-          cardCreationUrl,
-          {
-            headers,
-            params,
-            data: dataCardCreation,
-          },
+        // // RUSO Usage
+        // const response = await cardRequest.sendRequest(
+        //   'post',
+        //   cardCreationUrl,
+        //   {
+        //     headers,
+        //     params,
+        //     data: dataCardCreation,
+        //   },
+        // );
+        // ROP Usage
+        const response = await cardRequest.createCard(
+          dataCardCreation,
+          params,
+          headers,
         );
         const responseJSON = await response.json();
         const { id: actualCardId } = responseJSON;
@@ -133,12 +118,8 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     // Arrange:
     const labelRequest = new LabelRequest(request);
     const expectedStatusCode = 200;
-    // // Path params generator usage
-    // const createLabelURL = generatePathURLSimplified(
-    //   pathParameters.labelParameter,
-    // );
     // RUSO Usage
-    const createLabelURL = labelRequest.buildUrl();
+    // const createLabelURL = labelRequest.buildUrl();
     const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
       'red',
       'Do it ASAP',
@@ -149,18 +130,14 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       data;
 
     // Act: 'https://api.trello.com/1/labels?name={name}&color={color}&idBoard={idBoard}&key=APIKey&token=APIToken'
-    // // Path params generator usage
-    // const response = await request.post(createLabelURL, {
+    // // RUSO usage
+    // const response = await labelRequest.sendRequest('post', createLabelURL, {
     //   headers,
     //   params,
     //   data,
     // });
     // RUSO usage
-    const response = await labelRequest.sendRequest('post', createLabelURL, {
-      headers,
-      params,
-      data,
-    });
+    const response = await labelRequest.createLabel(data, params, headers);
     const responseJSON = await response.json();
     const {
       id: actualBoardLabelId,
@@ -181,31 +158,27 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     const cardRequest = new CardRequest(request);
     const expectedStatusCode = 200;
     const cardId = createdCardsIds[0];
-    // // Path params generator usage
-    // const addLabelToCardUrl = generatePathURLSimplified(
-    //   pathParameters.cardParameter,
-    //   cardId,
-    //   'idLabels',
-    // );
     // RUSO usage
-    const addLabelToCardUrl = cardRequest.buildUrl(cardId, 'idLabels');
+    // const addLabelToCardUrl = cardRequest.buildUrl(cardId, 'idLabels');
     const data: LabelOperationsDataModelSimplified =
       prepareOperationDataSimplified(createdBoardLabelId);
     const { value: expectedBoardLabelId } = data;
 
     // Act: 'https://api.trello.com/1/cards/{id}/idLabels?key=APIKey&token=APIToken'
-    // // Path params generator usage
-    // const response = await request.post(addLabelToCardUrl, {
+    // // RUSO usage
+    // const response = await cardRequest.sendRequest('post', addLabelToCardUrl, {
     //   headers,
     //   params,
     //   data,
     // });
     // RUSO usage
-    const response = await cardRequest.sendRequest('post', addLabelToCardUrl, {
-      headers,
-      params,
+    const response = await cardRequest.addLabelToCard(
+      cardId,
+      'idLabels',
       data,
-    });
+      params,
+      headers,
+    );
     const responseJSON = await response.json();
     const [actualLabelId] = responseJSON;
 
@@ -218,13 +191,8 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
     // Arrange:
     const labelRequest = new LabelRequest(request);
     const expectedStatusCode = 200;
-    // // Path params generator usage
-    // const updateWholeLabelUrl = generatePathURLSimplified(
-    //   pathParameters.labelParameter,
-    //   createdBoardLabelId,
-    // );
     // RUSO Usage
-    const updateWholeLabelUrl = labelRequest.buildUrl(createdBoardLabelId);
+    // const updateWholeLabelUrl = labelRequest.buildUrl(createdBoardLabelId);
     const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
       'black',
       'Custom label for a card - updated for deadly',
@@ -234,21 +202,22 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       data;
 
     // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
-    // // Path params generator usage
-    // const response = await request.put(updateWholeLabelUrl, {
-    //   headers,
-    //   params,
-    //   data,
-    // });
-    // RUSO usage
-    const response = await labelRequest.sendRequest(
-      'put',
-      updateWholeLabelUrl,
-      {
-        headers,
-        params,
-        data,
-      },
+    // // RUSO usage
+    // const response = await labelRequest.sendRequest(
+    //   'put',
+    //   updateWholeLabelUrl,
+    //   {
+    //     headers,
+    //     params,
+    //     data,
+    //   },
+    // );
+    // ROP usage
+    const response = await labelRequest.updateLabel(
+      createdBoardLabelId,
+      data,
+      params,
+      headers,
     );
     const responseJSON = await response.json();
     const {
@@ -272,14 +241,8 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       const cardRequest = new CardRequest(request);
       const expectedStatusCode = 200;
       const cardId = createdCardsIds[1];
-      // // Path params generator usage
-      // const createLabelOnCardPath = generatePathURLSimplified(
-      //   pathParameters.cardParameter,
-      //   cardId,
-      //   'labels',
-      // );
       // RUSO usage
-      const createLabelOnCardPath = cardRequest.buildUrl(cardId, 'labels');
+      // const createLabelOnCardPath = cardRequest.buildUrl(cardId, 'labels');
       const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified(
         'yellow',
         '',
@@ -289,21 +252,23 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         data;
 
       // Act: 'https://api.trello.com/1/cards/{id}/labels?color={color}&key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.post(createLabelOnCardPath, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
+      // // RUSO usage
+      // const response = await cardRequest.sendRequest(
+      //   'post',
+      //   createLabelOnCardPath,
+      //   {
+      //     headers,
+      //     params,
+      //     data,
+      //   },
+      // );
       // RUSO usage
-      const response = await cardRequest.sendRequest(
-        'post',
-        createLabelOnCardPath,
-        {
-          headers,
-          params,
-          data,
-        },
+      const response = await cardRequest.createLabelOnCard(
+        cardId,
+        'labels',
+        data,
+        params,
+        headers,
       );
       const responseJSON = await response.json();
       const {
@@ -324,32 +289,28 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
       // Arrange:
       const labelRequest = new LabelRequest(request);
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const updateLabelFieldUrl = generatePathURLSimplified(
-      //   pathParameters.labelParameter,
-      //   createdLabelOnCardId,
-      // );
       // RUSO usage
-      const updateLabelFieldUrl = labelRequest.buildUrl(createdLabelOnCardId);
+      // const updateLabelFieldUrl = labelRequest.buildUrl(createdLabelOnCardId);
       const data: LabelDataModelSimplified = prepareRandomLabelDataSimplified();
       const { color: expectedLabelColor } = data;
 
-      // Act: 'https://api.trello.com/1/labels/{id}/{field}?value=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken' -->
-      // // Path params generator usage
-      // const response = await request.put(updateLabelFieldUrl, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
+      // Act: 'https://api.trello.com/1/labels/{id}/{field}?value=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
+      // // RUSO usage
+      // const response = await labelRequest.sendRequest(
+      //   'put',
+      //   updateLabelFieldUrl,
+      //   {
+      //     headers,
+      //     params,
+      //     data,
+      //   },
+      // );
       // RUSO usage
-      const response = await labelRequest.sendRequest(
-        'put',
-        updateLabelFieldUrl,
-        {
-          headers,
-          params,
-          data,
-        },
+      const response = await labelRequest.updateLabel(
+        createdLabelOnCardId,
+        data,
+        params,
+        headers,
       );
       const responseJSON = await response.json();
       const { id: actualLabelId, color: actualLabelColor } = responseJSON;
@@ -367,28 +328,24 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         // Arrange:
         const expectedStatusCode = 200;
         const expectedResponseObject = {};
-        // // Path params generator usage
-        // const deleteLabelUrl = generatePathURLSimplified(
-        //   pathParameters.labelParameter,
-        //   createdLabelOnCardId,
-        // );
         // RUSO Usage
-        const deleteLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
+        // const deleteLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
-        // // Path params generator usage
-        // const response = await request.delete(deleteLabelUrl, {
-        //   headers,
-        //   params,
-        // });
+        // // RUSO usage
+        // const response = await labelRequest.sendRequest(
+        //   'delete',
+        //   deleteLabelUrl,
+        //   {
+        //     headers,
+        //     params,
+        //   },
+        // );
         // RUSO usage
-        const response = await labelRequest.sendRequest(
-          'delete',
-          deleteLabelUrl,
-          {
-            headers,
-            params,
-          },
+        const response = await labelRequest.deleteLabel(
+          createdLabelOnCardId,
+          params,
+          headers,
         );
         const responseJSON = await response.json();
         const { limits: actualResponseObject } = responseJSON;
@@ -401,28 +358,24 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
         // Arrange:
         const expectedStatusCode = 404;
         const expectedResponseStatusText = 'Not Found';
-        // // Path params generator usage
-        // const getDeletedLabelUrl = generatePathURLSimplified(
-        //   pathParameters.labelParameter,
-        //   createdLabelOnCardId,
-        // );
         // RUSO Usage
-        const getDeletedLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
+        // const getDeletedLabelUrl = labelRequest.buildUrl(createdLabelOnCardId);
 
         // Act: 'https://api.trello.com/1/labels/{id}?key=APIKey&token=APIToken'
-        // // Path params generator usage
-        // const response = await request.get(getDeletedLabelUrl, {
-        //   headers,
-        //   params,
-        // });
+        // // RUSO Usage
+        // const response = await labelRequest.sendRequest(
+        //   'get',
+        //   getDeletedLabelUrl,
+        //   {
+        //     headers,
+        //     params,
+        //   },
+        // );
         // RUSO Usage
-        const response = await labelRequest.sendRequest(
-          'get',
-          getDeletedLabelUrl,
-          {
-            headers,
-            params,
-          },
+        const response = await labelRequest.getLabel(
+          createdLabelOnCardId,
+          params,
+          headers,
         );
 
         // Assert:
@@ -435,23 +388,16 @@ test.describe('Cards labels handling - RU_SO implemented', () => {
   test.afterAll('Delete a board', async ({ request }) => {
     // Arrange:
     const boardRequest = new BoardRequest(request);
-    // Path parameters usage only
-    // const deleteBoardUrl = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
     // RUSO usage
-    const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+    // const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // // Path Params usage only
-    // await request.delete(deleteBoardUrl, {
+    // // RUSO usage
+    // await boardRequest.sendRequest('delete', deleteBoardUrl, {
     //   headers,
     //   params,
     // });
     // RUSO usage
-    await boardRequest.sendRequest('delete', deleteBoardUrl, {
-      headers,
-      params,
-    });
+    await boardRequest.deleteBoard(createdBoardId, params, headers);
   });
 });

@@ -176,7 +176,6 @@ test.describe('Cards handling - factories implementation', () => {
       //   token: params.token,
       //   fields: 'name,desc,due',
       // };
-
       const updatedCardParams: ParamsDataModel = prepareParamsData(
         '',
         '',
@@ -186,6 +185,7 @@ test.describe('Cards handling - factories implementation', () => {
         '',
         'name,desc,due',
       );
+
       // console.log(updatedCardParams);
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'

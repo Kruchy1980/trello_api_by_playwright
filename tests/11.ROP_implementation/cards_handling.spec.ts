@@ -1,20 +1,21 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
 import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
+import { asRecord } from '@_src/API/helpers/conversion_helpers/convert_as_record';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
-import { BoardRequest } from '@_src/API/requests/boardRequest';
-import { CardRequest } from '@_src/API/requests/cardRequest';
+import { BoardRequest } from '@_src/API/requests/for_ROP_Requests/boardRequest';
+import { CardRequest } from '@_src/API/requests/for_ROP_Requests/cardRequest';
+
 import { headers, params } from '@_src/API/utils/api_utils';
 
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
 // TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Cards handling - RU_SO implemented', () => {
+test.describe('Cards handling - ROP implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let createdCardId: string;
@@ -23,55 +24,29 @@ test.describe('Cards handling - RU_SO implemented', () => {
     async ({ request }) => {
       // Arrange:
       const boardRequest = new BoardRequest(request);
-      // Path params generator usage
-      // const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
-      // Path params generator usage
-      const boardURL = boardRequest.buildUrl();
+      // RUSO Usage
+      // const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.post(boardURL, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
       // RUSO usage
-      const response = await boardRequest.sendRequest('post', boardURL, {
-        headers,
-        params,
-        data,
-      });
+      const response = await boardRequest.createBoard(data, params, headers);
       const responseJSON = await response.json();
       const { id: actualBoardId } = responseJSON;
 
       createdBoardId = actualBoardId;
 
       // Collecting lists
-      // Arrange:
-      // // Path params generator usage
-      // const getListsUrl = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
-      //   createdBoardId,
-      //   'lists',
-      // );
       // RUSO usage
-      const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
+      // const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
 
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
-      // // Path generator usage
-      // const responseGetLists = await request.get(getListsUrl, {
-      //   headers,
-      //   params,
-      // });
       // RUSO Usage
-      const responseGetLists = await boardRequest.sendRequest(
-        'get',
-        getListsUrl,
-        {
-          headers,
-          params,
-        },
+      const responseGetLists = await boardRequest.getBoardElements(
+        createdBoardId,
+        'lists',
+        params,
+        headers,
       );
       const responseGetListsJSON = await responseGetLists.json();
       responseGetListsJSON.forEach(({ id }: { id: string }) => {
@@ -83,12 +58,8 @@ test.describe('Cards handling - RU_SO implemented', () => {
     // Arrange:
     const cardRequest = new CardRequest(request);
     const expectedStatusCode = 200;
-    // // Path params generator usage
-    // const createCardUrl = generatePathURLSimplified(
-    //   pathParameters.cardParameter,
-    // );
     // RUSO usage
-    const createCardUrl = cardRequest.buildUrl();
+    // const createCardUrl = cardRequest.buildUrl();
 
     const data: CardDataModel = prepareRandomCardDataSimplified(
       createdListsIds[0],
@@ -106,18 +77,14 @@ test.describe('Cards handling - RU_SO implemented', () => {
     } = data;
 
     // Act: 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
-    // // Path params generator usage
-    // const response = await request.post(createCardUrl, {
+    // // RUSO usage
+    // const response = await cardRequest.sendRequest('post', createCardUrl, {
     //   headers,
     //   params,
     //   data,
     // });
-    // RUSO usage
-    const response = await cardRequest.sendRequest('post', createCardUrl, {
-      headers,
-      params,
-      data,
-    });
+    // ROP usage
+    const response = await cardRequest.createCard(data, params, headers);
     const responseJSON = await response.json();
     const {
       id: actualCardId,
@@ -142,13 +109,8 @@ test.describe('Cards handling - RU_SO implemented', () => {
       await test.step('1.1 Should update a Card', async () => {
         // Arrange:
         const expectedStatusCode = 200;
-        // // Path parameter generator usage
-        // const updateCardUrl = generatePathURLSimplified(
-        //   pathParameters.cardParameter,
-        //   createdCardId,
-        // );
         // RUSO usage
-        const updateCardUrl = cardRequest.buildUrl(createdCardId);
+        // const updateCardUrl = cardRequest.buildUrl(createdCardId);
 
         const data: CardDataModel = prepareRandomCardDataSimplified(
           '',
@@ -162,18 +124,19 @@ test.describe('Cards handling - RU_SO implemented', () => {
         const { name: expectedCardName, due: expectedCardDueDate } = data;
 
         // Act: 'https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
-        // // Path params generator usage
-        // const response = await request.put(updateCardUrl, {
+        // // RUSO usage
+        // const response = await cardRequest.sendRequest('put', updateCardUrl, {
         //   headers,
         //   params,
         //   data,
         // });
-        // RUSO usage
-        const response = await cardRequest.sendRequest('put', updateCardUrl, {
-          headers,
-          params,
+        // ROP usage
+        const response = await cardRequest.updateCard(
+          createdCardId,
           data,
-        });
+          params,
+          headers,
+        );
         const responseJSON = await response.json();
         const {
           id: actualCardId,
@@ -195,13 +158,8 @@ test.describe('Cards handling - RU_SO implemented', () => {
     await test.step('1.2 Should get a Card fields', async () => {
       // Arrange:
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const getCardFieldsUrl = generatePathURLSimplified(
-      //   pathParameters.cardParameter,
-      //   createdCardId,
-      // );
       // RUSO usage
-      const getCardFieldsUrl = cardRequest.buildUrl(createdCardId);
+      // const getCardFieldsUrl = cardRequest.buildUrl(createdCardId);
       const {
         name: expectedCardName,
         desc: expectedCardDescription,
@@ -219,16 +177,17 @@ test.describe('Cards handling - RU_SO implemented', () => {
       );
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
-      // // Path parameters generator usage
-      // const response = await request.get(getCardFieldsUrl, {
+      // // RUSO usage
+      // const response = await cardRequest.sendRequest('get', getCardFieldsUrl, {
       //   headers,
       //   params: { ...params, ...updatedCardParams },
       // });
       // RUSO usage
-      const response = await cardRequest.sendRequest('get', getCardFieldsUrl, {
+      const response = await cardRequest.getCardElements(
+        createdCardId,
+        asRecord(updatedCardParams),
         headers,
-        params: { ...params, ...updatedCardParams },
-      });
+      );
       const responseJSON = await response.json();
       const {
         id: actualCardId,
@@ -250,25 +209,22 @@ test.describe('Cards handling - RU_SO implemented', () => {
     await test.step('2.1 Should delete a Card', async () => {
       // Arrange:
       const expectedStatusCode = 200;
-      // // Path parameter generator usage
-      // const deleteCardUrl = generatePathURLSimplified(
-      //   pathParameters.cardParameter,
-      //   createdCardId,
-      // );
       // RUSO usage
-      const deleteCardUrl = cardRequest.buildUrl(createdCardId);
+      // const deleteCardUrl = cardRequest.buildUrl(createdCardId);
       const expectedResponseObject = {};
+
       // Act: 'https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
-      // // Path parameter generator usage
-      // const response = await request.delete(deleteCardUrl, {
+      // // RUSO usage
+      // const response = await cardRequest.sendRequest('delete', deleteCardUrl, {
       //   headers,
       //   params,
       // });
-      // RUSO usage
-      const response = await cardRequest.sendRequest('delete', deleteCardUrl, {
-        headers,
+      // ROP usage
+      const response = await cardRequest.deleteCard(
+        createdCardId,
         params,
-      });
+        headers,
+      );
       const responseJSON = await response.json();
       const { limits: actualResponseObject } = responseJSON;
 
@@ -280,13 +236,8 @@ test.describe('Cards handling - RU_SO implemented', () => {
       // Arrange:
       const expectedStatusCode = 404;
       const expectedStatusText = 'Not Found';
-      // // Path params generator usage
-      // const getDeletedCardUrl = generatePathURLSimplified(
-      //   pathParameters.cardParameter,
-      //   createdCardId,
-      // );
       // RUSO usage
-      const getDeletedCardUrl = cardRequest.buildUrl(createdCardId);
+      // const getDeletedCardUrl = cardRequest.buildUrl(createdCardId);
       const deletedCardParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
@@ -298,16 +249,12 @@ test.describe('Cards handling - RU_SO implemented', () => {
       );
 
       // Act: ('https://api.trello.com/1/cards/{id}?key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.get(getDeletedCardUrl, {
-      //   headers,
-      //   params: { ...params, ...deletedCardParams },
-      // });
       // RUSO Usage
-      const response = await cardRequest.sendRequest('get', getDeletedCardUrl, {
+      const response = await cardRequest.getCardElements(
+        createdCardId,
+        asRecord(deletedCardParams),
         headers,
-        params: { ...params, ...deletedCardParams },
-      });
+      );
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
@@ -317,23 +264,11 @@ test.describe('Cards handling - RU_SO implemented', () => {
   test.afterAll('Delete a board', async ({ request }) => {
     // Arrange:
     const boardRequest = new BoardRequest(request);
-    // Path parameters usage only
-    // const deleteBoardUrl = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
     // RUSO usage
-    const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+    // const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // // Path Params usage only
-    // await request.delete(deleteBoardUrl, {
-    //   headers,
-    //   params,
-    // });
     // RUSO usage
-    await boardRequest.sendRequest('delete', deleteBoardUrl, {
-      headers,
-      params,
-    });
+    await boardRequest.deleteBoard(createdBoardId, params, headers);
   });
 });

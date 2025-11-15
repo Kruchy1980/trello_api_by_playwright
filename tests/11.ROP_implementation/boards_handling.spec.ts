@@ -1,17 +1,18 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
+import { asRecord } from '@_src/API/helpers/conversion_helpers/convert_as_record';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
-import { BoardRequest } from '@_src/API/requests/boardRequest';
+import { BoardRequest } from '@_src/API/requests/for_ROP_Requests/boardRequest';
+
 import { headers, params } from '@_src/API/utils/api_utils';
 
 import { expect, test } from '@playwright/test';
 
 // TODO: For Refactoring
-// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
 // TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Boards handling - RU_SO implemented', () => {
+test.describe('Boards handling - ROP implemented', () => {
   let createdBoardId: string;
   let boardName: string | undefined;
   let boardDescription: string | undefined;
@@ -20,30 +21,25 @@ test.describe('Boards handling - RU_SO implemented', () => {
     // Arrange:
     const expectedStatusCode = 200;
     const boardRequest = new BoardRequest(request);
-    // Path generator used only
-    // const boardPathURL = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    // );
     // RUSO Usage
-    const boardPathURL = boardRequest.buildUrl();
+    // const boardPathURL = boardRequest.buildUrl();
     // console.log('Prepared path parameter', boardPathURL);
 
     const data: BoardDataModel = prepareRandomBoardDataSimplified();
     const { name: expectedBoardName, desc: expectedBoardDescription } = data;
 
     // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
-    // const response = await request.post(boardPathURL, {
+
+    // // RUSO Usage
+    // const response = await boardRequest.sendRequest('post', boardPathURL, {
     //   headers,
     //   params,
     //   data,
     // });
 
-    // RUSO Usage
-    const response = await boardRequest.sendRequest('post', boardPathURL, {
-      headers,
-      params,
-      data,
-    });
+    // ROP Usage
+    const response = await boardRequest.createBoard(data, params, headers);
+
     // console.log(response.url());
     const responseJSON = await response.json();
 
@@ -65,31 +61,27 @@ test.describe('Boards handling - RU_SO implemented', () => {
     // Arrange:
     const boardRequest = new BoardRequest(request);
     const expectedStatusCode = 200;
-    // // Path generator used only
-    // const getBoardURL = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
-    // RUSO used
-    // const getBoardURL = boardRequest.buildUrl('', createdBoardId);
-    const getBoardURL = boardRequest.buildUrl(createdBoardId);
+    // RUSO Usage
+    // const getBoardURL = boardRequest.buildUrl(createdBoardId);
     // console.log('Path Param added to url', getBoardURL);
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // const response = await request.get(`/1/boards/${createdBoardId}`, {
+
+    // New implementation with RUSO usage
+    // const response = await boardRequest.sendRequest('get', getBoardURL, {
     //   headers,
     //   params,
     // });
 
-    // New implementation with RUSO usage
-    const response = await boardRequest.sendRequest('get', getBoardURL, {
-      headers,
+    // ROP Usage
+    const response = await boardRequest.getBoard(
+      createdBoardId,
       params,
-    });
+      headers,
+    );
     // console.log(response.url());
     const responseJSON = await response.json();
     // console.log(responseJSON);
-    // Destructuring
     const {
       id: actualBoardId,
       name: actualBoardName,
@@ -112,13 +104,8 @@ test.describe('Boards handling - RU_SO implemented', () => {
         // Arrange:
         const expectedBoardId = createdBoardId;
         const expectedStatusCode = 200;
-        // // Path Parameter generator only
-        // const updateBoardUrl = generatePathURLSimplified(
-        //   pathParameters.boardParameter,
-        //   expectedBoardId,
-        // );
         // RUSO usage
-        const updateBoardUrl = boardRequest.buildUrl(expectedBoardId);
+        // const updateBoardUrl = boardRequest.buildUrl(expectedBoardId);
 
         const data: BoardDataModel = prepareRandomBoardDataSimplified(
           'Updated Board name',
@@ -132,18 +119,19 @@ test.describe('Boards handling - RU_SO implemented', () => {
           data;
 
         // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-        // Path Parameter generator only
-        // const response = await request.put(updateBoardUrl, {
+        // // RUSO Usage
+        // const response = await boardRequest.sendRequest('PUT', updateBoardUrl, {
         //   headers,
         //   params,
         //   data,
         // });
-        // RUSO Usage
-        const response = await boardRequest.sendRequest('PUT', updateBoardUrl, {
-          headers,
-          params,
+        // ROP Usage
+        const response = await boardRequest.updateBoard(
+          createdBoardId,
           data,
-        });
+          params,
+          headers,
+        );
         const responseJSON = await response.json();
 
         const {
@@ -163,33 +151,20 @@ test.describe('Boards handling - RU_SO implemented', () => {
     await test.step('2.2 Should get a field from board', async () => {
       // Arrange:
       const expectedStatusCode = 200;
-      // // Path Generator usage
-      // const getFieldFromBoardUrl = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
+      // RUSO usage
+      // const getFieldFromBoardUrl = boardRequest.buildUrl(
       //   createdBoardId,
       //   'name',
       // );
-      // RUSO usage
-      const getFieldFromBoardUrl = boardRequest.buildUrl(
-        createdBoardId,
-        'name',
-      );
       // console.log('Simplified parameterGenerator', getFieldFromBoardUrl);
 
       // Act: 'https://api.trello.com/1/boards/{id}/{field}?key=APIKey&token=APIToken'
-      // // Path generator usage only
-      // const response = await request.get(getFieldFromBoardUrl, {
-      //   headers,
-      //   params,
-      // });
       // RUSO Usage
-      const response = await boardRequest.sendRequest(
-        'get',
-        getFieldFromBoardUrl,
-        {
-          headers,
-          params,
-        },
+      const response = await boardRequest.getBoardElements(
+        createdBoardId,
+        'name',
+        params,
+        headers,
       );
 
       const responseJSON = await response.json();
@@ -207,26 +182,24 @@ test.describe('Boards handling - RU_SO implemented', () => {
       // Arrange:
       const expectedStatusCode = 200;
       const expectedResponseValue = null;
-      // const deleteBoardURL = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
-      //   createdBoardId,
-      // );
-      const deleteBoardURL = boardRequest.buildUrl(createdBoardId);
+      // RUSO Usage
+      // const deleteBoardURL = boardRequest.buildUrl(createdBoardId);
 
       // // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-      // Path Parameters usage only
-      // const response = await request.delete(deleteBoardURL, {
-      //   headers,
-      //   params,
-      // });
-      // RUSO Usage
-      const response = await boardRequest.sendRequest(
-        'delete',
-        deleteBoardURL,
-        {
-          headers,
-          params,
-        },
+      // // RUSO Usage
+      // const response = await boardRequest.sendRequest(
+      //   'delete',
+      //   deleteBoardURL,
+      //   {
+      //     headers,
+      //     params,
+      //   },
+      // );
+      // ROP Usage
+      const response = await boardRequest.deleteBoard(
+        createdBoardId,
+        params,
+        headers,
       );
       const responseJSON = await response.json();
       const { _value: actualResponseValue } = responseJSON;
@@ -239,27 +212,15 @@ test.describe('Boards handling - RU_SO implemented', () => {
       // Arrange:
       const expectedStatusCode = 404;
       const expectedStatusText = 'Not Found';
-      // const getDeletedBoardUrl = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
-      //   createdBoardId,
-      // );
       // RUSO Usage
-      const getDeletedBoardUrl = boardRequest.buildUrl(createdBoardId);
+      // const getDeletedBoardUrl = boardRequest.buildUrl(createdBoardId);
 
       // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-      // Using Path Params genrator only
-      // const response = await request.get(getDeletedBoardUrl, {
-      //   headers,
-      //   params,
-      // });
       // RUSO Usage
-      const response = await boardRequest.sendRequest(
-        'get',
-        getDeletedBoardUrl,
-        {
-          headers,
-          params,
-        },
+      const response = await boardRequest.getBoard(
+        createdBoardId,
+        headers,
+        params,
       );
 
       // Assert:
@@ -274,12 +235,8 @@ test.describe('Boards handling - RU_SO implemented', () => {
     const boardRequest = new BoardRequest(request);
     const expectedStatusCode = 401;
     const expectedStatusText = 'Unauthorized';
-    // const unauthorizedUserUrL = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
     // RUSO Usage
-    const unauthorizedUserUrL = boardRequest.buildUrl(createdBoardId);
+    // const unauthorizedUserUrL = boardRequest.buildUrl(createdBoardId);
     // console.log(unauthorizedUserUrL);
 
     const incorrectParams: ParamsDataModel = prepareParamsDataSimplified(
@@ -288,16 +245,19 @@ test.describe('Boards handling - RU_SO implemented', () => {
     );
 
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // const response = await request.get(`/1/boards/${createdBoardId}`, {
-    //   headers,
-    //   params: { ...params, ...incorrectParams },
-    // });
-    const response = await boardRequest.sendRequest(
-      'get',
-      unauthorizedUserUrL,
-      {
-        params: { ...incorrectParams },
-      },
+    // // RUSO Usage
+    // const response = await boardRequest.sendRequest(
+    //   'get',
+    //   unauthorizedUserUrL,
+    //   {
+    //     params: { ...incorrectParams },
+    //   },
+    // );
+    // ROP Usage
+    const response = await boardRequest.getBoard(
+      createdBoardId,
+      asRecord(incorrectParams),
+      headers,
     );
     // console.log(response.url());
 
@@ -309,23 +269,16 @@ test.describe('Boards handling - RU_SO implemented', () => {
   test.afterAll('Delete a board', async ({ request }) => {
     // Arrange:
     const boardRequest = new BoardRequest(request);
-    // Path parameters usage only
-    // const deleteBoardUrl = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
     // RUSO usage
-    const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+    // const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // // Path Params usage only
-    // await request.delete(deleteBoardUrl, {
+
+    // // RUSO usage
+    // await boardRequest.sendRequest('delete', deleteBoardUrl, {
     //   headers,
     //   params,
     // });
-    // RUSO usage
-    await boardRequest.sendRequest('delete', deleteBoardUrl, {
-      headers,
-      params,
-    });
+    // ROP usage
+    await boardRequest.deleteBoard(createdBoardId, params, headers);
   });
 });

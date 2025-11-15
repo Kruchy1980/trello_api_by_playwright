@@ -1,31 +1,28 @@
 import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified_factories/board-data.factory';
 import { prepareRandomListDataSimplified } from '@_src/API/factories/simplified_factories/list-data.factory';
 import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
+import { asRecord } from '@_src/API/helpers/conversion_helpers/convert_as_record';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { ListDataModel } from '@_src/API/models/list-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
-import { BoardRequest } from '@_src/API/requests/boardRequest';
-import { ListRequest } from '@_src/API/requests/listRequest';
+import { BoardRequest } from '@_src/API/requests/for_ROP_Requests/boardRequest';
+import { ListRequest } from '@_src/API/requests/for_ROP_Requests/listRequest';
+
 import { headers, params } from '@_src/API/utils/api_utils';
 
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Implement RUSO (Request Unit/Utility/ Service Object)
-// TODO: Improve to ROP (Request Object Pattern)
+// TODO: Improve to ROP (Request Object Model)
 
-test.describe('Lists handling - RU_SO implemented', () => {
+test.describe('Lists handling - ROP implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   let data: ListDataModel;
   test.beforeAll('Board preparation', async ({ request }) => {
     const boardRequest = new BoardRequest(request);
-    // // Path params generator usage
-    // const createBoardUrl = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    // );
     // RUSO usage
-    const createBoardUrl = boardRequest.buildUrl();
+    // const createBoardUrl = boardRequest.buildUrl();
 
     const data: BoardDataModel = prepareRandomBoardDataSimplified(
       'New Board',
@@ -35,18 +32,15 @@ test.describe('Lists handling - RU_SO implemented', () => {
     );
 
     // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
-    // // Path params generator usage
-    //     const response = await request.post(createBoardUrl, {
-    //       headers,
-    //       params,
-    //       data,
-    //     });
     // RUSO usage
-    const response = await boardRequest.sendRequest('post', createBoardUrl, {
-      headers,
-      params,
-      data,
-    });
+    // const response = await boardRequest.sendRequest('post', createBoardUrl, {
+    //   headers,
+    //   params,
+    //   data,
+    // });
+    // ROP Usage
+    const response = await boardRequest.createBoard(data, params, headers);
+
     const responseJSON = await response.json();
     const { id: actualBoardId } = responseJSON;
 
@@ -60,10 +54,6 @@ test.describe('Lists handling - RU_SO implemented', () => {
       const listRequest = new ListRequest(request);
       const boardRequest = new BoardRequest(request);
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const createListUrl = generatePathURLSimplified(
-      //   pathParameters.listParameter,
-      // );
       // RUSO Usage
       const createListUrl = listRequest.buildUrl();
 
@@ -75,12 +65,6 @@ test.describe('Lists handling - RU_SO implemented', () => {
       const { name: expectedListName } = data;
 
       // Act: 'https://api.trello.com/1/lists?name={name}&idBoard=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.post(createListUrl, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
       // RUSO Usage
       const response = await listRequest.sendRequest('post', createListUrl, {
         headers,
@@ -97,32 +81,28 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // Collect lists ids and push to variable
       // Arrange:
       const expectedListsQuantity = 0;
-      // // Path params generator usage
-      // const collectListsFromBoardUrl = generatePathURLSimplified(
-      //   pathParameters.boardParameter,
+      // RUSO Usage
+      // const collectListsFromBoardUrl = boardRequest.buildUrl(
       //   createdBoardId,
       //   'lists',
       // );
-      // RUSO Usage
-      const collectListsFromBoardUrl = boardRequest.buildUrl(
-        createdBoardId,
-        'lists',
-      );
 
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const responseGetListsIds = await request.get(collectListsFromBoardUrl, {
-      //   headers,
-      //   params,
-      // });
-      // RUSO Usage
-      const responseGetListsIds = await boardRequest.sendRequest(
-        'get',
-        collectListsFromBoardUrl,
-        {
-          headers,
-          params,
-        },
+      // // RUSO Usage
+      // const responseGetListsIds = await boardRequest.sendRequest(
+      //   'get',
+      //   collectListsFromBoardUrl,
+      //   {
+      //     headers,
+      //     params,
+      //   },
+      // );
+      // ROP Usage
+      const responseGetListsIds = await boardRequest.getBoardElements(
+        createdBoardId,
+        'lists',
+        params,
+        headers,
       );
       const responseGetListsIdsJSON = await responseGetListsIds.json();
       responseGetListsIdsJSON.forEach(({ id }: { id: string }) => {
@@ -142,32 +122,28 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // Arrange:
       const listForUpdateId = createdListsIds[1];
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const updateListFieldUrl = generatePathURLSimplified(
-      //   pathParameters.listParameter,
-      //   listForUpdateId,
-      // );
       // RUSO Usage
-      const updateListFieldUrl = listRequest.buildUrl(listForUpdateId);
+      // const updateListFieldUrl = listRequest.buildUrl(listForUpdateId);
       data = prepareRandomListDataSimplified(undefined, '');
       const { name: expectedUpdatedListName } = data;
 
       // Act: ('https://api.trello.com/1/lists/{id}/{field}?key=APIKey&token=APIToken' <-- incorrect url no {field in path parameter}
-      // //Path params generator usage
-      // const response = await request.put(updateListFieldUrl, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
+      // // RUSO Usage
+      // const response = await listRequest.sendRequest(
+      //   'put',
+      //   updateListFieldUrl,
+      //   {
+      //     headers,
+      //     params,
+      //     data,
+      //   },
+      // );
       // RUSO Usage
-      const response = await listRequest.sendRequest(
-        'put',
-        updateListFieldUrl,
-        {
-          headers,
-          params,
-          data,
-        },
+      const response = await listRequest.updateList(
+        listForUpdateId,
+        data,
+        params,
+        headers,
       );
       const responseJSON = await response.json();
       const { id: actualListId, name: actualListName } = responseJSON;
@@ -181,13 +157,8 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // Arrange:
       const updatedListId = createdListsIds[1];
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const getListFieldUrl = generatePathURLSimplified(
-      //   pathParameters.listParameter,
-      //   updatedListId,
-      // );
       // RUSO Usage
-      const getListFieldUrl = listRequest.buildUrl(updatedListId);
+      // const getListFieldUrl = listRequest.buildUrl(updatedListId);
 
       const getFieldParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
@@ -201,18 +172,21 @@ test.describe('Lists handling - RU_SO implemented', () => {
       const { name: expectedUpdatedListName } = data;
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.get(getListFieldUrl, {
+      // // RUSO Usage
+      // const response = await listRequest.sendRequest('get', getListFieldUrl, {
       //   headers,
       //   params: { ...params, ...getFieldParams },
       // });
-      // RUSO Usage
-      const response = await listRequest.sendRequest('get', getListFieldUrl, {
+      // ROP Usage
+      const response = await listRequest.getListElements(
+        updatedListId,
+        asRecord(getFieldParams),
         headers,
-        params: { ...params, ...getFieldParams },
-      });
+      );
+      // console.log(response.url());
       const responseJSON = await response.json();
       const { id: actualListId, name: actualListName } = responseJSON;
+      // console.log(responseJSON);
 
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
@@ -226,13 +200,8 @@ test.describe('Lists handling - RU_SO implemented', () => {
       // Arrange:
       const listForArchiveId = createdListsIds[2];
       const expectedStatusCode = 200;
-      // // Path params generator usage
-      // const archiveListUrl = generatePathURLSimplified(
-      //   pathParameters.listParameter,
-      //   listForArchiveId,
-      // );
       // RUSO usage
-      const archiveListUrl = listRequest.buildUrl(listForArchiveId);
+      // const archiveListUrl = listRequest.buildUrl(listForArchiveId);
 
       const data: ListDataModel = prepareRandomListDataSimplified(
         undefined,
@@ -243,18 +212,19 @@ test.describe('Lists handling - RU_SO implemented', () => {
       const { closed: expectedListStatus } = data;
 
       // Act: 'https://api.trello.com/1/lists/{id}/closed?key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.put(archiveListUrl, {
+      // // RUSO usage
+      // const response = await listRequest.sendRequest('put', archiveListUrl, {
       //   headers,
       //   params,
       //   data,
       // });
-      // RUSO usage
-      const response = await listRequest.sendRequest('put', archiveListUrl, {
-        headers,
-        params,
+      // ROP usage
+      const response = await listRequest.archiveList(
+        listForArchiveId,
         data,
-      });
+        params,
+        headers,
+      );
       const responseJSON = await response.json();
       const { id: actualListId, closed: actualListStatus } = responseJSON;
 
@@ -269,28 +239,24 @@ test.describe('Lists handling - RU_SO implemented', () => {
       const expectedStatusCode = 200;
       const expectedListStatus = true;
       const expectedListName = 'Doing';
-      // // Path params generator usage
-      // const collectArchivedListUrl = generatePathURLSimplified(
-      //   pathParameters.listParameter,
-      //   listForArchiveId,
-      // );
       // RUSO Usage
-      const collectArchivedListUrl = listRequest.buildUrl(listForArchiveId);
+      // const collectArchivedListUrl = listRequest.buildUrl(listForArchiveId);
 
       // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
-      // // Path params generator usage
-      // const response = await request.get(collectArchivedListUrl, {
-      //   headers,
-      //   params,
-      // });
+      // // RUSO usage
+      // const response = await listRequest.sendRequest(
+      //   'get',
+      //   collectArchivedListUrl,
+      //   {
+      //     headers,
+      //     params,
+      //   },
+      // );
       // RUSO usage
-      const response = await listRequest.sendRequest(
-        'get',
-        collectArchivedListUrl,
-        {
-          headers,
-          params,
-        },
+      const response = await listRequest.getListElements(
+        listForArchiveId,
+        params,
+        headers,
       );
       const responseJSON = await response.json();
       const {
@@ -312,13 +278,8 @@ test.describe('Lists handling - RU_SO implemented', () => {
     const listRequest = new ListRequest(request);
     const listForUpdateId = createdListsIds[createdListsIds.length - 1];
     const expectedStatusCode = 200;
-    // // Path params generator usage
-    // const updateListFieldsUrl = generatePathURLSimplified(
-    //   pathParameters.listParameter,
-    //   listForUpdateId,
-    // );
     // RUSO usage
-    const updateListFieldsUrl = listRequest.buildUrl(listForUpdateId);
+    // const updateListFieldsUrl = listRequest.buildUrl(listForUpdateId);
 
     const data: ListDataModel = prepareRandomListDataSimplified(
       undefined,
@@ -328,18 +289,19 @@ test.describe('Lists handling - RU_SO implemented', () => {
     const { name: expectedListNameAfterUpdate } = data;
 
     // Act: 'https://api.trello.com/1/lists/{id}?key=APIKey&token=APIToken'
-    // // Path params generator usage
-    // const response = await request.put(updateListFieldsUrl, {
+    // // RUSO usage
+    // const response = await listRequest.sendRequest('put', updateListFieldsUrl, {
     //   headers,
     //   params,
     //   data,
     // });
     // RUSO usage
-    const response = await listRequest.sendRequest('put', updateListFieldsUrl, {
-      headers,
-      params,
+    const response = await listRequest.updateList(
+      listForUpdateId,
       data,
-    });
+      params,
+      headers,
+    );
     const responseJSON = await response.json();
     const { id: actualListId, name: actualListName } = responseJSON;
 
@@ -351,23 +313,16 @@ test.describe('Lists handling - RU_SO implemented', () => {
   test.afterAll('Delete a board', async ({ request }) => {
     // Arrange:
     const boardRequest = new BoardRequest(request);
-    // Path parameters usage only
-    // const deleteBoardUrl = generatePathURLSimplified(
-    //   pathParameters.boardParameter,
-    //   createdBoardId,
-    // );
     // RUSO usage
-    const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+    // const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // // Path Params usage only
-    // await request.delete(deleteBoardUrl, {
+    // // RUSO usage
+    // await boardRequest.sendRequest('delete', deleteBoardUrl, {
     //   headers,
     //   params,
     // });
     // RUSO usage
-    await boardRequest.sendRequest('delete', deleteBoardUrl, {
-      headers,
-      params,
-    });
+    await boardRequest.deleteBoard(createdBoardId, params, headers);
   });
 });

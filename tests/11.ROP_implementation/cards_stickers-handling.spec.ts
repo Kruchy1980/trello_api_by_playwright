@@ -2,21 +2,21 @@ import { prepareRandomBoardDataSimplified } from '@_src/API/factories/simplified
 import { prepareRandomStickerDataSimplified } from '@_src/API/factories/simplified_factories/card_stickers-data.factory';
 import { prepareRandomCardDataSimplified } from '@_src/API/factories/simplified_factories/cards-data.factory';
 import { prepareParamsDataSimplified } from '@_src/API/factories/simplified_factories/params-data.factory';
-import { generatePathURLSimplified } from '@_src/API/helpers/path_params_generators/path_params_simplified_generator/simplified_path_parameters_generator';
+import { asRecord } from '@_src/API/helpers/conversion_helpers/convert_as_record';
 import { BoardDataModel } from '@_src/API/models/board-data.model';
 import { CardDataModel } from '@_src/API/models/card-data.model';
 import { CardStickerDataModel } from '@_src/API/models/card_stickers-data.model';
 import { ParamsDataModel } from '@_src/API/models/params-data.model';
+import { BoardRequest } from '@_src/API/requests/for_ROP_Requests/boardRequest';
+import { CardRequest } from '@_src/API/requests/for_ROP_Requests/cardRequest';
 import { headers, params } from '@_src/API/utils/api_utils';
-import { pathParameters } from '@_src/API/utils/path_parameters_utils';
 
 import { expect, test } from '@playwright/test';
 
 // TODO: For refactoring
-// TODO: Prepare functions for generate URLS
-// TODO: Simplify the URLS generation
+// TODO: Improve to ROP (Request Object Pattern)
 
-test.describe('Cards stickers handling - path_generators', () => {
+test.describe('Cards stickers handling - ROP implemented', () => {
   let createdBoardId: string;
   const createdListsIds: string[] = [];
   const createdCardsIds: string[] = [];
@@ -27,53 +27,52 @@ test.describe('Cards stickers handling - path_generators', () => {
     'Board, card preparation and collect lists ids',
     async ({ request }) => {
       // Arrange:
-      const boardURL = generatePathURLSimplified(pathParameters.boardParameter);
+      const boardRequest = new BoardRequest(request);
+      // RUSO Usage
+      // const boardURL = boardRequest.buildUrl();
       const data: BoardDataModel = prepareRandomBoardDataSimplified();
 
       // Act: 'https://api.trello.com/1/boards/?name={name}&key=APIKey&token=APIToken'
-      // const response = await request.post(`/1/boards`, {
-      //   headers,
-      //   params,
-      //   data,
-      // });
-      const response = await request.post(boardURL, {
-        headers,
-        params,
-        data,
-      });
+      // RUSO usage
+      const response = await boardRequest.createBoard(data, params, headers);
       const responseJSON = await response.json();
       const { id: actualBoardId } = responseJSON;
       createdBoardId = actualBoardId;
 
       // Collect lists Id's
+      // Arrange:
+      // RUSO usage
+      // const getListsUrl = boardRequest.buildUrl(createdBoardId, 'lists');
+
       // Act: 'https://api.trello.com/1/boards/{id}/lists?key=APIKey&token=APIToken'
-      const getListsUrl = generatePathURLSimplified(
-        pathParameters.boardParameter,
-        createdBoardId,
-        'lists',
-      );
-      // const responseListsIds = await request.get(
-      //   `/1/boards/${createdBoardId}/lists`,
+      // // RUSO usage
+      // const responseGetLists = await boardRequest.sendRequest(
+      //   'get',
+      //   boardURL,
       //   {
       //     headers,
       //     params,
+      //     data,
       //   },
       // );
-      const responseGetLists = await request.get(getListsUrl, {
-        headers,
+      // ROP usage
+      const responseGetLists = await boardRequest.getBoardElements(
+        createdBoardId,
+        'lists',
         params,
-      });
+        headers,
+      );
       const responseGetListsJSON = await responseGetLists.json();
       responseGetListsJSON.forEach(({ id }: { id: string }) => {
         createdListsIds.push(id);
       });
 
       // Card Preparation
+      const cardRequest = new CardRequest(request);
       for (let i = 0; i < 3; i++) {
         // Arrange:
-        const cardCreationURL = generatePathURLSimplified(
-          pathParameters.cardParameter,
-        );
+        // RUSO usage
+        // const cardCreationURL = cardRequest.buildUrl();
         const data: CardDataModel = prepareRandomCardDataSimplified(
           createdListsIds[i],
           'Card Name',
@@ -85,16 +84,14 @@ test.describe('Cards stickers handling - path_generators', () => {
         );
 
         // Act: 'https://api.trello.com/1/cards?idList=5abbe4b7ddc1b351ef961414&key=APIKey&token=APIToken'
-        // const response = await request.post(`/1/cards`, {
-        //   headers,
-        //   params,
-        //   data,
-        // });
-        const response = await request.post(cardCreationURL, {
-          headers,
-          params,
-          data,
-        });
+        // // ROP Usage
+        // const response = await cardRequest.sendRequest(
+        //   'post',
+        //   cardCreationUrl,
+        //   { headers, params, data },
+        // );
+        // ROP Usage
+        const response = await cardRequest.createCard(data, params, headers);
         const responseJSON = await response.json();
         const { id: actualCardId } = responseJSON;
         createdCardsIds.push(actualCardId);
@@ -105,12 +102,13 @@ test.describe('Cards stickers handling - path_generators', () => {
   test.beforeEach('Add a sticker to a card', async ({ request }) => {
     for (let i = 0; i < 3; i++) {
       // Arrange:
+      const cardRequest = new CardRequest(request);
       const expectedStatusCode = 200;
-      const addStickerURL = generatePathURLSimplified(
-        pathParameters.cardParameter,
-        createdCardsIds[i],
-        'stickers',
-      );
+      // RUSO Usage
+      // const addStickerURL = cardRequest.buildUrl(
+      //   createdCardsIds[i],
+      //   'stickers',
+      // );
       const data: CardStickerDataModel = prepareRandomStickerDataSimplified(
         '',
         20.22,
@@ -125,15 +123,20 @@ test.describe('Cards stickers handling - path_generators', () => {
       } = data;
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers?image={image}&top={top}&left={left}&zIndex={zIndex}&key=APIKey&token=APIToken'
-      // const response = await request.post(
-      //   `/1/cards/${createdCardsIds[i]}/stickers`,
-      //   { headers, params, data },
-      // );
-      const response = await request.post(addStickerURL, {
-        headers,
-        params,
+      // // RUSO usage
+      // const response = await cardRequest.sendRequest('post', addStickerURL, {
+      //   headers,
+      //   params,
+      //   data,
+      // });
+      // ROP usage
+      const response = await cardRequest.addStickerToCard(
+        createdCardsIds[i],
+        'stickers',
         data,
-      });
+        params,
+        headers,
+      );
       const responseJSON = await response.json();
       const {
         id: actualStickerId,
@@ -155,18 +158,19 @@ test.describe('Cards stickers handling - path_generators', () => {
     }
   });
   test('1. Update sticker field and verify success', async ({ request }) => {
+    const cardRequest = new CardRequest(request);
     let dataForVerification: CardStickerDataModel;
     await test.step('1.1 Should update sticker on card', async () => {
       // Arrange:
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-      const updateStickerOnCardURL = generatePathURLSimplified(
-        pathParameters.cardParameter,
-        cardId,
-        'stickers',
-        stickerId,
-      );
+      // RUSO usage
+      // const updateStickerOnCardURL = cardRequest.buildUrl(
+      //   cardId,
+      //   'stickers',
+      //   stickerId,
+      // );
       const data: CardStickerDataModel = prepareRandomStickerDataSimplified(
         createdStickersNames[1],
         12,
@@ -183,15 +187,25 @@ test.describe('Cards stickers handling - path_generators', () => {
       } = data;
 
       // Act: /1/cards/{id}/stickers/{idSticker}?top={top}&left={left}&zIndex={zIndex}
-      // const response = await request.put(
-      //   `/1/cards/${cardId}/stickers/${stickerId}`,
-      //   { headers, params, data },
+      // // RUSO usage
+      // const response = await cardRequest.sendRequest(
+      //   'put',
+      //   updateStickerOnCardURL,
+      //   {
+      //     headers,
+      //     params,
+      //     data,
+      //   },
       // );
-      const response = await request.put(updateStickerOnCardURL, {
-        headers,
-        params,
+      // RUSO usage
+      const response = await cardRequest.updateStickerOnCard(
+        cardId,
+        'stickers',
+        stickerId,
         data,
-      });
+        params,
+        headers,
+      );
       const responseJSON = await response.json();
       const {
         image: actualStickerName,
@@ -204,7 +218,6 @@ test.describe('Cards stickers handling - path_generators', () => {
       // Assert:
       expect(response.status()).toEqual(expectedStatusCode);
       expect(actualStickerName).toContain(expectedStickerName);
-      // const actualStickerFromTop = responseJSON.top;
       expect(actualStickerFromTop).toEqual(expectedStickerFromTop);
       expect(actualStickerFromLeft).toEqual(expectedStickerFromLeft);
       expect(actualStickerZIndex).toEqual(expectedStickerOverlay);
@@ -217,12 +230,12 @@ test.describe('Cards stickers handling - path_generators', () => {
       const cardId = createdCardsIds[1];
       const stickerId = createdStickersIds[1];
       const expectedStatusCode = 200;
-      const getStickerFieldUrl = generatePathURLSimplified(
-        pathParameters.cardParameter,
-        cardId,
-        'stickers',
-        stickerId,
-      );
+      // RUSO Usage
+      // const getStickerFieldUrl = cardRequest.buildUrl(
+      //   cardId,
+      //   'stickers',
+      //   stickerId,
+      // );
       const stickerParams: ParamsDataModel = prepareParamsDataSimplified(
         '',
         '',
@@ -236,14 +249,23 @@ test.describe('Cards stickers handling - path_generators', () => {
         dataForVerification;
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken
-      // const response = await request.get(
-      //   `/1/cards/${cardId}/stickers/${stickerId}`,
-      //   { headers, params: { ...params, ...stickerParams } },
+      // // RUSO Usage
+      // const response = await cardRequest.sendRequest(
+      //   'get',
+      //   getStickerFieldUrl,
+      //   {
+      //     headers,
+      //     params: { ...params, ...stickerParams },
+      //   },
       // );
-      const response = await request.get(getStickerFieldUrl, {
+      // RUSO Usage
+      const response = await cardRequest.getStickerElements(
+        cardId,
+        'stickers',
+        stickerId,
+        asRecord(stickerParams),
         headers,
-        params: { ...params, ...stickerParams },
-      });
+      );
       const responseJSON = await response.json();
       const {
         id: actualStickerId,
@@ -260,28 +282,39 @@ test.describe('Cards stickers handling - path_generators', () => {
   });
 
   test('2. Delete sticker and verify success', async ({ request }) => {
+    const cardRequest = new CardRequest(request);
     await test.step('2.1 Should delete a sticker', async () => {
       // Arrange:
       const cardId = createdCardsIds[2];
       const stickerId = createdStickersIds[2];
       const expectedStatusCode = 200;
       const expectedResponseObject = [];
-      const deleteStickerUrl = generatePathURLSimplified(
-        pathParameters.cardParameter,
+
+      // RUSO Usage
+      // const deleteStickerUrl = cardRequest.buildUrl(
+      //   cardId,
+      //   'stickers',
+      //   stickerId,
+      // );
+
+      // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
+      // // RUSO Usage
+      // const response = await cardRequest.sendRequest(
+      //   'delete',
+      //   deleteStickerUrl,
+      //   {
+      //     headers,
+      //     params,
+      //   },
+      // );
+      // RUSO Usage
+      const response = await cardRequest.deleteSticker(
         cardId,
         'stickers',
         stickerId,
-      );
-
-      // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
-      // const response = await request.delete(
-      //   `/1/cards/${cardId}/stickers/${stickerId}`,
-      //   { headers, params },
-      // );
-      const response = await request.delete(deleteStickerUrl, {
-        headers,
         params,
-      });
+        headers,
+      );
       const responseJSON = await response.json();
       const { stickers: actualObjectArray } = responseJSON;
 
@@ -294,21 +327,24 @@ test.describe('Cards stickers handling - path_generators', () => {
       const cardId = createdCardsIds[2];
       const expectedStatusCode = 200;
       const expectedResponseObject = [];
-      const getDeletedStickerUrl = generatePathURLSimplified(
-        pathParameters.cardParameter,
-        cardId,
-        'stickers',
-      );
+      // // Path parameters generator usage
+      // const getDeletedStickerUrl = generatePathURLSimplified(
+      //   pathParameters.cardParameter,
+      //   cardId,
+      //   'stickers',
+      // );
+      // RUSO usage
+      // const getDeletedStickerUrl = cardRequest.buildUrl(cardId, 'stickers');
 
       // Act: 'https://api.trello.com/1/cards/{id}/stickers?key=APIKey&token=APIToken'
-      // const response = await request.get(`/1/cards/${cardId}/stickers`, {
-      //   headers,
-      //   params,
-      // });
-      const response = await request.get(getDeletedStickerUrl, {
-        headers,
+      // RUSO usage
+      const response = await cardRequest.getSticker(
+        cardId,
+        'stickers',
+
         params,
-      });
+        headers,
+      );
       const responseJSON = await response.json();
 
       // Assert:
@@ -318,31 +354,42 @@ test.describe('Cards stickers handling - path_generators', () => {
   });
 
   test.afterEach('Delete added stickers', async ({ request }) => {
+    // Arrange:
+    const cardRequest = new CardRequest(request);
     // Act: 'https://api.trello.com/1/cards/{id}/stickers/{idSticker}?key=APIKey&token=APIToken'
     for (let i = 0; i < createdStickersIds.length; i++) {
-      const deleteStickersUrl = generatePathURLSimplified(
-        pathParameters.cardParameter,
+      // RUSO usage
+      // const deleteStickersUrl = cardRequest.buildUrl(
+      //   createdCardsIds[i],
+      //   'stickers',
+      //   createdStickersIds[i],
+      // );
+      // ROP usage
+      await cardRequest.deleteSticker(
         createdCardsIds[i],
         'stickers',
         createdStickersIds[i],
+        params,
+        headers,
       );
-      // await request.delete(
-      //   `/1/cards/${createdCardsIds[i]}/stickers/${createdStickersIds[i]}`,
-      //   { headers, params },
-      // );
-      await request.delete(deleteStickersUrl, { headers, params });
     }
     createdStickersIds = [];
     createdStickersNames = [];
   });
 
   test.afterAll('Delete a board', async ({ request }) => {
-    const deleteBoardUrl = generatePathURLSimplified(
-      pathParameters.boardParameter,
-      createdBoardId,
-    );
+    // Arrange:
+    const boardRequest = new BoardRequest(request);
+    // RUSO usage
+    // const deleteBoardUrl = boardRequest.buildUrl(createdBoardId);
+
     // Act: 'https://api.trello.com/1/boards/{id}?key=APIKey&token=APIToken'
-    // await request.delete(`/1/boards/${createdBoardId}`, { headers, params });
-    await request.delete(deleteBoardUrl, { headers, params });
+    // // RUSO usage
+    // await boardRequest.sendRequest('delete', deleteBoardUrl, {
+    //   headers,
+    //   params,
+    // });
+    // RUSO usage
+    await boardRequest.deleteBoard(createdBoardId, params, headers);
   });
 });
